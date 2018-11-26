@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+console.log(process.env.MESSAGE);
+
 // body-parser middleware
 app.use(bodyParser.json());
 
