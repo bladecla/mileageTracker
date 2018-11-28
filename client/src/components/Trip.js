@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { isDate } from 'util';
 
 const processDate = (inputDate) => {
-  console.log(inputDate)
   let weekdays, day, month, date, year;
   weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   day = weekdays[inputDate.getDay()];
@@ -29,6 +27,7 @@ const Trip = props => {
     </div>
   );
 }
+
 Trip.propTypes = {
     start: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
@@ -37,5 +36,3 @@ Trip.propTypes = {
 }
 
 export default Trip;
-
-
