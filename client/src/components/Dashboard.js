@@ -17,7 +17,7 @@ class Dashboard extends Component {
                      start: 1100,
                      end: 1170,
                      forBusiness: true,
-                     date: new Date().toDateString()
+                     date: new Date()
                     }
                    ]
         }
