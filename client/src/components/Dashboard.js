@@ -10,12 +10,13 @@ class Dashboard extends Component {
                     {
                      start: 1000,
                      end: 1100,
-                     type: "personal" 
+                     forBusiness: false,
+                     vehicle: "Nissan"
                     }, 
                     {
                      start: 1100,
                      end: 1170,
-                     type: "business",
+                     forBusiness: true,
                      date: new Date().toDateString()
                     }
                    ]
@@ -30,7 +31,7 @@ class Dashboard extends Component {
 
     render(){
         return (
-            <div>
+            <div className="dash">
                 <Pane title={"Trips"} addChild={this.addTrip}>
                     {this.state.trips.map((trip, idx) => <Trip {...trip} key={idx} />)}
                 </Pane>
