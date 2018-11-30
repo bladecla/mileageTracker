@@ -1,40 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import style from './styles/modal.css'
+
+
 
 const Modal = props => {
     return (
+    <div style={style.overlay}>
         <div className="modal">
-      <header style={headerStyle}>
-          <h2>{props.title}</h2>
-          <button onClick={props.close} style={closeStyle}>&times;</button>
-      </header>
-      <footer></footer>
+            <header style={style.header}>
+                <h2>{props.title}</h2>
+                <button onClick={props.close} style={style.close}>&times;</button>
+            </header>
+            {props.children}
+            <footer style={style.footer}>
+                <input type="submit" form="trip" value="Add Trip" style={style.submit} />
+            </footer>
+        </div>
     </div>
   )
 }
 
 Modal.propTypes = {
-    
+    title: PropTypes.string.isRequired,
 }
-
-//inner styles
-
-const closeStyle = {
-    float: "right",
-    backgroundColor: "inherit",
-    color: "gray",
-    borderRadius: "5px",
-    border: "2px solid gray",
-    fontSize: "1rem",
-    alignSelf: "center"
-}
-
-const headerStyle = {
-    display: "flex", 
-    justifyContent: "space-between", 
-    padding: "20px",
-    
-}
-
 
 export default Modal;

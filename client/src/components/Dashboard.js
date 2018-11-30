@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Pane from './Pane';
 import Trip from './Trip';
 import Modal from './Modal';
+import TripForm from './TripForm';
 
 class Dashboard extends Component {
     constructor(props){
@@ -21,31 +22,28 @@ class Dashboard extends Component {
                     date: new Date()
                 }
             ],
-            isModalOpen: false
+            isModalOpen: true
         }
     }
-    addTrip = () => {
+    addTrip = (newTrip) => {
         // let newTrip = prompt("New trip: ", "trip " + (this.state.trips.length + 1));
         // if (newTrip) this.setState({
         //     trips: [...this.state.trips, newTrip]
         // })
-        this.setState({
-            isModalOpen: true
-        })
+        console.log(newTrip);
+        
     }
-    closeModal = () => {
-        this.setState({
-            isModalOpen: false
-        })
-    }
+    openModal = () => this.setState({ isModalOpen: true });
+    closeModal = () => this.setState({ isModalOpen: false });
+    
 
     render(){
         return (
             <div className="dash">
-                <Pane title={"Trips"} addChild={this.addTrip}>
+                <Pane title={"Trips"} addChild={this.openModal}>
                     {this.state.trips.map((trip, idx) => <Trip {...trip} key={idx} />)}
                 </Pane>
-                {this.state.isModalOpen && <Modal title="Enter Trip Data" close={this.closeModal}/>}
+                {this.state.isModalOpen && <Modal title="Enter Trip Data" submit={this.addTrip} close={this.closeModal}><TripForm/></Modal>}
             </div>
         );
     }
