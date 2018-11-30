@@ -43,7 +43,10 @@ class Dashboard extends Component {
                 <Pane title={"Trips"} addChild={this.openModal}>
                     {this.state.trips.map((trip, idx) => <Trip {...trip} key={idx} />)}
                 </Pane>
-                {this.state.isModalOpen && <Modal title="Enter Trip Data" submit={this.addTrip} close={this.closeModal}><TripForm/></Modal>}
+                {this.state.isModalOpen && 
+                <Modal title="Enter Trip Data" submit={this.addTrip} formName="trip" label="Add Trip" close={this.closeModal}>
+                    <TripForm/>
+                </Modal>}
             </div>
         );
     }

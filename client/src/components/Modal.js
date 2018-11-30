@@ -14,7 +14,7 @@ const Modal = props => {
             </header>
             {props.children}
             <footer style={style.footer}>
-                <input type="submit" form="trip" value="Add Trip" style={style.submit} />
+                <input type="submit" form={props.formName} value="Add Trip" style={style.submit} />
             </footer>
         </div>
     </div>
