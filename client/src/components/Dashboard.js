@@ -21,7 +21,7 @@ class Dashboard extends Component {
                     date: new Date()
                 }
             ],
-            isTripModal: false
+            isModalOpen: false
         }
     }
     addTrip = () => {
@@ -30,12 +30,12 @@ class Dashboard extends Component {
         //     trips: [...this.state.trips, newTrip]
         // })
         this.setState({
-            isTripModal: true
+            isModalOpen: true
         })
     }
     closeModal = () => {
         this.setState({
-            isTripModal: false
+            isModalOpen: false
         })
     }
 
@@ -45,7 +45,7 @@ class Dashboard extends Component {
                 <Pane title={"Trips"} addChild={this.addTrip}>
                     {this.state.trips.map((trip, idx) => <Trip {...trip} key={idx} />)}
                 </Pane>
-                {this.state.isTripModal && <Modal title="Enter Trip Data" close={this.closeModal}/>}
+                {this.state.isModalOpen && <Modal title="Enter Trip Data" close={this.closeModal}/>}
             </div>
         );
     }
