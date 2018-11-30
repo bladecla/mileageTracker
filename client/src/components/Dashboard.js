@@ -45,7 +45,7 @@ class Dashboard extends Component {
                 </Pane>
                 {this.state.isModalOpen && 
                 <Modal title="Enter Trip Data" submit={this.addTrip} formName="trip" label="Add Trip" close={this.closeModal}>
-                    <TripForm/>
+                    <TripForm onSubmit={this.closeModal}/>
                 </Modal>}
             </div>
         );

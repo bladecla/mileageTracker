@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import style from './styles/modal.css'
 
-
-
 const Modal = props => {
     return (
     <div style={style.overlay}>
@@ -14,7 +12,7 @@ const Modal = props => {
             </header>
             {props.children}
             <footer style={style.footer}>
-                <input type="submit" form={props.formName} value="Add Trip" style={style.submit} />
+                <input type="submit" form={props.formName} value={props.label} style={style.submit} />
             </footer>
         </div>
     </div>

@@ -5,12 +5,22 @@ import style from './styles/form.css'
 export default class TripForm extends Component {
     constructor(props){
         super(props);
-        
+        this.state = {}
+    }
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired
     }
 
     log = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    for (let prop in this.state) console.log(prop, this.state[prop]);
+    this.props.onSubmit();
+    }
+
+    onChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
     render() {
@@ -18,8 +28,8 @@ export default class TripForm extends Component {
             <React.Fragment>
                 <div style={style.body}>    
                     <form id="trip" onSubmit={this.log} style={style.form}>
-                        <input className="input" type="tel" name="start" placeholder="Starting mileage"/>
-                        <input className="input" type="tel" name="end" placeholder="Ending mileage"/>
+                        <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage"/>
+                        <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage"/>
                         <div>
                             <label htmlFor="isBusiness">Business</label>
                             <input type="checkbox" name="isBusiness" defaultChecked/>
