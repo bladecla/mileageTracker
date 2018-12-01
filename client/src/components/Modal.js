@@ -21,6 +21,9 @@ const Modal = props => {
 
 Modal.propTypes = {
     title: PropTypes.string.isRequired,
+    close: PropTypes.func.isRequired,
+    formName: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
 }
 
 export default Modal;

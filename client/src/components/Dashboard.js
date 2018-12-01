@@ -3,6 +3,9 @@ import Pane from './Pane';
 import Trip from './Trip';
 import Modal from './Modal';
 import TripForm from './TripForm';
+import { connect } from 'react-redux';
+import { addTrip, getTrips } from './../redux/actions/tripActions'
+
 
 class Dashboard extends Component {
     constructor(props){
@@ -25,6 +28,11 @@ class Dashboard extends Component {
             isModalOpen: true
         }
     }
+
+    componentDidMount(){
+        this.props.getTrips();
+    }
+
     addTrip = (newTrip) => {
         // let newTrip = prompt("New trip: ", "trip " + (this.state.trips.length + 1));
         // if (newTrip) this.setState({
@@ -38,18 +46,30 @@ class Dashboard extends Component {
     
 
     render(){
+        const { trips } = this.props.trips;
         return (
             <div className="dash">
-                <Pane title={"Trips"} addChild={this.openModal}>
-                    {this.state.trips.map((trip, idx) => <Trip {...trip} key={idx} />)}
-                </Pane>
-                {this.state.isModalOpen && 
-                <Modal title="Enter Trip Data" submit={this.addTrip} formName="trip" label="Add Trip" close={this.closeModal}>
-                    <TripForm onSubmit={this.closeModal}/>
-                </Modal>}
+                
+                    <Pane title={"Trips"} addChild={this.openModal}>
+                        {trips.map((trip, idx) => <Trip {...trip} key={idx} />)}
+                    </Pane>
+                    {this.state.isModalOpen && 
+                    <Modal title="Enter Trip Data" formName="trip" label="Add Trip" close={this.closeModal}>
+                        <TripForm onSubmit={this.closeModal}/>
+                    </Modal>}
+                
             </div>
         );
     }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  trips: state.trips
+})
+
+const mapDispatchToProps = {
+  getTrips
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

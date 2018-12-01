@@ -1,21 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const processDate = (inputDate) => {
-  let weekdays, day, month, date, year;
-  weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  day = weekdays[inputDate.getDay()];
-  month = inputDate.getMonth() + 1;
-  date = inputDate.getDate();
-  year = inputDate.getFullYear();
-
-  return `${day} ${month}-${date}-${year}`;
-}
-
 const Trip = props => {
-    const {start, end, date, forBusiness, vehicle} = props;
-    const tripDist = end - start;
-    return (
+  const {start, end, date, forBusiness, vehicle} = props;
+  const tripDist = end - start;
+  return (
     <div className="trip">
       <span>{tripDist + " mi"}</span>
       <span>{forBusiness ? "Business" : "Personal"}</span>
@@ -29,10 +18,21 @@ const Trip = props => {
 }
 
 Trip.propTypes = {
-    start: PropTypes.number.isRequired,
-    end: PropTypes.number.isRequired,
-    forBusiness: PropTypes.bool.isRequired,
-    date: PropTypes.instanceOf(Date)
+  start: PropTypes.number.isRequired,
+  end: PropTypes.number.isRequired,
+  forBusiness: PropTypes.bool.isRequired,
+  date: PropTypes.instanceOf(Date)
+}
+
+const processDate = (inputDate) => {
+  let weekdays, day, month, date, year;
+  weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  day = weekdays[inputDate.getDay()];
+  month = inputDate.getMonth() + 1;
+  date = inputDate.getDate();
+  year = inputDate.getFullYear();
+
+  return `${day} ${month}-${date}-${year}`;
 }
 
 export default Trip;
