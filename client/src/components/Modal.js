@@ -2,10 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import style from './styles/modal.css'
 
+function stayOpen(e){
+    e.stopPropagation();
+}
+
 const Modal = props => {
     return (
-    <div style={style.overlay}>
-        <div className="modal">
+    <div onClick={props.close} style={style.overlay}>
+        <section className="modal" onClick={stayOpen} >
             <header style={style.header}>
                 <h2>{props.title}</h2>
                 <button onClick={props.close} style={style.close}>&times;</button>
@@ -14,7 +18,7 @@ const Modal = props => {
             <footer style={style.footer}>
                 <input type="submit" form={props.formName} value={props.label} style={style.submit} />
             </footer>
-        </div>
+        </section>
     </div>
   )
 }

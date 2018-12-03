@@ -30,7 +30,8 @@ const style = {
         display: "flex", 
         justifyContent: "center",
         padding: "20px",
-        backgroundColor: "teal"
+        backgroundColor: "teal",
+        borderRadius: "0px 0px 10px 10px"
     },
     submit : {
         color: "black",

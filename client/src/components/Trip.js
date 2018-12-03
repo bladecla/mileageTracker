@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Trip = props => {
-  const {start, end, date, forBusiness, vehicle} = props;
+  const {start, end, date, isBusiness, vehicle} = props;
   const tripDist = end - start;
   return (
     <div className="trip">
       <span>{tripDist + " mi"}</span>
-      <span>{forBusiness ? "Business" : "Personal"}</span>
-      <span style={forBusiness ? {color: "rgb(0,200,0)"} : {}}>
-        {forBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
+      <span>{isBusiness ? "Business" : "Personal"}</span>
+      <span style={isBusiness ? {color: "rgb(0,200,0)"} : {}}>
+        {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
       </span>
       <span>{date ? processDate(date) : ""}</span>
       <span>{vehicle}</span>
@@ -20,7 +20,7 @@ const Trip = props => {
 Trip.propTypes = {
   start: PropTypes.number.isRequired,
   end: PropTypes.number.isRequired,
-  forBusiness: PropTypes.bool.isRequired,
+  isBusiness: PropTypes.bool.isRequired,
   date: PropTypes.instanceOf(Date)
 }
 

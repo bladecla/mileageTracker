@@ -11,36 +11,10 @@ class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            trips: [
-                {
-                    start: 1000,
-                    end: 1100,
-                    forBusiness: false,
-                    vehicle: "Nissan"
-                }, 
-                {
-                    start: 1100,
-                    end: 1170,
-                    forBusiness: true,
-                    date: new Date()
-                }
-            ],
-            isModalOpen: true
+            isModalOpen: false
         }
     }
 
-    componentDidMount(){
-        this.props.getTrips();
-    }
-
-    addTrip = (newTrip) => {
-        // let newTrip = prompt("New trip: ", "trip " + (this.state.trips.length + 1));
-        // if (newTrip) this.setState({
-        //     trips: [...this.state.trips, newTrip]
-        // })
-        console.log(newTrip);
-        
-    }
     openModal = () => this.setState({ isModalOpen: true });
     closeModal = () => this.setState({ isModalOpen: false });
     
@@ -55,7 +29,7 @@ class Dashboard extends Component {
                     </Pane>
                     {this.state.isModalOpen && 
                     <Modal title="Enter Trip Data" formName="trip" label="Add Trip" close={this.closeModal}>
-                        <TripForm onSubmit={this.closeModal}/>
+                        <TripForm onSubmit={this.props.addTrip} close={this.closeModal}/>
                     </Modal>}
                 
             </div>
@@ -68,7 +42,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  getTrips
+  getTrips, addTrip
 }
 
 

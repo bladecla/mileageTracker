@@ -2,12 +2,18 @@ import { ADD_TRIP, GET_TRIPS } from '../actions/types';
 
 const initialState = {
     trips: [
-        {
-        start: 1000,
-        end: 1100,
-        forBusiness: false,
-        vehicle: "Nissan"
-        }
+      {
+          start: 1000,
+          end: 1100,
+          isBusiness: false,
+          vehicle: "Nissan"
+      }, 
+      {
+          start: 1100,
+          end: 1170,
+          isBusiness: true,
+          date: new Date()
+      }
     ]
 }
 
