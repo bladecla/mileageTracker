@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import style from './styles/form.css'
+import uuid from 'uuid';
 
 export default class TripForm extends Component {
     constructor(props){
@@ -23,6 +24,7 @@ export default class TripForm extends Component {
         if(this.validate()){
             const newTrip = { ...this.state.trip };
             if (!this.state.trip.date) newTrip.date = new Date();
+            newTrip._id = uuid();
             this.props.onSubmit(newTrip);
             this.props.close();
         }

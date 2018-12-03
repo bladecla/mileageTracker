@@ -1,14 +1,16 @@
-import { ADD_TRIP, GET_TRIPS } from '../actions/types';
-
+import { ADD_TRIP, GET_TRIPS, DELETE_TRIP } from '../actions/types';
+import uuid from 'uuid';
 const initialState = {
     trips: [
       {
+          _id: uuid(),
           start: 1000,
           end: 1100,
           isBusiness: false,
           vehicle: "Nissan"
       }, 
-      {
+      {   
+          _id: uuid(),
           start: 1100,
           end: 1170,
           isBusiness: true,
@@ -28,6 +30,11 @@ export default function (state = initialState, { type, payload }){
   case GET_TRIPS:
     return {
         ...state
+    }
+
+  case DELETE_TRIP:
+    return {
+      trips: state.trips.filter(trip => trip._id !== payload)
     }
 
   default:

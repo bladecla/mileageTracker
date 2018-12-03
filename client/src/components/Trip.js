@@ -17,6 +17,10 @@ class Trip extends PureComponent {
   }
 
   select = () => this.setState({ isSelected: !this.state.isSelected });
+  delete = () => {
+    this.props.delete(this.props._id);
+    console.log("click")
+  }
 
   mouseIn = () => this.setState({ isMouseOver: true })
   mouseOut = () => this.setState({ isMouseOver: false })
@@ -38,7 +42,7 @@ class Trip extends PureComponent {
           </span>
           <span>{date ? processDate(date) : ""}</span>
           <span>{vehicle}</span>
-          {this.state.isMouseOver && <i class="fa fa-times" onClick={this.props.delete} style={{color: "gray"}}></i>}
+          {this.state.isMouseOver && <i className="fa fa-times" onClick={this.delete} style={{color: "gray"}}></i>}
         </div>
     );
   } 
