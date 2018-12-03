@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-const Trip = props => {
-  const {start, end, date, isBusiness, vehicle} = props;
-  const tripDist = end - start;
-  return (
-    <div className="trip">
-      <span>{tripDist + " mi"}</span>
-      <span>{isBusiness ? "Business" : "Personal"}</span>
-      <span style={isBusiness ? {color: "rgb(0,200,0)"} : {}}>
-        {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
-      </span>
-      <span>{date ? processDate(date) : ""}</span>
-      <span>{vehicle}</span>
-    </div>
-  );
+class Trip extends PureComponent {
+  constructor(props){
+    super(props);
+    this.state = {
+      selected: false
+    }
+  }
+
+  select = () => this.setState({ selected: !this.state.selected })
+
+  render(){
+    const {start, end, date, isBusiness, vehicle} = this.props;
+    const { selected } = this.state;
+    const tripDist = end - start;
+    return (
+        <div className={selected ? "selected trip" : "trip"} onClick={this.select}>
+          <input type="checkbox" checked={selected}/>
+          <span>{tripDist + " mi"}</span>
+          <span>{isBusiness ? "Business" : "Personal"}</span>
+          <span style={isBusiness ? {color: "rgb(0,200,0)"} : {}}>
+            {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
+          </span>
+          <span>{date ? processDate(date) : ""}</span>
+          <span>{vehicle}</span>
+        </div>
+    );
+  } 
 }
 
 Trip.propTypes = {

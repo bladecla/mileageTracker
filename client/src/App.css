@@ -40,11 +40,15 @@ html, body {
 
 .trip {
   display: grid; 
-  grid-template-columns: 10% 100px 1fr 1fr 1fr;
+  grid-template-columns: 1% 10% 100px 1fr 1fr 1fr;
   padding: 0.5rem 0;
   border-bottom: 1px solid rgb(197, 197, 197);
   text-align: center;
   width: 95%;
+}
+
+.trip:hover, .selected.trip{
+  background-color: lightgoldenrodyellow;
 }
 
 h2, h3 {
