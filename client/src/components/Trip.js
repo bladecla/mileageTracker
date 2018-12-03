@@ -5,19 +5,32 @@ class Trip extends PureComponent {
   constructor(props){
     super(props);
     this.state = {
-      selected: false
+      isSelected: false,
+      isMouseOver: false
     }
   }
+  static propTypes = {
+    start: PropTypes.number.isRequired,
+    end: PropTypes.number.isRequired,
+    isBusiness: PropTypes.bool.isRequired,
+    date: PropTypes.instanceOf(Date)
+  }
 
-  select = () => this.setState({ selected: !this.state.selected })
+  select = () => this.setState({ isSelected: !this.state.isSelected });
+
+  mouseIn = () => this.setState({ isMouseOver: true })
+  mouseOut = () => this.setState({ isMouseOver: false })
+
+  //prevents annoying console errors. Remove for production
+  nothing = () => false;
 
   render(){
     const {start, end, date, isBusiness, vehicle} = this.props;
-    const { selected } = this.state;
+    const { isSelected } = this.state;
     const tripDist = end - start;
     return (
-        <div className={selected ? "selected trip" : "trip"} onClick={this.select}>
-          <input type="checkbox" checked={selected}/>
+        <div className={isSelected ? "isSelected trip" : "trip"} onClick={this.select} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
+          <input type="checkbox" onChange={this.nothing} checked={isSelected}/>
           <span>{tripDist + " mi"}</span>
           <span>{isBusiness ? "Business" : "Personal"}</span>
           <span style={isBusiness ? {color: "rgb(0,200,0)"} : {}}>
@@ -25,16 +38,10 @@ class Trip extends PureComponent {
           </span>
           <span>{date ? processDate(date) : ""}</span>
           <span>{vehicle}</span>
+          {this.state.isMouseOver && <i class="fa fa-times" onClick={this.props.delete} style={{color: "gray"}}></i>}
         </div>
     );
   } 
-}
-
-Trip.propTypes = {
-  start: PropTypes.number.isRequired,
-  end: PropTypes.number.isRequired,
-  isBusiness: PropTypes.bool.isRequired,
-  date: PropTypes.instanceOf(Date)
 }
 
 const processDate = (inputDate) => {

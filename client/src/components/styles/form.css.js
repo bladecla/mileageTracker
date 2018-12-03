@@ -1,4 +1,9 @@
 const style = {
+    error: {
+        color: "red",
+        padding: "20px",
+        textAlign: "center"
+    },
     body: {
         width: "50%",
         height: "200px",

@@ -31,7 +31,8 @@ const style = {
         justifyContent: "center",
         padding: "20px",
         backgroundColor: "teal",
-        borderRadius: "0px 0px 10px 10px"
+        borderRadius: "0px 0px 10px 10px",
+        marginTop: "20px"
     },
     submit : {
         color: "black",
