@@ -7,7 +7,7 @@ class Trip extends Component {
     this.state = {
       isSelected: false,
       isMouseOver: false,
-      shouldDelete: false
+      deletePending: false
     }
   }
   static propTypes = {
@@ -18,16 +18,20 @@ class Trip extends Component {
   }
 
   componentDidUpdate(){
-    if (this.props.shouldDelete && this.state.shouldDelete) {
+    if(this.state.deletePending){
+      if (this.props.shouldDelete) {
         this.props.close()
         this.props.delete(this.props._id);
-    }
+      } else if (!this.props.deletePending) {
+        this.setState({ deletePending: false });
+      }
+    } 
   }
 
   select = () => this.setState({ isSelected: !this.state.isSelected });
   confirmDelete = () => {
-    this.setState({shouldDelete: true})
     this.props.confirmDelete();
+    this.setState({ deletePending: true })
   }
 
   mouseIn = () => this.setState({ isMouseOver: true })

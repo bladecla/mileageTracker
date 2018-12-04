@@ -21,24 +21,30 @@ class Dashboard extends Component {
     closeTripModal = () => this.setState({ isTripModalOpen: false });
     openDeleteModal = () => this.setState({ isDeleteModalOpen: true });
     closeDeleteModal = () => this.setState({ isDeleteModalOpen: false, shouldDelete: false });
-    setDelete = () => {
-        console.log("submit")
+    setDelete = (e) => {
+        e.preventDefault();
         this.setState({shouldDelete: true});
     }
 
     render(){
         const { trips } = this.props.trips;
         const { addTrip, deleteTrip } = this.props;
+        const { isTripModalOpen, isDeleteModalOpen, shouldDelete } = this.state;
         return (
             <div className="dash">
                 <Pane title={"Trips"} addChild={this.openTripModal}>
-                    {trips.map((trip) => <Trip key={trip._id} {...trip} delete={deleteTrip} confirmDelete={this.openDeleteModal} close={this.closeDeleteModal} shouldDelete={this.state.shouldDelete} />)}
+                    {trips.map((trip) => 
+                    <Trip key={trip._id} {...trip} 
+                    delete={deleteTrip} confirmDelete={this.openDeleteModal} 
+                    close={this.closeDeleteModal} shouldDelete={shouldDelete}
+                    deletePending={isDeleteModalOpen}
+                    />)}
                 </Pane>
-                {this.state.isTripModalOpen && 
+                {isTripModalOpen && 
                 <Modal title="Enter Trip Information" formName="trip" label="Add Trip" close={this.closeTripModal}>
                     <TripForm onSubmit={addTrip} close={this.closeTripModal}/>
                 </Modal>}
-                {this.state.isDeleteModalOpen && 
+                {isDeleteModalOpen && 
                 <Modal title="Confirm Deletion" formName="delete" label="Delete This Trip" close={this.closeDeleteModal}>
                     <form id="delete" onSubmit={this.setDelete}>
                         <p style={{textAlign: "center"}}>Are you sure you want to delete this trip?</p>
