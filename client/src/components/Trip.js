@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-class Trip extends PureComponent {
+class Trip extends Component {
   constructor(props){
     super(props);
     this.state = {
       isSelected: false,
-      isMouseOver: false
+      isMouseOver: false,
+      shouldDelete: false
     }
   }
   static propTypes = {
@@ -16,10 +17,17 @@ class Trip extends PureComponent {
     date: PropTypes.instanceOf(Date)
   }
 
+  componentDidUpdate(){
+    if (this.props.shouldDelete && this.state.shouldDelete) {
+        this.props.close()
+        this.props.delete(this.props._id);
+    }
+  }
+
   select = () => this.setState({ isSelected: !this.state.isSelected });
-  delete = () => {
-    this.props.delete(this.props._id);
-    console.log("click")
+  confirmDelete = () => {
+    this.setState({shouldDelete: true})
+    this.props.confirmDelete();
   }
 
   mouseIn = () => this.setState({ isMouseOver: true })
@@ -42,7 +50,7 @@ class Trip extends PureComponent {
           </span>
           <span>{date ? processDate(date) : ""}</span>
           <span>{vehicle}</span>
-          {this.state.isMouseOver && <i className="fa fa-times" onClick={this.delete} style={{color: "gray"}}></i>}
+          {this.state.isMouseOver && <i className="fa fa-times" onClick={this.confirmDelete} style={{color: "gray"}}></i>}
         </div>
     );
   } 

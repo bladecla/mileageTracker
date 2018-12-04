@@ -11,25 +11,39 @@ class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isModalOpen: false
+            isTripModalOpen: false,
+            isDeleteModalOpen: false,
+            shouldDelete: false
         }
     }
 
-    openModal = () => this.setState({ isModalOpen: true });
-    closeModal = () => this.setState({ isModalOpen: false });
-    
+    openTripModal = () => this.setState({ isTripModalOpen: true });
+    closeTripModal = () => this.setState({ isTripModalOpen: false });
+    openDeleteModal = () => this.setState({ isDeleteModalOpen: true });
+    closeDeleteModal = () => this.setState({ isDeleteModalOpen: false, shouldDelete: false });
+    setDelete = () => {
+        console.log("submit")
+        this.setState({shouldDelete: true});
+    }
 
     render(){
         const { trips } = this.props.trips;
         const { addTrip, deleteTrip } = this.props;
         return (
             <div className="dash">
-                <Pane title={"Trips"} addChild={this.openModal}>
-                    {trips.map((trip, idx) => <Trip {...trip} delete={deleteTrip} key={idx} />)}
+                <Pane title={"Trips"} addChild={this.openTripModal}>
+                    {trips.map((trip) => <Trip key={trip._id} {...trip} delete={deleteTrip} confirmDelete={this.openDeleteModal} close={this.closeDeleteModal} shouldDelete={this.state.shouldDelete} />)}
                 </Pane>
-                {this.state.isModalOpen && 
-                <Modal title="Enter Trip Data" formName="trip" label="Add Trip" close={this.closeModal}>
-                    <TripForm onSubmit={addTrip} close={this.closeModal}/>
+                {this.state.isTripModalOpen && 
+                <Modal title="Enter Trip Information" formName="trip" label="Add Trip" close={this.closeTripModal}>
+                    <TripForm onSubmit={addTrip} close={this.closeTripModal}/>
+                </Modal>}
+                {this.state.isDeleteModalOpen && 
+                <Modal title="Confirm Deletion" formName="delete" label="Delete This Trip" close={this.closeDeleteModal}>
+                    <form id="delete" onSubmit={this.setDelete}>
+                        <p style={{textAlign: "center"}}>Are you sure you want to delete this trip?</p>
+                        <input type="hidden" name="a" value="b"/>
+                    </form>
                 </Modal>}
             </div>
         );

@@ -15,7 +15,6 @@ const style = {
         display: "flex", 
         justifyContent: "space-between", 
         padding: "20px",
-        
     },
     close : {
         float: "right",
@@ -28,17 +27,23 @@ const style = {
     },
     footer : {
         display: "flex", 
-        justifyContent: "center",
+        justifyContent: "flex-end",
         padding: "20px",
+        paddingRight: "40px",
         backgroundColor: "teal",
         borderRadius: "0px 0px 10px 10px",
         marginTop: "20px"
+    },
+    buttonContainer: {
+        width: "66%",
+        display: "flex", 
+        justifyContent: "space-around",
     },
     submit : {
         color: "black",
         backgroundColor: "rgb(255, 202, 56)",
         border: "none",
-        padding: "10px",
+        padding: "12px 15px",
         borderRadius: "6px"
     },
 };

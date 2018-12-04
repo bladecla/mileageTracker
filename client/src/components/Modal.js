@@ -12,11 +12,13 @@ const Modal = props => {
         <section className="modal" onClick={stayOpen} >
             <header style={style.header}>
                 <h2>{props.title}</h2>
-                <button onClick={props.close} style={style.close}>&times;</button>
             </header>
             {props.children}
             <footer style={style.footer}>
-                <input type="submit" form={props.formName} value={props.label} style={style.submit} />
+                <div style={style.buttonContainer}>
+                    <input type="submit" form={props.formName} value={props.label} style={style.submit} />
+                    <button onClick={props.close} style={{...style.submit, backgroundColor: "whitesmoke"}}>Cancel</button>
+                </div>
             </footer>
         </section>
     </div>

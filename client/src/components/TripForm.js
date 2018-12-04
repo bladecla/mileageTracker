@@ -60,10 +60,8 @@ export default class TripForm extends Component {
     render() {
         return (
             <React.Fragment>
-                <div style={style.error}>
-                    {!this.state.isTripValid && <p>Starting mileage must be greater than ending mileage.</p>}
-                    {!this.state.isDateValid && <p>Date cannot be in the future.</p>}
-                </div>
+                {!this.state.isTripValid && <p style={style.error}>Starting mileage must be greater than ending mileage.</p>}
+                {!this.state.isDateValid && <p style={style.error}>Date cannot be in the future.</p>}
                 <div style={style.body}>
                     <form id="trip" onSubmit={this.submit} style={style.form}>
                         <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" required/>
