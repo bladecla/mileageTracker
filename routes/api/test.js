@@ -1,5 +1,6 @@
 const express = require('express');
 const Trip = require('./../../models/Trip');
+const User = require('./../../models/User');
 const router = express.Router();
 
 router.get("/", (req, res) => res.send("this is a test"));
@@ -11,5 +12,29 @@ router.post("/", (req, res) => {
       res.send(trip);
     });
   });
+
+router.post("/register", (req, res) => {
+  const user = new User(req.body);
+  if (user) user.save(function(err, user){
+    if (err){
+      res.send(err);
+      throw err;
+    }
+    res.send(user);
+  })
+});
+
+router.put("/:id/addTrip", (req, res) => {
+  const trip = new Trip(req.body);
+  if (trip) {
+    User.findByIdAndUpdate({ _id: req.params.id }, {$push: {trips: trip}}, {new: true}, function(err, user){
+      if (err){
+        console.error(err);
+        throw err;
+      }
+      res.send(user);
+    })
+  }
+});
 
 module.exports = router;
