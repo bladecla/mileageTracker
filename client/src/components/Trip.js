@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Modal from './Modal';
 
 class Trip extends Component {
   constructor(props){
@@ -7,7 +8,7 @@ class Trip extends Component {
     this.state = {
       isSelected: false,
       isMouseOver: false,
-      deletePending: false
+      deletePending: false,
     }
   }
   static propTypes = {
@@ -16,27 +17,17 @@ class Trip extends Component {
     isBusiness: PropTypes.bool.isRequired,
     date: PropTypes.instanceOf(Date)
   }
-
-  componentDidUpdate(){
-    if(this.state.deletePending){
-      if (this.props.shouldDelete) {
-        this.props.close()
-        this.props.delete(this.props._id);
-      } else if (!this.props.deletePending) {
-        this.setState({ deletePending: false });
-      }
-    } 
+  
+  openDeleteModal = () => this.setState({ deletePending: true });
+  closeDeleteModal = () => this.setState({ deletePending: false, shouldDelete: false });
+  delete = (e) => {
+    e.preventDefault();
+    this.closeDeleteModal();
+    this.props.delete(this.props._id)
   }
-
-  //prevents annoying console errors. Remove for production
-  nothing = () => false;
   select = () => this.setState({ isSelected: !this.state.isSelected });
   mouseIn = () => this.setState({ isMouseOver: true })
   mouseOut = () => this.setState({ isMouseOver: false })
-  confirmDelete = () => {
-    this.props.confirmDelete();
-    this.setState({ deletePending: true })
-  }
   processDate = (inputDate) => {
     let weekdays, day, month, date, year;
     weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -44,27 +35,34 @@ class Trip extends Component {
     month = inputDate.getMonth() + 1;
     date = inputDate.getDate();
     year = inputDate.getFullYear();
-  
     return `${day} ${month}-${date}-${year}`;
   }
-
+  nothing = () => false; //prevents annoying console errors. Remove for production
+  
   render(){
+    const { deletePending, isSelected} = this.state;
     const {start, end, date, isBusiness, vehicle} = this.props;
-    const { isSelected } = this.state;
     const tripDist = end - start;
     return (
-        <div className={isSelected ? "isSelected trip" : "trip"} onClick={this.select} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
-          <input type="checkbox" onChange={this.nothing} checked={isSelected}/>
-          <span>{tripDist + " mi"}</span>
-          <span>{isBusiness ? "Business" : "Personal"}</span>
-          <span style={isBusiness ? {color: "rgb(0,200,0)"} : {}}>
-            {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
-          </span>
-          <span>{date ? this.processDate(date) : ""}</span>
-          <span>{vehicle}</span>
-          {this.state.isMouseOver && <i className="fa fa-pencil" style={{color: "gray"}}></i>}
-          {this.state.isMouseOver && <i className="fa fa-times" onClick={this.confirmDelete} style={{color: "gray"}}></i>}
-        </div>
+      <div className={isSelected ? "isSelected trip" : "trip"} onClick={this.select} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
+        <input type="checkbox" onChange={this.nothing} checked={isSelected}/>
+        <span>{tripDist + " mi"}</span>
+        <span>{isBusiness ? "Business" : "Personal"}</span>
+        <span style={isBusiness ? {color: "rgb(0,200,0)"} : {}}>
+          {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
+        </span>
+        <span>{date ? this.processDate(date) : ""}</span>
+        <span>{vehicle}</span>
+        {this.state.isMouseOver && <i className="fa fa-pencil" style={{color: "gray"}}></i>}
+        {this.state.isMouseOver && <i className="fa fa-times" onClick={this.openDeleteModal} style={{color: "gray"}}></i>}
+        {deletePending && 
+          <Modal title="Confirm Deletion" formName="delete" label="Delete This Trip" close={this.closeDeleteModal}>
+              <form id="delete" onSubmit={this.delete}>
+                  <p style={{textAlign: "center"}}>Are you sure you want to delete this trip?</p>
+                  <input type="hidden" name="a" value="b"/>
+              </form>
+          </Modal>}
+      </div>
     );
   } 
 }

@@ -8,52 +8,33 @@ import { addTrip, getTrips, deleteTrip } from './../redux/actions/tripActions'
 
 
 class Dashboard extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            isTripModalOpen: false,
-            isDeleteModalOpen: false,
-            shouldDelete: false
-        }
+  constructor(props){
+    super(props);
+    this.state = {
+        
     }
+  }
 
-    openTripModal = () => this.setState({ isTripModalOpen: true });
-    closeTripModal = () => this.setState({ isTripModalOpen: false });
-    openDeleteModal = () => this.setState({ isDeleteModalOpen: true });
-    closeDeleteModal = () => this.setState({ isDeleteModalOpen: false, shouldDelete: false });
-    setDelete = (e) => {
-        e.preventDefault();
-        this.setState({shouldDelete: true});
-    }
-
-    render(){
-        const { trips } = this.props.trips;
-        const { addTrip, deleteTrip } = this.props;
-        const { isTripModalOpen, isDeleteModalOpen, shouldDelete } = this.state;
-        return (
-            <div className="dash">
-                <Pane title={"Trips"} addChild={this.openTripModal}>
-                    {trips.map((trip) => 
-                    <Trip key={trip._id} {...trip} 
-                    delete={deleteTrip} confirmDelete={this.openDeleteModal} 
-                    close={this.closeDeleteModal} shouldDelete={shouldDelete}
-                    deletePending={isDeleteModalOpen}
-                    />)}
-                </Pane>
-                {isTripModalOpen && 
-                <Modal title="Enter Trip Information" formName="trip" label="Add Trip" close={this.closeTripModal}>
-                    <TripForm onSubmit={addTrip} close={this.closeTripModal}/>
-                </Modal>}
-                {isDeleteModalOpen && 
-                <Modal title="Confirm Deletion" formName="delete" label="Delete This Trip" close={this.closeDeleteModal}>
-                    <form id="delete" onSubmit={this.setDelete}>
-                        <p style={{textAlign: "center"}}>Are you sure you want to delete this trip?</p>
-                        <input type="hidden" name="a" value="b"/>
-                    </form>
-                </Modal>}
-            </div>
-        );
-    }
+  openTripModal = () => this.setState({ isTripModalOpen: true });
+  closeTripModal = () => this.setState({ isTripModalOpen: false });
+  
+  render(){
+    const { trips } = this.props.trips;
+    const { addTrip, deleteTrip } = this.props;
+    return (
+      <div className="dash">
+        <Pane title={"Trips"} addChild={this.openTripModal}>
+          {trips.map((trip) => 
+          <Trip key={trip._id} {...trip} delete={deleteTrip} 
+          />)}
+        </Pane>
+        {this.state.isTripModalOpen && 
+          <Modal title="Enter Trip Information" formName="trip" label="Add Trip" close={this.closeTripModal}>
+            <TripForm onSubmit={addTrip} close={this.closeTripModal}/>
+          </Modal>}
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => ({
@@ -63,6 +44,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getTrips, addTrip, deleteTrip
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
