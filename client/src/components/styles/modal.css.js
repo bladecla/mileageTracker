@@ -16,13 +16,17 @@ const style = {
         justifyContent: "space-between", 
         padding: "20px",
     },
-    close : {
-        float: "right",
-        backgroundColor: "inherit",
-        color: "gray",
-        borderRadius: "5px",
-        border: "2px solid gray",
-        fontSize: "1rem",
+    // close : {
+    //     float: "right",
+    //     backgroundColor: "inherit",
+    //     color: "gray",
+    //     borderRadius: "5px",
+    //     border: "2px solid gray",
+    //     fontSize: "1rem",
+    //     alignSelf: "center"
+    // },
+    wrapper: {
+        height: "67%",
         alignSelf: "center"
     },
     footer : {

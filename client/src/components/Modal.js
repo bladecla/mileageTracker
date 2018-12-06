@@ -7,20 +7,23 @@ function stayOpen(e){
 }
 
 const Modal = props => {
+    const {overlay, wrapper, header, footer, buttonContainer, submit} = style;
     return (
-    <div onClick={props.close} style={style.overlay}>
-        <section className="modal" onClick={stayOpen} >
-            <header style={style.header}>
-                <h2>{props.title}</h2>
-            </header>
-            {props.children}
-            <footer style={style.footer}>
-                <div style={style.buttonContainer}>
-                    <input type="submit" form={props.formName} value={props.label} style={style.submit} />
-                    <button onClick={props.close} style={{...style.submit, backgroundColor: "whitesmoke"}}>Cancel</button>
-                </div>
-            </footer>
-        </section>
+    <div onClick={props.close} style={overlay}>
+        <div style={wrapper}>
+            <section className="modal" onClick={stayOpen} >
+                <header style={header}>
+                    <h2>{props.title}</h2>
+                </header>
+                {props.children}
+                <footer style={footer}>
+                    <div style={buttonContainer}>
+                        <input type="submit" form={props.formName} value={props.label} style={submit} />
+                        <button onClick={props.close} style={{...submit, backgroundColor: "whitesmoke"}}>Cancel</button>
+                    </div>
+                </footer>
+            </section>
+        </div>
     </div>
   )
 }
