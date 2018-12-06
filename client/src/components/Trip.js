@@ -62,6 +62,7 @@ class Trip extends Component {
           </span>
           <span>{date ? this.processDate(date) : ""}</span>
           <span>{vehicle}</span>
+          {this.state.isMouseOver && <i className="fa fa-pencil" style={{color: "gray"}}></i>}
           {this.state.isMouseOver && <i className="fa fa-times" onClick={this.confirmDelete} style={{color: "gray"}}></i>}
         </div>
     );

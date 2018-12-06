@@ -37,4 +37,11 @@ router.put("/:id/addTrip", (req, res) => {
   }
 });
 
+router.put("/edit/:userId:tripId", (req, res) => {
+  const newTrip = new Trip(req.body);
+  if (newTrip) {
+    User.findByIdAndUpdate(req.params.userId, {$pull: {trips: req.params.tripId}})
+  }
+});
+
 module.exports = router;
