@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
+import style from './styles/trip.css';
 
 class Trip extends Component {
   constructor(props){
@@ -40,27 +41,29 @@ class Trip extends Component {
   nothing = () => false; //prevents annoying console errors. Remove for production
   
   render(){
-    const { deletePending, isSelected} = this.state;
     const {start, end, date, isBusiness, vehicle} = this.props;
+    const { deletePending, isSelected, isMouseOver} = this.state;
+    const {earnings, gray, p} = style;
     const tripDist = end - start;
+    const styledDate = date ? this.processDate(date) : "";
     return (
       <div className={isSelected ? "isSelected trip" : "trip"} onClick={this.select} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
         <input type="checkbox" onChange={this.nothing} checked={isSelected}/>
         <span>{tripDist + " mi"}</span>
         <span>{isBusiness ? "Business" : "Personal"}</span>
-        <span style={isBusiness ? {color: "rgb(0,200,0)"} : {}}>
+        <span style={isBusiness ? earnings : {}}>
           {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
         </span>
-        <span>{date ? this.processDate(date) : ""}</span>
+        <span>{styledDate}</span>
         <span>{vehicle}</span>
-        {this.state.isMouseOver && <i className="fa fa-pencil" style={{color: "gray"}}></i>}
-        {this.state.isMouseOver && <i className="fa fa-times" onClick={this.openDeleteModal} style={{color: "gray"}}></i>}
+        {isMouseOver && <i className="fa fa-pencil" style={gray}></i>}
+        {isMouseOver && <i className="fa fa-times" onClick={this.openDeleteModal} style={gray}></i>}
         {deletePending && 
           <Modal title="Confirm Deletion" formName="delete" label="Delete This Trip" close={this.closeDeleteModal}>
-              <form id="delete" onSubmit={this.delete}>
-                  <p style={{textAlign: "center"}}>Are you sure you want to delete this trip?</p>
-                  <input type="hidden" name="a" value="b"/>
-              </form>
+            <form id="delete" onSubmit={this.delete}>
+              <p style={p}>Are you sure you want to delete this trip?</p>
+              <input type="hidden" name="a" value="b"/>
+            </form>
           </Modal>}
       </div>
     );

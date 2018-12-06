@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import style from './styles/form.css'
 import uuid from 'uuid';
 
+const {form, error, body, checkbox, checked, unchecked, label} = style;
+
 export default class TripForm extends Component {
     constructor(props){
         super(props);
@@ -58,18 +60,21 @@ export default class TripForm extends Component {
 }
 
     render() {
+        const isChecked = this.state.trip.isBusiness;
+        const checkCN = isChecked ? "fa fa-check-square fa-2x" : "fa fa-square fa-2x";
+        const cbStyle = isChecked ? checked : unchecked;
         return (
             <React.Fragment>
-                {!this.state.isTripValid && <p style={style.error}>Starting mileage must be greater than ending mileage.</p>}
-                {!this.state.isDateValid && <p style={style.error}>Date cannot be in the future.</p>}
-                <div style={style.body}>
-                    <form id="trip" onSubmit={this.submit} style={style.form}>
+                {!this.state.isTripValid && <p style={error}>Starting mileage must be greater than ending mileage.</p>}
+                {!this.state.isDateValid && <p style={error}>Date cannot be in the future.</p>}
+                <div style={body}>
+                    <form id="trip" onSubmit={this.submit} style={form}>
                         <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" required/>
                         <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" required/>
                         <input className="input" onChange={this.dateChange} type="date" name="date"/>
                         <div>
-                            <label htmlFor="isBusiness">Business</label>
-                            <input type="checkbox" onChange={this.checkBoxChange} name="isBusiness" checked={this.state.trip.isBusiness}/>
+                            <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
+                            <label htmlFor={checkCN} style={label}>Business</label>
                         </div>
                     </form>
                 </div>    
