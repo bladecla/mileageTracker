@@ -16,7 +16,8 @@ const style = {
       height: "100%",
   },
   checkbox: {
-      marginRight: "15px"
+      marginLeft: "15px",
+      cursor: "pointer"
   },
   checked: {
       color: "green"

@@ -1,6 +1,7 @@
 import React from 'react' // for IntelliSense. delete for production
-const style = {
-    overlay : {
+
+export default {
+    overlay: {
         position: "fixed",
         top: "0px",
         left: "0px",
@@ -11,31 +12,29 @@ const style = {
         flexDirection: "column",
         justifyContent: "center"
     },
-    header : {
-        display: "flex", 
-        justifyContent: "space-between", 
-        padding: "20px",
-    },
-    // close : {
-    //     float: "right",
-    //     backgroundColor: "inherit",
-    //     color: "gray",
-    //     borderRadius: "5px",
-    //     border: "2px solid gray",
-    //     fontSize: "1rem",
-    //     alignSelf: "center"
-    // },
     wrapper: {
         height: "67%",
         alignSelf: "center"
     },
-    footer : {
+    modal: {
+        overflow: "hidden"
+    },
+    header: {
+        display: "flex", 
+        justifyContent: "space-between", 
+        padding: "10px 20px",
+        marginBottom: "20px",
+        backgroundColor: "rgb(55,55,55)"
+    },
+    title: {
+        color: "whitesmoke"
+    },
+    footer: {
         display: "flex", 
         justifyContent: "flex-end",
-        padding: "20px",
+        padding: "10px 40px 20px 20px",
         paddingRight: "40px",
         backgroundColor: "teal",
-        borderRadius: "0px 0px 10px 10px",
         marginTop: "20px"
     },
     buttonContainer: {
@@ -43,13 +42,12 @@ const style = {
         display: "flex", 
         justifyContent: "space-around",
     },
-    submit : {
+    submit: {
         color: "black",
         backgroundColor: "rgb(255, 202, 56)",
         border: "none",
         padding: "12px 15px",
-        borderRadius: "6px"
+        borderRadius: "6px",
+        cursor: "pointer"
     },
 };
-
-export default style;

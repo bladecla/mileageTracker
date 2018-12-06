@@ -73,8 +73,8 @@ export default class TripForm extends Component {
                         <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" required/>
                         <input className="input" onChange={this.dateChange} type="date" name="date"/>
                         <div>
-                            <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
                             <label htmlFor={checkCN} style={label}>Business</label>
+                            <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
                         </div>
                     </form>
                 </div>    

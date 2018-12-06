@@ -22,14 +22,14 @@ class Dashboard extends Component {
     const { trips } = this.props.trips;
     const { addTrip, deleteTrip } = this.props;
     return (
-      <div className="dash">
+      <div id="dash">
         <Pane title={"Trips"} addChild={this.openTripModal}>
           {trips.map((trip) => 
           <Trip key={trip._id} {...trip} delete={deleteTrip} 
           />)}
         </Pane>
         {this.state.isTripModalOpen && 
-          <Modal title="Enter Trip Information" formName="trip" label="Add Trip" close={this.closeTripModal}>
+          <Modal title="New Trip" formName="trip" label="Add Trip" close={this.closeTripModal}>
             <TripForm onSubmit={addTrip} close={this.closeTripModal}/>
           </Modal>}
       </div>
