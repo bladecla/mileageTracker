@@ -37,10 +37,18 @@ router.put("/:id/addTrip", (req, res) => {
   }
 });
 
-router.put("/edit/:userId:tripId", (req, res) => {
-  const newTrip = new Trip(req.body);
-  if (newTrip) {
-    User.findByIdAndUpdate(req.params.userId, {$pull: {trips: req.params.tripId}})
+router.put("/edit/:userId/:tripId", (req, res) => {
+  if (req.body && req.params) {
+    const {userId, tripId} = req.params;
+    const changes = {};
+    for (let field in req.body){
+      changes["trips.$." + field] = req.body[field];
+    }
+
+    User.findOneAndUpdate({"trips._id": tripId}, {$set: changes}, {new: true}, function(err, user){
+      if (err) console.error(err);
+      res.send(user.trips);
+    });
   }
 });
 
