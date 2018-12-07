@@ -20,7 +20,7 @@ class Dashboard extends Component {
   
   render(){
     const { trips } = this.props.trips;
-    const { addTrip, deleteTrip } = this.props;
+    const { addTrip, deleteTrip, updateTrip } = this.props;
     return (
       <div id="dash">
         <Pane title={"Trips"} addChild={this.openTripModal}>

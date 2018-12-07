@@ -20,6 +20,7 @@ const initialState = {
 }
 
 export default function (state = initialState, { type, payload }){
+  console.log("dispatched")
   switch (type) {
 
   case GET_TRIPS:
@@ -34,7 +35,11 @@ export default function (state = initialState, { type, payload }){
 
   case UPDATE_TRIP:
     let trip = state.trips.filter(trp => trp._id === payload._id)[0];
-    return Object.assign({...trip}, payload);
+    let newTrip = Object.assign({...trip}, payload);
+    const idx = state.trips.indexOf(trip);
+    return {
+      trips: [...state.trips.slice(0, idx), newTrip, ...state.trips.slice(idx + 1) ]
+    };
 
   case DELETE_TRIP:
     return {

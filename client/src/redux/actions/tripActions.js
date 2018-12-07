@@ -14,6 +14,7 @@ export const addTrip = trip => {
 }
 
 export const updateTrip = newTrip => {
+    console.log("update: ", newTrip)
     return {
         type: UPDATE_TRIP,
         payload: newTrip

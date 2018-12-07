@@ -9,8 +9,13 @@ export default class TripForm extends Component {
     constructor(props){
         super(props);
         this.state = {
-            trip: {
-                isBusiness: this.props.isBusiness === true
+            trip: this.props.isUpdate ? {
+                start: this.props.start,
+                end: this.props.end,
+                isBusiness: this.props.isBusiness,
+                date: this.props.date,
+            } : {
+                isBusiness: true
             },
             isTripValid: true,
             isDateValid: true
@@ -25,10 +30,13 @@ export default class TripForm extends Component {
     submit = (e) => {
         e.preventDefault();
         if(this.validate()){
-            const newTrip = { ...this.state.trip };
-            if (!this.state.trip.date) newTrip.date = new Date();
-            newTrip._id = uuid();
-            this.props.onSubmit(newTrip);
+            const tripData = { ...this.state.trip };
+            if (!this.props.isUpdate) {
+                if (!this.state.trip.date) tripData.date = new Date();
+                tripData._id = uuid();
+            } else tripData._id = this.props._id;
+            // console.log(tripData)
+            this.props.onSubmit(tripData);
             this.props.close();
         }
     }
@@ -61,19 +69,19 @@ export default class TripForm extends Component {
 }
 
     render() {
-        const {isUpdate, start, end, date} = this.props;
-        const isChecked = this.state.trip.isBusiness;
-        const checkCN = isChecked ? "fa fa-check-square fa-2x" : "fa fa-square fa-2x";
-        const cbStyle = isChecked ? checked : unchecked;
+        const {isUpdate} = this.props;
+        const {isBusiness, start, end, date} = this.state.trip;
+        const checkCN = isBusiness ? "fa fa-check-square fa-2x" : "fa fa-square fa-2x";
+        const cbStyle = isBusiness ? checked : unchecked;
         return (
             <React.Fragment>
-                {!this.state.isTripValid && <p style={error}>Starting mileage must be greater than ending mileage.</p>}
+                {!this.state.isTripValid && <p style={error}>Starting mileage must be less than ending mileage.</p>}
                 {!this.state.isDateValid && <p style={error}>Date cannot be in the future.</p>}
                 <div style={body}>
                     <form id="trip" onSubmit={this.submit} style={form}>
-                        <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" value={isUpdate ? start : ""} required/>
-                        <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" value={isUpdate ? end : ""} required/>
-                        <input className="input" onChange={this.dateChange} type="date" name="date" value={isUpdate ? date : null}/>
+                        <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
+                        <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
+                        <input className="input" onChange={this.dateChange} type="date" name="date" value={date ? date : ""}/>
                         <div style={checkgroup}>
                             <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
                             <label htmlFor={checkCN} style={label}>Business</label>

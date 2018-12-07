@@ -19,7 +19,10 @@ class Trip extends Component {
     start: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
     isBusiness: PropTypes.bool.isRequired,
-    date: PropTypes.instanceOf(Date)
+    date: PropTypes.instanceOf(Date),
+    vehicle: PropTypes.string,
+    delete: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired
   }
   
   toggleSelect = () => this.setState({ isSelected: !this.state.isSelected });
@@ -34,32 +37,30 @@ class Trip extends Component {
     this.closeDeleteModal();
     this.props.delete(this.props._id)
   }
-  update = (e) => {
-    e.preventDefault();
-    this.closeUpdateModal();
-  }
 
   nothing = () => false; //prevents annoying console errors. Remove for production
   
   render(){
-    const {start, end, date, isBusiness, vehicle} = this.props;
-    const trip = {start, end, isBusiness, vehicle, date: stringifyDate(date)};
+    const {start, end, date, isBusiness, vehicle, _id} = this.props;
+    const trip = {_id, start, end, isBusiness, vehicle, date: stringifyDate(date)};
     const { deletePending, updatePending, isSelected, isMouseOver} = this.state;
     const {earnings, p} = style;
     const tripDist = end - start;
     const styledDate = date ? processDate(date) : "";
     return (
-      <div className={isSelected ? "isSelected trip" : "trip"} onClick={this.toggleSelect} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
-        <input type="checkbox" onChange={this.nothing} checked={isSelected}/>
-        <span>{tripDist + " mi"}</span>
-        <span>{isBusiness ? "Business" : "Personal"}</span>
-        <span style={isBusiness ? earnings : {}}>
-          {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
-        </span>
-        <span>{styledDate}</span>
-        <span>{vehicle}</span>
-        {isMouseOver && <i className="fa fa-pencil icon" onClick={this.openUpdateModal}></i>}
-        {isMouseOver && <i className="fa fa-times icon" onClick={this.openDeleteModal}></i>}
+      <React.Fragment>
+        <div className={isSelected ? "isSelected trip" : "trip"} onClick={this.toggleSelect} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
+          <input type="checkbox" onChange={this.nothing} checked={isSelected}/>
+          <span>{tripDist + " mi"}</span>
+          <span>{isBusiness ? "Business" : "Personal"}</span>
+          <span style={isBusiness ? earnings : {}}>
+            {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
+          </span>
+          <span>{styledDate}</span>
+          <span>{vehicle}</span>
+          {isMouseOver && <i className="fa fa-pencil icon" onClick={this.openUpdateModal}></i>}
+          {isMouseOver && <i className="fa fa-times icon" onClick={this.openDeleteModal}></i>}
+        </div>
         {deletePending && 
           <Modal title="Delete Trip?" formName="delete" label="Delete This Trip" close={this.closeDeleteModal}>
             <form id="delete" onSubmit={this.delete}>
@@ -69,10 +70,10 @@ class Trip extends Component {
           </Modal>}
         {updatePending &&
           <Modal title="Update Trip" formName="trip" label="Update Trip" close={this.closeUpdateModal}>
-            <TripForm isUpdate={true} onSubmit={this.update} close={this.closeUpdateModal} {...trip}/>
+            <TripForm isUpdate={true} onSubmit={this.props.update} close={this.closeUpdateModal} {...trip}/>
           </Modal>
         }
-      </div>
+      </React.Fragment>
     );
   } 
 }
