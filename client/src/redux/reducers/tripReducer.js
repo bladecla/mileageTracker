@@ -1,4 +1,4 @@
-import { ADD_TRIP, GET_TRIPS, DELETE_TRIP } from '../actions/types';
+import { ADD_TRIP, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from '../actions/types';
 import uuid from 'uuid';
 const initialState = {
     trips: [
@@ -22,15 +22,19 @@ const initialState = {
 export default function (state = initialState, { type, payload }){
   switch (type) {
 
+  case GET_TRIPS:
+    return {
+        ...state
+    }
+    
   case ADD_TRIP:
     return {
         trips: [ ...state.trips, payload ]
     }
 
-  case GET_TRIPS:
-    return {
-        ...state
-    }
+  case UPDATE_TRIP:
+    let trip = state.trips.filter(trp => trp._id === payload._id)[0];
+    return Object.assign({...trip}, payload);
 
   case DELETE_TRIP:
     return {

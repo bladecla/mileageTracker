@@ -1,4 +1,10 @@
-import { ADD_TRIP, GET_TRIPS, DELETE_TRIP } from './types';
+import { ADD_TRIP, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from './types';
+
+export const getTrips = () => {
+    return {
+        type: GET_TRIPS
+    }
+}
 
 export const addTrip = trip => {
     return {
@@ -7,9 +13,10 @@ export const addTrip = trip => {
     }
 }
 
-export const getTrips = () => {
+export const updateTrip = newTrip => {
     return {
-        type: GET_TRIPS
+        type: UPDATE_TRIP,
+        payload: newTrip
     }
 }
 

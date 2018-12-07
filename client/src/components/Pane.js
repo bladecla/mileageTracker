@@ -7,7 +7,7 @@ const Pane = (props) => (
       <h3>{props.title}</h3>
       <div onClick={props.addChild} className="icon" style={{display: "flex"}}>
         <span style={{marginRight: "1em", alignSelf: "center"}}>{"Add " + props.title}</span>
-        <i className="fa fa-plus-circle fa-2x" style={{cursor: "pointer"}}></i>
+        <i className="fa fa-plus-circle fa-2x"></i>
       </div>
     </div>
     <div style={{display: "flex", flexDirection: "column"}}>

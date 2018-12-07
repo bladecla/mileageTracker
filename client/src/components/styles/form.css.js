@@ -15,8 +15,11 @@ const style = {
       justifyContent: "space-around",
       height: "100%",
   },
+  checkgroup: {
+      textAlign: "left"
+  },
   checkbox: {
-      marginLeft: "15px",
+      marginRight: "15px",
       cursor: "pointer"
   },
   checked: {
@@ -26,7 +29,7 @@ const style = {
       color: "gray"
   },
   label: {
-    fontSize: "1.2rem"
+    fontSize: "1.4rem"
   }
 }
 export default style;
