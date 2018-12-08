@@ -65,12 +65,19 @@ export default class TripForm extends Component {
     dateChange = (e) => {
         const [ year, month, day ] = e.target.value.split('-').map(str => parseInt(str));
         this.setState({
-        trip: { ...this.state.trip, date: new Date(year, month - 1, day) }
-    });
-}
+            trip: { ...this.state.trip, date: new Date(year, month - 1, day) }
+        });
+    }
+
+    vehicleChange = (e) => {
+        const value = e.target.value;
+        if (value) this.setState({
+            trip: {...this.state.trip, vehicle: value }
+        });
+    }
 
     render() {
-        const {isBusiness, start, end, date} = this.state.trip;
+        const {isBusiness, start, end, date, vehicle} = this.state.trip;
         const dateString = stringifyDate(date)
         const checkCN = isBusiness ? "fa fa-check-square fa-2x" : "fa fa-square fa-2x";
         const cbStyle = isBusiness ? checked : unchecked;
@@ -83,7 +90,8 @@ export default class TripForm extends Component {
                         <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
                         <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
                         <input className="input" onChange={this.dateChange} type="date" name="date" value={date ? dateString : ""}/>
-                        <select className="input">
+                        <select className="input" onChange={this.vehicleChange} name="vehicle" value={vehicle ? vehicle : ""}>
+                            <option value="">Select Vehicle</option>
                             {this.props.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
                         </select>
                         <div style={checkgroup}>

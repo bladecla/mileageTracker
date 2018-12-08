@@ -41,7 +41,7 @@ class Trip extends Component {
   nothing = () => false; //prevents annoying console errors. Remove for production
   
   render(){
-    const {start, end, date, isBusiness, vehicle, _id} = this.props;
+    const {start, end, date, isBusiness, vehicle, _id, addVehicle, vehicles} = this.props;
     const trip = {_id, start, end, isBusiness, vehicle, date};
     const { deletePending, updatePending, isSelected, isMouseOver} = this.state;
     const {earnings, p} = style;
@@ -70,7 +70,7 @@ class Trip extends Component {
           </Modal>}
         {updatePending &&
           <Modal title="Update Trip" formName="trip" label="Update Trip" close={this.closeUpdateModal}>
-            <TripForm isUpdate={true} onSubmit={this.props.update} close={this.closeUpdateModal} {...trip}/>
+            <TripForm isUpdate={true} onSubmit={this.props.update} close={this.closeUpdateModal} addVehicle={addVehicle} vehicles={vehicles} {...trip}/>
           </Modal>
         }
       </React.Fragment>

@@ -26,7 +26,7 @@ class Dashboard extends Component {
     return (
       <div id="dash">
         <Pane title={"Trips"} addChild={this.openTripModal}>
-          {trips.map((trip) => <Trip key={trip._id} {...trip} delete={deleteTrip} update={updateTrip} addVehicle/>)}
+          {trips.map((trip) => <Trip key={trip._id} {...trip} delete={deleteTrip} update={updateTrip} addVehicle={addVehicle} vehicles={vehicles}/>)}
         </Pane>
         {this.state.isTripModalOpen && 
           <Modal title="New Trip" formName="trip" label="Add Trip" close={this.closeTripModal}>
