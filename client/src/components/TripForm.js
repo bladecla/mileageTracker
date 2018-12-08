@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import style from './styles/form.css'
 import uuid from 'uuid';
+import { stringifyDate } from './../helpers';
 
 const {form, error, body, checkbox, checked, unchecked, label, checkgroup} = style;
 
@@ -31,11 +32,10 @@ export default class TripForm extends Component {
         e.preventDefault();
         if(this.validate()){
             const tripData = { ...this.state.trip };
+            if (!this.state.trip.date) tripData.date = new Date();
             if (!this.props.isUpdate) {
-                if (!this.state.trip.date) tripData.date = new Date();
                 tripData._id = uuid();
             } else tripData._id = this.props._id;
-            // console.log(tripData)
             this.props.onSubmit(tripData);
             this.props.close();
         }
@@ -69,8 +69,8 @@ export default class TripForm extends Component {
 }
 
     render() {
-        const {isUpdate} = this.props;
         const {isBusiness, start, end, date} = this.state.trip;
+        const dateString = stringifyDate(date)
         const checkCN = isBusiness ? "fa fa-check-square fa-2x" : "fa fa-square fa-2x";
         const cbStyle = isBusiness ? checked : unchecked;
         return (
@@ -81,7 +81,7 @@ export default class TripForm extends Component {
                     <form id="trip" onSubmit={this.submit} style={form}>
                         <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
                         <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
-                        <input className="input" onChange={this.dateChange} type="date" name="date" value={date ? date : ""}/>
+                        <input className="input" onChange={this.dateChange} type="date" name="date" value={date ? dateString : ""}/>
                         <div style={checkgroup}>
                             <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
                             <label htmlFor={checkCN} style={label}>Business</label>

@@ -13,6 +13,5 @@ export const stringifyDate = (date) => {
       if (num.toString().length < 2) num = "0" + num;
       return num;
     };
-
     return date ? `${date.getFullYear()}-${doubleDigits(date.getMonth() + 1)}-${doubleDigits(date.getDate())}` : "";
   }

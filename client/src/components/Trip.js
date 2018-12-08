@@ -42,7 +42,7 @@ class Trip extends Component {
   
   render(){
     const {start, end, date, isBusiness, vehicle, _id} = this.props;
-    const trip = {_id, start, end, isBusiness, vehicle, date: stringifyDate(date)};
+    const trip = {_id, start, end, isBusiness, vehicle, date};
     const { deletePending, updatePending, isSelected, isMouseOver} = this.state;
     const {earnings, p} = style;
     const tripDist = end - start;
