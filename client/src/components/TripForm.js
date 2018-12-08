@@ -15,6 +15,7 @@ export default class TripForm extends Component {
                 end: this.props.end,
                 isBusiness: this.props.isBusiness,
                 date: this.props.date,
+                vehicle: this.props.vehicle
             } : {
                 isBusiness: true
             },
@@ -82,6 +83,9 @@ export default class TripForm extends Component {
                         <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
                         <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
                         <input className="input" onChange={this.dateChange} type="date" name="date" value={date ? dateString : ""}/>
+                        <select className="input">
+                            {this.props.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
+                        </select>
                         <div style={checkgroup}>
                             <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
                             <label htmlFor={checkCN} style={label}>Business</label>

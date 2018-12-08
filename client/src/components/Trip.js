@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import TripForm from './TripForm';
-import { processDate, stringifyDate } from './../helpers';
+import { processDate } from './../helpers';
 import style from './styles/trip.css';
 
 class Trip extends Component {

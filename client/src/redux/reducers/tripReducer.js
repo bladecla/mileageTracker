@@ -21,15 +21,14 @@ const initialState = {
 
 export default function (state = initialState, { type, payload }){
   switch (type) {
-    case GET_TRIPS:
-      return {
-          ...state
-      } 
-
+    
     case ADD_TRIP:
       return {
-          trips: [ ...state.trips, payload ]
-      }
+        trips: [ ...state.trips, payload ]
+    }
+    
+    case GET_TRIPS:
+      return state
 
     case UPDATE_TRIP:
       let trip = state.trips.filter(trp => trp._id === payload._id)[0];
