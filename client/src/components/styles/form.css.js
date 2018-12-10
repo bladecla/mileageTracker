@@ -6,13 +6,13 @@ const style = {
   },
   body: {
       width: "50%",
-      height: "200px",
+      height: "250px",
       alignSelf: "center",
   },
   form: {
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-around",
+      justifyContent: "space-between",
       height: "100%",
   },
   checkgroup: {

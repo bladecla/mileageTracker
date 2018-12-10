@@ -26,7 +26,11 @@ export default class TripForm extends Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         close: PropTypes.func.isRequired,
-        isUpdate: PropTypes.bool
+        isUpdate: PropTypes.bool,
+        start: PropTypes.number,
+        end: PropTypes.number,
+        date: PropTypes.string,
+        vehicle: PropTypes.string,
     }
 
     submit = (e) => {
@@ -78,7 +82,7 @@ export default class TripForm extends Component {
 
     render() {
         const {isBusiness, start, end, date, vehicle} = this.state.trip;
-        const dateString = stringifyDate(date)
+        const dateString = date ? stringifyDate(date) : "";
         const checkCN = isBusiness ? "fa fa-check-square fa-2x" : "fa fa-square fa-2x";
         const cbStyle = isBusiness ? checked : unchecked;
         return (
@@ -89,7 +93,7 @@ export default class TripForm extends Component {
                     <form id="trip" onSubmit={this.submit} style={form}>
                         <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
                         <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
-                        <input className="input" onChange={this.dateChange} type="date" name="date" value={date ? dateString : ""}/>
+                        <input className="input" onChange={this.dateChange} type="date" name="date" value={dateString}/>
                         <select className="input" onChange={this.vehicleChange} name="vehicle" value={vehicle ? vehicle : ""}>
                             <option value="">Select Vehicle</option>
                             {this.props.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
