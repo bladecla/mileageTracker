@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const tripSchema = require('./Trip').schema;
+const vehicleSchema = require('./Vehicle').schema;
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
   name: {

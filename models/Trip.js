@@ -9,10 +9,12 @@ const tripSchema = new Schema({
 		type: String,
 		required: true
 	},
-	isBusiness: Boolean,
 	date: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	isBusiness: Boolean,
+	vehicle: String
+
 });
 module.exports = Trip = mongoose.model("Trip", tripSchema);

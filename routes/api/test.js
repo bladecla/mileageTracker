@@ -83,4 +83,41 @@ router.delete("/delete/:tripId", (req, res) => {
   })
 });
 
+//Vehicle operations
+
+//create
+router.post("/users/:userId/vehicles/add/:vehicle", (req, res) => {
+  User.findByIdAndUpdate(req.params.userId, { $addToSet: {vehicles: req.params.vehicle} }, {new: true}, function(err, user){
+    if (err) console.error(err)
+    res.send(user ? user.vehicles : "User not found");
+  })
+});
+
+//render
+router.get("/users/:userId/vehicles", (req, res) => {
+  User.findById(req.params.userId, function(err, user){
+    if (err) console.error(err)
+    res.send(user ? user.vehicles : "User not found");
+  })
+})
+
+//update
+router.put("/users/:userId/vehicles/edit", (req, res) => {
+  const {query, update} = req.body;
+  console.log(query)
+    User.findOneAndUpdate({ _id: req.params.userId, vehicles: query }, { $set: {"vehicles.$" : update} }, {new: true}, function(err, user){
+      if (err) console.error(err)
+      res.send(user ? user.vehicles : "User not found")
+    })
+})
+
+//delete 
+router.delete("/users/:userId/vehicles/delete/:vehicle", (req, res) => {
+  const {userId, vehicle} = req.params;
+  User.findByIdAndUpdate(userId, { $pull: { vehicles: vehicle } }, {new: true}, function(err, user){
+    if (err) console.error(err)
+    res.send(user ? user.vehicles : "User not found")
+  })
+})
+
 module.exports = router;
