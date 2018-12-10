@@ -13,6 +13,9 @@ router.post("/", (req, res) => {
     });
   });
 
+//User operations
+
+//create
 router.post("/register", (req, res) => {
   const user = new User(req.body);
   if (user) user.save(function(err, user){
@@ -24,10 +27,21 @@ router.post("/register", (req, res) => {
   })
 });
 
-router.put("/:id/addTrip", (req, res) => {
+//render
+router.get("/users/:userId", (req, res) => {
+  User.findById({ _id: req.params.userId }, function(err, user){
+    if (err) console.error(err)
+    res.send(user)
+  })
+});
+
+//Trip operations
+
+//create
+router.post("/users/:userId/addTrip", (req, res) => {
   const trip = new Trip(req.body);
   if (trip) {
-    User.findByIdAndUpdate({ _id: req.params.id }, {$push: {trips: trip}}, {new: true}, function(err, user){
+    User.findByIdAndUpdate({ _id: req.params.userId }, {$push: {trips: trip}}, {new: true}, function(err, user){
       if (err){
         console.error(err);
         throw err;
@@ -37,9 +51,18 @@ router.put("/:id/addTrip", (req, res) => {
   }
 });
 
-router.put("/edit/:userId/:tripId", (req, res) => {
+//render
+router.get("/users/:userId/trips", (req, res) => {
+  User.findById(req.params.userId, function(err, user){
+    if (err) console.error(err)
+    res.send(user.trips)
+  })
+});
+
+//update
+router.put("/edit/:tripId", (req, res) => {
   if (req.body && req.params) {
-    const {userId, tripId} = req.params;
+    const {tripId} = req.params;
     const changes = {};
     for (let field in req.body){
       changes["trips.$." + field] = req.body[field];
@@ -50,6 +73,14 @@ router.put("/edit/:userId/:tripId", (req, res) => {
       res.send(user.trips);
     });
   }
+});
+
+//delete
+router.delete("/delete/:tripId", (req, res) => {
+  User.findOneAndUpdate({"trips._id": req.params.tripId}, { $pull: { trips: { _id: req.params.tripId } } }, {new: true}, function(err, user){
+    if (err) console.error(err)
+    res.send(user ? user.trips : "Not found");
+  })
 });
 
 module.exports = router;
