@@ -28,7 +28,9 @@ export default class TripForm extends Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         close: PropTypes.func.isRequired,
+        addVehicle: PropTypes.func.isRequired,
         isUpdate: PropTypes.bool,
+        vehicles: PropTypes.array,
         start: PropTypes.number,
         end: PropTypes.number,
         date: PropTypes.string,
