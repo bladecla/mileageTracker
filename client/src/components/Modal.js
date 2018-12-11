@@ -4,15 +4,11 @@ import style from './styles/modal.css'
 
 const {overlay, wrapper, header, footer, buttonContainer, submit, title, modal} = style;
 
-function stayOpen(e){
-    e.stopPropagation();
-}
-
 const Modal = props => {
   return (
     <div onClick={props.close} style={overlay}>
       <div style={wrapper}>
-        <section className="modal" onClick={stayOpen} style={modal} >
+        <section className="modal" onClick={e => e.stopPropagation()} style={modal} >
           <header style={header}>
             <h2 style={title}>{props.title}</h2>
           </header>

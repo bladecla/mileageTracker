@@ -8,12 +8,23 @@ const style = {
       width: "50%",
       height: "250px",
       alignSelf: "center",
+      userSelect: "none"
   },
   form: {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
       height: "100%",
+  },
+  subform: {
+      display: "flex"
+  },
+  addCar: {
+      textAlign: "right",
+      alignSelf: "flex-end"
+  },
+  plus: {
+      margin: "0px 5px"
   },
   checkgroup: {
       textAlign: "left"

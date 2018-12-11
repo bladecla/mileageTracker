@@ -15,9 +15,8 @@ class Dashboard extends Component {
         
     }
   }
-
-  openTripModal = () => this.setState({ isTripModalOpen: true });
-  closeTripModal = () => this.setState({ isTripModalOpen: false });
+  
+  toggleTripModal = () => this.setState({ isTripModalOpen: !this.state.isTripModalOpen });
   
   render(){
     const { trips } = this.props.trips;
@@ -25,12 +24,12 @@ class Dashboard extends Component {
     const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
     return (
       <div id="dash">
-        <Pane title={"Trips"} addChild={this.openTripModal}>
+        <Pane title="Trips" addChild={this.toggleTripModal}>
           {trips.map((trip) => <Trip key={trip._id} {...trip} delete={deleteTrip} update={updateTrip} addVehicle={addVehicle} vehicles={vehicles}/>)}
         </Pane>
         {this.state.isTripModalOpen && 
-          <Modal title="New Trip" formName="trip" label="Add Trip" close={this.closeTripModal}>
-            <TripForm onSubmit={addTrip} close={this.closeTripModal} addVehicle={addVehicle} vehicles={vehicles}/>
+          <Modal title="New Trip" formName="trip" label="Add Trip" close={this.toggleTripModal}>
+            <TripForm onSubmit={addTrip} close={this.toggleTripModal} addVehicle={addVehicle} vehicles={vehicles}/>
           </Modal>}
       </div>
     );

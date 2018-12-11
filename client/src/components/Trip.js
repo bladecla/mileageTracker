@@ -5,6 +5,8 @@ import TripForm from './TripForm';
 import { processDate } from './../helpers';
 import style from './styles/trip.css';
 
+const {earnings, p, gray} = style;
+
 class Trip extends Component {
   constructor(props){
     super(props);
@@ -44,7 +46,6 @@ class Trip extends Component {
     const {start, end, date, isBusiness, vehicle, _id, addVehicle, vehicles} = this.props;
     const trip = {_id, start, end, isBusiness, vehicle, date};
     const { deletePending, updatePending, isSelected, isMouseOver} = this.state;
-    const {earnings, p} = style;
     const tripDist = end - start;
     const styledDate = date ? processDate(date) : "";
     return (
@@ -56,7 +57,7 @@ class Trip extends Component {
           <span style={isBusiness ? earnings : {}}>
             {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
           </span>
-          <span>{styledDate}</span>
+          <span style={gray}>{styledDate}</span>
           <span>{vehicle}</span>
           {isMouseOver && <i className="fa fa-pencil icon" onClick={this.openUpdateModal}></i>}
           {isMouseOver && <i className="fa fa-times icon" onClick={this.openDeleteModal}></i>}

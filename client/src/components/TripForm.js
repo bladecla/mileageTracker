@@ -4,7 +4,7 @@ import style from './styles/form.css'
 import uuid from 'uuid';
 import { stringifyDate } from './../helpers';
 
-const {form, error, body, checkbox, checked, unchecked, label, checkgroup} = style;
+const {form, error, body, checkbox, checked, unchecked, label, checkgroup, addCar, plus, subform} = style;
 
 export default class TripForm extends Component {
     constructor(props){
@@ -20,7 +20,9 @@ export default class TripForm extends Component {
                 isBusiness: true
             },
             isTripValid: true,
-            isDateValid: true
+            isDateValid: true,
+            showVehicleForm: false,
+            newVehicleName: ""
         };
     }
     static propTypes = {
@@ -58,7 +60,7 @@ export default class TripForm extends Component {
         return validTrip && validDate;
     }
 
-    onChange = (e) => this.setState({ 
+    mileageChange = (e) => this.setState({ 
         trip: { ...this.state.trip, [e.target.name]: parseFloat(e.target.value)} 
     });
 
@@ -80,6 +82,17 @@ export default class TripForm extends Component {
         });
     }
 
+    toggleVehicleForm = () => this.setState({ showVehicleForm: !this.state.showVehicleForm})
+
+    newVehicleNameChange = (e) => this.setState({ newVehicleName: e.target.value });
+
+    addVehicle = () => {
+        const newVehicle = this.state.newVehicleName;
+        if (newVehicle) this.props.addVehicle(newVehicle);
+        this.setState({ trip: {...this.state.trip, vehicle: newVehicle} })
+        this.toggleVehicleForm();
+    }
+
     render() {
         const {isBusiness, start, end, date, vehicle} = this.state.trip;
         const dateString = date ? stringifyDate(date) : "";
@@ -91,19 +104,29 @@ export default class TripForm extends Component {
                 {!this.state.isDateValid && <p style={error}>Date cannot be in the future.</p>}
                 <div style={body}>
                     <form id="trip" onSubmit={this.submit} style={form}>
-                        <input className="input" onChange={this.onChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
-                        <input className="input" onChange={this.onChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
+                        <input className="input" onChange={this.mileageChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
+                        <input className="input" onChange={this.mileageChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
                         <input className="input" onChange={this.dateChange} type="date" name="date" value={dateString}/>
                         <select className="input" onChange={this.vehicleChange} name="vehicle" value={vehicle ? vehicle : ""}>
                             <option value="">Select Vehicle</option>
                             {this.props.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
                         </select>
+                        {!this.state.showVehicleForm ?
+                            <div className="icon" onClick={this.toggleVehicleForm} style={addCar}>
+                                <i className="fa fa-plus-circle" style={plus}></i><span>Add Vehicle</span>
+                            </div>
+                        : 
+                        <div style={subform}>
+                            <input onChange={this.newVehicleNameChange} type="text" name="new-vehicle" placeholder="Nickname (e.g. 'Nissan')"  />
+                            <i onClick={this.addVehicle} className="icon fa fa-plus-circle" style={plus}></i>
+                        </div>    
+                        }    
                         <div style={checkgroup}>
                             <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
-                            <label htmlFor={checkCN} style={label}>Business</label>
+                            <label htmlFor={checkCN} style={label}>{isBusiness ? "Business" : "Personal"}</label>
                         </div>
                     </form>
-                </div>    
+                </div> 
             </React.Fragment>
         )
     }
