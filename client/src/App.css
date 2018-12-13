@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway|Roboto+Slab');
 
 html, body {
   padding: 0;
   margin: 0;
   background-color: rgb(221, 220, 241);
+  font-family: 'Roboto Slab', sans-serif;
 }
 
 #dash{
@@ -12,6 +14,7 @@ html, body {
 }
 
 .pane {
+  font-family: 'Raleway', sans-serif;
   background-color: whitesmoke;
   border-radius: 3px;
   min-width: 200px;
