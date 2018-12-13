@@ -29,17 +29,18 @@ class Dashboard extends Component {
 
     return {
       totalMileage,
-      percentBusiness: (businessTrips / trips.length) * 100
+      percentBusiness: ((businessTrips / trips.length) * 100).toFixed(1)
     }
   }
   
   render(){
-    const { trips } = this.props.trips;
+    const { trips, totalMileage, businessTrips } = this.props.trips;
+    const percentBusiness = ((businessTrips / trips.length) * 100).toFixed(1)
     const { vehicles } = this.props.vehicles;
     const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
     return (
       <div id="dash">
-        <Insights {...this.state}/>
+        <Insights totalMileage={totalMileage} percentBusiness={percentBusiness}/>
         <Pane title="Trips" addChild={this.toggleTripModal}>
           {trips.map((trip) => <Trip key={trip._id} {...trip} delete={deleteTrip} update={updateTrip} addVehicle={addVehicle} vehicles={vehicles}/>)}
         </Pane>

@@ -16,7 +16,9 @@ const initialState = {
           isBusiness: true,
           date: new Date()
       }
-    ]
+    ],
+    totalMileage: 170,
+    businessTrips: 1
 }
 
 export default function (state = initialState, { type, payload }){
@@ -24,7 +26,9 @@ export default function (state = initialState, { type, payload }){
     
     case ADD_TRIP:
       return {
-        trips: [ ...state.trips, payload ]
+        trips: [ ...state.trips, payload ],
+        totalMileage: state.totalMileage + payload.end - payload.start,
+        businessTrips: payload.isBusiness ? state.businessTrips + 1 : state.businessTrips
     }
     
     case GET_TRIPS:
