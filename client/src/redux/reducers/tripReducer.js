@@ -18,17 +18,18 @@ const initialState = {
       }
     ],
     totalMileage: 170,
-    businessTrips: 1
+    businessMiles: 70
 }
 
 export default function (state = initialState, { type, payload }){
   switch (type) {
     
     case ADD_TRIP:
+      const dist = payload.end - payload.start;
       return {
         trips: [ ...state.trips, payload ],
-        totalMileage: state.totalMileage + payload.end - payload.start,
-        businessTrips: payload.isBusiness ? state.businessTrips + 1 : state.businessTrips
+        totalMileage: state.totalMileage + dist,
+        businessMiles: payload.isBusiness ? state.businessMiles + dist : state.businessMiles
     }
     
     case GET_TRIPS:
