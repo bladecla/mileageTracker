@@ -22,7 +22,7 @@ html, body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(4px) hue-rotate(350deg) contrast(75%);
+  filter: blur(2px) hue-rotate(350deg) contrast(70%) grayscale(10%);
 }
 
 #dash{
