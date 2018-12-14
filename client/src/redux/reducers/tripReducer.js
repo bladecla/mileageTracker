@@ -47,7 +47,10 @@ export default function (state = initialState, { type, payload }){
 
     case DELETE_TRIP:
       return {
-        trips: state.trips.filter(trip => trip._id !== payload)
+        trips: state.trips.filter(trip => trip._id !== payload._id),
+        totalMileage: state.totalMileage - payload.dist,
+        businessMiles: payload.isBusiness ? state.businessMiles - payload.dist : state.businessMiles,
+        businessTrips: payload.isBusiness ? state.businessTrips - 1 : state.businessTrips,
       }
 
     default:

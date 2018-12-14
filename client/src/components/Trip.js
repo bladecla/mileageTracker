@@ -36,8 +36,10 @@ class Trip extends Component {
   closeUpdateModal = () => this.setState({ updatePending: false });
   delete = (e) => {
     e.preventDefault();
+    const {_id, start, end, isBusiness} = this.props;
+    const tripData = {_id, isBusiness, dist: end - start}
     this.closeDeleteModal();
-    this.props.delete(this.props._id)
+    this.props.delete(tripData)
   }
 
   nothing = () => false; //prevents annoying console errors. Remove for production

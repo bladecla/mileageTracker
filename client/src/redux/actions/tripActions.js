@@ -20,9 +20,9 @@ export const updateTrip = newTrip => {
     }
 }
 
-export const deleteTrip = id => {
+export const deleteTrip = tripData => {
     return {
         type: DELETE_TRIP,
-        payload: id
+        payload: tripData
     }
 }
