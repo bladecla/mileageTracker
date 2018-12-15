@@ -8,13 +8,25 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    index: true
   },
   password: {
     type: String,
     required: true
   },
   totalMileage: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
+  businessMiles: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
+  businessTrips: {
     type: Number,
     min: 0,
     default: 0
