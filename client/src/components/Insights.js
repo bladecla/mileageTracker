@@ -16,8 +16,8 @@ export default class Insights extends Component {
     return (
       <div className="pane">
         <h4 style={{marginTop: "1rem"}}>{totalMileage + " mi | $" + (businessMiles * 0.0545).toFixed(2)}</h4>
-        <div>{"Mileage: " + percentBusinessMiles + "% Business | " + (100 - percentBusinessMiles) + "% Personal"}</div>
-        <div>{"Trips: " + percentBusinessTrips + "% Business | " + (100 - percentBusinessTrips) + "% Personal"}</div>
+        <div>{"Mileage: " + percentBusinessMiles + "% Business (" + businessMiles + " mi) | " + (100 - percentBusinessMiles).toFixed(1) + "% Personal (" + (totalMileage - businessMiles) + " mi)"}</div>
+        <div>{"Trips: " + percentBusinessTrips + "% Business (" + businessTrips + ") | " + (100 - percentBusinessTrips).toFixed(1) + "% Personal (" + (totalTrips - businessTrips) + ")"}</div>
       </div>
     )
   }
