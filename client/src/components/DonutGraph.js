@@ -8,10 +8,9 @@ function DonutGraph(props) {
   let pie = d3.pie();
   let graph = pie(data);
   let arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-  let arcs = data.map((d, i) => arc({startAngle: graph[i].startAngle, endAngle: graph[i].endAngle }))
-  console.log(graph)
+  let arcs = data.map((d, i) => arc({startAngle: graph[i].startAngle, endAngle: graph[i].endAngle }));
   return (
-      <svg width="30%" viewBox={`0 0 ${width} ${height}`}>
+      <svg width="50%" viewBox={`0 0 ${width} ${height}`}>
         <g transform={`translate(${width/2},${height/2})`}>
           {label && <text textAnchor="middle" fontSize="4em">{label}</text>}
           {arcs.map((arc, i) => <g key={i}><path d={arc} fill={color[i]}></path></g> )}

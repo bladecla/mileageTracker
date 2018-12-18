@@ -89,3 +89,7 @@ h2, h3 {
 .test {
   color: rgb(rgb(255, 202, 56))
 }
+
+.debug{
+  border: 1px solid green;
+}
