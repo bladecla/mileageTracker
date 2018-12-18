@@ -1,6 +1,5 @@
 import { ADD_TRIP, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from '../actions/types'
 import uuid from 'uuid'
-import { stat } from 'fs';
 const initialState = {
     trips: [
       {
