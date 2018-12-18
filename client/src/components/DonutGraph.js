@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import * as d3 from 'd3';
 
 function DonutGraph(props) {
-  let { width, height, data, innerRadius, outerRadius } = props;
-  let color = ["red", "blue"]
+  let { width, height, data, innerRadius, outerRadius, label } = props;
+  let color = ["lightgreen", "blue"]
   let pie = d3.pie();
   let graph = pie(data);
   let arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
   let arcs = data.map((d, i) => arc({startAngle: graph[i].startAngle, endAngle: graph[i].endAngle }))
   console.log(graph)
   return (
-      <svg width={width} height={height}>
+      <svg width="30%" viewBox={`0 0 ${width} ${height}`}>
         <g transform={`translate(${width/2},${height/2})`}>
+          {label && <text textAnchor="middle" fontSize="4em">{label}</text>}
           {arcs.map((arc, i) => <g key={i}><path d={arc} fill={color[i]}></path></g> )}
         </g>
       </svg>
@@ -22,7 +23,10 @@ function DonutGraph(props) {
 DonutGraph.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  data: PropTypes.array.isRequired
+  innerRadius: PropTypes.number.isRequired,
+  outerRadius: PropTypes.number.isRequired,
+  data: PropTypes.array.isRequired,
+  label: PropTypes.string
 }
 
 export default DonutGraph

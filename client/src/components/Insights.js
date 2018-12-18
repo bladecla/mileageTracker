@@ -11,15 +11,21 @@ export default class Insights extends Component {
   }
 
   render() {
-    const {totalMileage, totalTrips, businessTrips, businessMiles} = this.props;
-    const percentBusinessMiles = ((businessMiles / totalMileage) * 100).toFixed(1);
-    const percentBusinessTrips = ((businessTrips / totalTrips) * 100).toFixed(1);
+    const {totalMileage, totalTrips, businessTrips, businessMiles} = this.props, 
+        percentBusinessMiles = ((businessMiles / totalMileage) * 100).toFixed(1), 
+        percentBusinessTrips = ((businessTrips / totalTrips) * 100).toFixed(1),
+        personalMiles = totalMileage - businessMiles,
+        personalTrips = totalTrips - businessTrips;
+        
     return (
       <div className="pane">
         <h4 style={{marginTop: "1rem"}}>{totalMileage + " mi | $" + (businessMiles * 0.0545).toFixed(2)}</h4>
-        <div>{"Mileage: " + percentBusinessMiles + "% Business (" + businessMiles + " mi) | " + (100 - percentBusinessMiles).toFixed(1) + "% Personal (" + (totalMileage - businessMiles) + " mi)"}</div>
-        <div>{"Trips: " + percentBusinessTrips + "% Business (" + businessTrips + ") | " + (100 - percentBusinessTrips).toFixed(1) + "% Personal (" + (totalTrips - businessTrips) + ")"}</div>
-        <DonutGraph width={1000} height={1000} data={[100, 200]} innerRadius={200} outerRadius={400} />
+        <div>{"Mileage: " + percentBusinessMiles + "% Business (" + businessMiles + " mi) | " + (100 - percentBusinessMiles).toFixed(1) + "% Personal (" + (personalMiles) + " mi)"}</div>
+        <div>{"Trips: " + percentBusinessTrips + "% Business (" + businessTrips + ") | " + (100 - percentBusinessTrips).toFixed(1) + "% Personal (" + (personalTrips) + ")"}</div>
+        <div>
+          <DonutGraph label={"Miles"} width={1000} height={1000} data={[businessMiles, personalMiles]} innerRadius={200} outerRadius={400} />
+          <DonutGraph label={"Trips"} width={1000} height={1000} data={[businessTrips, personalTrips]} innerRadius={200} outerRadius={400} />
+        </div>
       </div>
     )
   }
