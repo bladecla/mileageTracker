@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const tripSchema = require('./Trip').schema;
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 const userSchema = new Schema({
   name: {
     type: String,
@@ -39,10 +40,19 @@ const userSchema = new Schema({
 
 module.exports = User = mongoose.model('User', userSchema);
 
-module.exports.findByEmail = function(email, done){
+module.exports.findByEmail = (email, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, {404: "User Not Found"});
     done(null, user);
+  })
+}
+
+module.exports.register = (name, email, password, done) => {
+  User.findOne({ email: email }, (err, user) => {
+    if (err) return done(err);
+    if (user) return done(null, {message: "Authorization failed"});
+    if (!user) user = new User({name, email, password: bcrypt.hashSync(password, 12)});
+    user.save(done(null, {message: "Registration successful"}))
   })
 }

@@ -13,4 +13,11 @@ router.route('/')
         })
     })
 
+router.route('/register')
+    .post((req, res) => {
+        User.register(req.body.name, req.body.email, req.body.password, (err, message) => {
+            if (err) return console.error(err);
+            res.json(message);
+        })
+    })
 module.exports = router;
