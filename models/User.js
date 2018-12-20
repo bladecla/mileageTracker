@@ -51,8 +51,8 @@ module.exports.findByEmail = (email, done) => {
 module.exports.register = (name, email, password, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) return done(err);
-    if (user) return done(null, {message: "Authorization failed"});
+    if (user) return done(null, {success: false, message: "Authorization failed"});
     if (!user) user = new User({name, email, password: bcrypt.hashSync(password, 12)});
-    user.save(done(null, {message: "Registration successful"}))
+    user.save(done(null, {success: true, message: "Registration successful"}))
   })
 }

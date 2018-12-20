@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('./../../models/User');
-
+const trips = require('./trips');
 const router = express.Router();
 
 router.route('/')
@@ -13,11 +13,13 @@ router.route('/')
         })
     })
 
-router.route('/register')
-    .post((req, res) => {
-        User.register(req.body.name, req.body.email, req.body.password, (err, message) => {
-            if (err) return console.error(err);
-            res.json(message);
-        })
+router.post('/register', (req, res) => {
+    User.register(req.body.name, req.body.email, req.body.password, (err, result) => {
+        if (err) return console.error(err);
+        res.json(result);
     })
+})
+
+router.use('/trips', trips);
+
 module.exports = router;
