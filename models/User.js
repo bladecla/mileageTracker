@@ -48,6 +48,17 @@ module.exports.findByEmail = (email, done) => {
   })
 }
 
+module.exports.localAuth = (email, password, done) => {
+  console.log(email + " is attempting login.")
+  User.findOne({ email: email }, (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      if (!bcrypt.compareSync(password, user.password)) return done(null, false);
+      console.log("authentication succesful");
+      done(null, user);
+  })
+};
+
 module.exports.register = (name, email, password, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) return done(err);
@@ -55,4 +66,9 @@ module.exports.register = (name, email, password, done) => {
     if (!user) user = new User({name, email, password: bcrypt.hashSync(password, 12)});
     user.save(done(null, {success: true, message: "Registration successful"}))
   })
+}
+
+
+module.exports.getData = (email, done) => {
+  
 }

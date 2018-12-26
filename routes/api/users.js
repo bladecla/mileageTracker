@@ -12,6 +12,12 @@ router.route('/')
             console.log(userData)
         })
     })
+    .get((req, res) => {
+        User.find((err, users) => {
+            if (err) return console.error(err);
+            res.json(users);
+        })
+    })
 
 router.post('/register', (req, res) => {
     User.register(req.body.name, req.body.email, req.body.password, (err, result) => {
