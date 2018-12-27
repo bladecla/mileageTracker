@@ -54,7 +54,7 @@ module.exports.localAuth = (email, password, done) => {
       if (err) return done(err);
       if (!user) return done(null, false);
       if (!bcrypt.compareSync(password, user.password)) return done(null, false);
-      console.log("authentication succesful");
+      console.log("authentication successful");
       done(null, user);
   })
 };
