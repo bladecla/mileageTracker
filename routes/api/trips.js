@@ -17,7 +17,7 @@ router.route('/')
         User.getTrips(req.user._id, callback(res))
     })
     .post(checkAuth, (req, res) => {
-        User.addTrip(req.user._id, req.body, callback(res));
+        User.addTrip(req.user._id, new Trip(req.body), callback(res));
     })
     .delete(checkAuth, (req, res) => {
         User.deleteTrip(req.body._id, callback(res));

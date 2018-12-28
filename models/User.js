@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
-const Trip = require('./Trip');
-const tripSchema = Trip.schema;
+const tripSchema = require('./Trip').schema;
 const userSchema = new Schema({
   name: {
     type: String,
@@ -94,7 +93,7 @@ module.exports.addTrip = (_id, trip, done) => {
     $push: { "data.trips": trip },
     $inc: { "data.totalMileage": dist }
   }
-  if (trip.isBusiness === "true") {
+  if (trip.isBusiness) {
     changes.$inc["data.businessMiles"] = dist;
     changes.$inc["data.businessTrips"] = 1;
   }
