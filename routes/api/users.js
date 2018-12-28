@@ -5,10 +5,9 @@ const checkAuth = require('./../../auth/check-auth');
 module.exports = function(passport, User){
     router.route('/')
         .post((req, res) => {
-            User.findByEmail(req.body.email, (err, user) => {
+            User.getData(req.user._id, (err, userData) => {
                 if (err) return console.error(err);
-                let userData = {name: user.name, email: user.email, ...user.data.toObject()}
-                res.json(userData);
+                if (userData) res.json(userData);
                 console.log(userData)
             })
         })
@@ -35,10 +34,8 @@ module.exports = function(passport, User){
       })
     
     router.get("/profile", checkAuth, (req, res) => {
-    res.send("Welcome, " + req.user.name)
+        res.send("Welcome, " + req.user.name)
     })
-   
-    router.use('/trips', require('./trips'));
 
     return router;
 }

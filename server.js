@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const User = require('./models/User');
-const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {
@@ -21,7 +20,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // passport configuration
-require('./auth/config')(passport, LocalStrategy, User);
+require('./auth/config')(passport, require('passport-local').Strategy, User);
 
 // index route
 app.get("/", (req, res) => res.send("Welcome"))
@@ -29,4 +28,5 @@ app.get("/", (req, res) => res.send("Welcome"))
 // Use api routes
 app.use("/api/test", require("./routes/api/test"));
 app.use("/api/users", require("./routes/api/users")(passport, User));
+app.use("/api/trips", require("./routes/api/trips"));
 
