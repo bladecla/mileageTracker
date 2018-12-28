@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
-const tripSchema = require('./Trip').schema;
+const Trip = require('./Trip');
+const tripSchema = Trip.schema;
 const userSchema = new Schema({
   name: {
     type: String,
@@ -105,9 +106,40 @@ module.exports.addTrip = (_id, trip, done) => {
 }
 
 module.exports.deleteTrip = (tripId, done) => {
-  User.findOneAndUpdate({"data.trips._id": tripId}, { $pull: { "data.trips": { _id: tripId } } }, {new: true}, (err, user) => {
+  User.findOne({"data.trips._id": tripId}, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
-    return done(null, user.data.trips);
+    const trip = user.data.trips.id(tripId)
+    if (!trip.end) return done(null, false);
+    let dist = trip.end - trip.start;
+    let changes = {
+      $pull: { "data.trips": { _id: tripId } },
+      $inc: { "data.totalMileage": -1 * dist }
+    }
+    if (trip.isBusiness) {
+      changes.$inc["data.businessMiles"] = -1 * dist;
+      changes.$inc["data.businessTrips"] = -1;
+    }
+    User.findByIdAndUpdate(user._id, changes, {new: true}, (error, updatedUser) => {
+      if (error) return done(error);
+      if (!updatedUser) return done(null, false);
+      return done(null, updatedUser.data);
+    })
+  })
+}
+
+module.exports.reset = (_id, done) => {
+  User.findByIdAndUpdate(_id, {
+    $set: {
+      "data.totalMileage": 0,
+      "data.businessMiles": 0,
+      "data.businessTrips": 0,
+      "data.trips": [],
+      "data.vehicles": []
+    }
+  }, {new: true}, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    return done(null, user.data);
   })
 }
