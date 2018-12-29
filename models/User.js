@@ -127,6 +127,52 @@ module.exports.deleteTrip = (tripId, done) => {
   })
 }
 
+module.exports.updateTrip = (newTrip, done) => {
+  User.findOne({"data.trips._id": newTrip._id}, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    const currTrip = user.data.trips.id(newTrip._id);
+    if (!currTrip) return done(null, false);
+    const wasBusiness = currTrip.isBusiness,
+          isBusiness = newTrip.isBusiness,
+          currTripDist = currTrip.end - currTrip.start,
+          newTripDist = newTrip.end - newTrip.start,
+          distChange = newTripDist - currTripDist;
+    let businessMilesChange, businessTripsChange, updates = {};
+    if (wasBusiness && isBusiness){
+      businessMilesChange = distChange;
+      businessTripsChange = 0;
+    }
+    else if (!wasBusiness && !isBusiness){
+      businessMilesChange = 0;
+      businessTripsChange = 0;
+    }
+    else if (!wasBusiness && isBusiness){
+      businessMilesChange = newTripDist;
+      businessTripsChange = 1;
+    } 
+    else {
+      businessMilesChange = currTripDist * -1;
+      businessTripsChange = -1;
+    }
+    for (const field in newTrip.toObject()){
+      updates["data.trips.$." + field] = newTrip[field];
+    }
+    User.findOneAndUpdate({"data.trips._id": currTrip._id}, {
+      $inc: {
+        "data.totalMileage": distChange,
+        "data.businessMiles": businessMilesChange,
+        "data.businessTrips": businessTripsChange
+      },
+      $set: updates
+    }, {new: true}, (error, updatedUser) => {
+      if (error) return done(error);
+      if (!updatedUser) return done(null, false);
+      return done(null, updatedUser.data);
+    })
+  })
+}
+
 module.exports.reset = (_id, done) => {
   User.findByIdAndUpdate(_id, {
     $set: {
