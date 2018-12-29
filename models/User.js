@@ -68,6 +68,7 @@ module.exports.register = (name, email, password, done) => {
   })
 }
 
+// get all user data except password
 
 module.exports.getData = (_id, done) => {
   User.findById(_id, (err, user) => {
@@ -77,6 +78,8 @@ module.exports.getData = (_id, done) => {
     return done(null, userData);
   })
 }
+
+// Trip operations
 
 module.exports.getTrips = (_id, done) => {
   User.findById(_id, (err, user) => {
@@ -172,6 +175,43 @@ module.exports.updateTrip = (newTrip, done) => {
     })
   })
 }
+
+// vehicle operations
+
+module.exports.addVehicle = (_id, vehicle, done) => {
+  User.findByIdAndUpdate(_id, { $addToSet: { "data.vehicles": vehicle } }, {new: true}, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    return done(null, user.data.vehicles)
+  })
+}
+
+module.exports.getVehicles = (_id, done) => {
+  User.findById(_id, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    return done(null, user.data.vehicles)
+  })
+}
+
+module.exports.updateVehicle = (_id, vehicle, newVehicle, done) => {
+  User.findOneAndUpdate({_id: _id, "data.vehicles": vehicle}, { $set: { "data.vehicles.$": newVehicle }},
+  {new: true}, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    return done(null, user.data.vehicles)
+  })
+}
+
+module.exports.deleteVehicle = (_id, vehicle, done) => {
+  User.findByIdAndUpdate(_id, { $pull: { "data.vehicles": vehicle } }, {new: true}, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    return done(null, user.data.vehicles)
+  })
+}
+
+// reset user data
 
 module.exports.reset = (_id, done) => {
   User.findByIdAndUpdate(_id, {

@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 function DonutGraph(props) {
   let { width, height, data, innerRadius, outerRadius, label } = props;
   let color = ["lightgreen", "blue"]
-  let pie = d3.pie();
+  let pie = d3.pie().startAngle(3 * Math.PI / 4).endAngle(-3 * Math.PI / 4)
   let graph = pie(data);
   let arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
   let arcs = data.map((d, i) => arc({startAngle: graph[i].startAngle, endAngle: graph[i].endAngle }));

@@ -29,4 +29,5 @@ app.get("/", (req, res) => res.send("Welcome"))
 app.use("/api/test", require("./routes/api/test"));
 app.use("/api/users", require("./routes/api/users")(passport, User));
 app.use("/api/trips", require("./routes/api/trips"));
+app.use("/api/vehicles", require("./routes/api/vehicles"));
 
