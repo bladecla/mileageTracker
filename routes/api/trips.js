@@ -1,8 +1,8 @@
-const express = require('express');
-const User = require('./../../models/User');
-const Trip = require('./../../models/Trip');
-const checkAuth = require('./../../auth/check-auth');
-const router = express.Router();
+const express = require('express'),
+      User = require('./../../models/User'),
+      Trip = require('./../../models/Trip'),
+      checkAuth = require('./../../auth/check-auth'),
+      router = express.Router();
 
 const callback = res => {
     return (err, data) => {

@@ -1,4 +1,4 @@
-import { GET_VEHICLES, ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE } from './../actions/types';
+import { GET_VEHICLES, SET_VEHICLES, ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE } from './../actions/types';
 
 const initialState = {
     vehicles: ["Nissan", "Toyota"]
@@ -11,6 +11,10 @@ export default (state = initialState, { type, payload }) => {
 
     case GET_VEHICLES:
       return state
+    
+    case SET_VEHICLES:
+      console.log(payload)
+      return { vehicles: [...payload.vehicles] }
     
     case UPDATE_VEHICLE: 
       const idx = state.vehicles.indexOf(payload);

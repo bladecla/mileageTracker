@@ -7,7 +7,7 @@ module.exports = function(passport, User){
         .post((req, res) => {
             User.getData(req.user._id, (err, userData) => {
                 if (err) return console.error(err);
-                if (userData) res.json(userData);
+                if (userData) res.json({success: true, user: userData});
                 console.log(userData)
             })
         })
@@ -25,7 +25,15 @@ module.exports = function(passport, User){
         })
     })
 
-    router.post("/login", passport.authenticate('local'), (req, res) => res.send(req.user.name + " is now logged in."));
+    router.post("/login", passport.authenticate('local'), (req, res) => {
+        User.getData(req.user._id, (err, userData) => {
+            if (err) {
+                res.json({success: false})
+                return console.error(err);
+            }
+            if (userData) res.json({success: true, user: userData});
+        })
+    });
 
     router.get("/logout", (req, res) => {
         console.log("logging out " + req.user.name)

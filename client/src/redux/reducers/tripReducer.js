@@ -1,14 +1,7 @@
-import { ADD_TRIP, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from '../actions/types'
+import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from '../actions/types'
 import uuid from 'uuid'
 const initialState = {
     trips: [
-      {
-          _id: uuid(),
-          start: 1000,
-          end: 1100,
-          isBusiness: false,
-          vehicle: "Nissan"
-      }, 
       {   
           _id: uuid(),
           start: 1100,
@@ -36,6 +29,9 @@ export default function (state = initialState, { type, payload }){
     
     case GET_TRIPS:
       return state
+
+    case SET_TRIPS:
+      return {...payload}
 
     case UPDATE_TRIP:
       const { businessMiles: bMiles, businessTrips: bTrips } = state;

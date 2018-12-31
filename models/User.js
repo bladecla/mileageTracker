@@ -49,12 +49,10 @@ module.exports.findByEmail = (email, done) => {
 }
 
 module.exports.localAuth = (email, password, done) => {
-  console.log(email + " is attempting login.")
   User.findOne({ email: email }, (err, user) => {
       if (err) return done(err);
       if (!user) return done(null, false);
       if (!bcrypt.compareSync(password, user.password)) return done(null, false);
-      console.log("authentication successful");
       done(null, user);
   })
 };
