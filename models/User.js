@@ -170,7 +170,8 @@ module.exports.updateTrip = (newTrip, done) => {
     }, {new: true}, (error, updatedUser) => {
       if (error) return done(error);
       if (!updatedUser) return done(null, false);
-      return done(null, updatedUser.data);
+      const {totalMileage, businessMiles, businessTrips} = updatedUser.data;
+      return done(null, {trip: newTrip, totalMileage, businessMiles, businessTrips});
     })
   })
 }

@@ -3,14 +3,12 @@ import TripPane from './Pane';
 import Trip from './Trip';
 import Modal from './Modal';
 import TripForm from './TripForm';
+import Insights from './Insights';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
 import { addTrip, getTrips, deleteTrip, updateTrip } from './../redux/actions/tripActions'
 import { addVehicle, getVehicles} from './../redux/actions/vehicleActions';
 import { login } from './../redux/actions/userActions';
-import Insights from './Insights';
-import { JSONtoDateObject } from './../helpers';
-
 
 class Dashboard extends Component {
   constructor(props){
@@ -22,7 +20,7 @@ class Dashboard extends Component {
   }
   
   componentDidMount(){
-    this.props.login({
+    if (!this.props.user.loggedIn) this.props.login({
       email: "waluigi.numbah1@gmail.com",
       password: "wahhhhhhh!"
     })

@@ -42,9 +42,7 @@ export default class TripForm extends Component {
         if(this.validate()){
             const tripData = { ...this.state.trip };
             if (!this.state.trip.date) tripData.date = new Date();
-            if (!this.props.isUpdate) {
-                tripData._id = uuid();
-            } else tripData._id = this.props._id;
+            if (this.props.isUpdate) tripData._id = this.props._id;
             this.props.onSubmit(tripData);
             this.props.close();
         }
