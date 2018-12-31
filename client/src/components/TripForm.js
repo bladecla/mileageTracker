@@ -33,7 +33,7 @@ export default class TripForm extends Component {
         vehicles: PropTypes.array,
         start: PropTypes.number,
         end: PropTypes.number,
-        date: PropTypes.string,
+        date: PropTypes.instanceOf(Date),
         vehicle: PropTypes.string,
     }
 

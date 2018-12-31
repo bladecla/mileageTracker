@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { cleanTrips } from './../../helpers';
 import { LOGIN, AUTHENTICATING, SET_TRIPS, SET_VEHICLES} from './../actions/types';
 
 export const setAuthenticating = () => {
@@ -21,15 +22,15 @@ export const login = credentials => dispatch => {
         dispatch({
           type: SET_TRIPS,
           payload: {
-            trips: user.trips, 
-            businessTrips: user.businessTrips, 
-            businessMiles: user.businessMiles, 
-            totalMileage: user.totalMileage
+            trips: cleanTrips(user.trips), 
+            businessTrips: +user.businessTrips, 
+            businessMiles: +user.businessMiles, 
+            totalMileage: +user.totalMileage
           }
         })
         dispatch({
           type: SET_VEHICLES,
-          payload: {vehicles: user.vehicles}
+          payload: user.vehicles
         })
       }
     })

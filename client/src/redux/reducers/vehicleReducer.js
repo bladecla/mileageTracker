@@ -13,8 +13,7 @@ export default (state = initialState, { type, payload }) => {
       return state
     
     case SET_VEHICLES:
-      console.log(payload)
-      return { vehicles: [...payload.vehicles] }
+      return { vehicles: [...payload] }
     
     case UPDATE_VEHICLE: 
       const idx = state.vehicles.indexOf(payload);

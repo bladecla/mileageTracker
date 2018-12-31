@@ -1,4 +1,4 @@
-export const JSONtoDateString = date => {
+export const JSONtoDateObject = date => {
   if (typeof date === "string"){
     const [yyyy, mm, dd] = date.slice(0, 11).split('-').map(n => parseInt(n));
     return new Date(yyyy, mm - 1, dd);
@@ -6,7 +6,7 @@ export const JSONtoDateString = date => {
 } 
 
 export const processDate = inputDate => {
-    if (typeof inputDate === "string") JSONtoDateString(inputDate)
+    if (typeof inputDate === "string") JSONtoDateObject(inputDate)
     let weekdays, day, month, date, year;
     weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     day = weekdays[inputDate.getDay()];
@@ -22,4 +22,13 @@ export const stringifyDate = date => {
       return num;
     };
     return date ? `${date.getFullYear()}-${doubleDigits(date.getMonth() + 1)}-${doubleDigits(date.getDate())}` : "";
+  }
+
+  export const cleanTrips = trips => {
+    return trips.map(trip => {
+      trip.start = +trip.start;
+      trip.end = +trip.end;
+      trip.date = JSONtoDateObject(trip.date);
+      return trip;
+    });
   }

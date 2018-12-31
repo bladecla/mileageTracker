@@ -9,7 +9,7 @@ import { addTrip, getTrips, deleteTrip, updateTrip } from './../redux/actions/tr
 import { addVehicle, getVehicles} from './../redux/actions/vehicleActions';
 import { login } from './../redux/actions/userActions';
 import Insights from './Insights';
-import { JSONtoDateString } from './../helpers';
+import { JSONtoDateObject } from './../helpers';
 
 
 class Dashboard extends Component {
@@ -34,7 +34,7 @@ class Dashboard extends Component {
   render(){
     const { trips, totalMileage, businessMiles, businessTrips } = this.props.trips;
     const { name, email, authenticating } = this.props.user
-    const insightsData = { totalTrips: trips.length, totalMileage: +totalMileage, businessMiles: +businessMiles, businessTrips: +businessTrips };
+    const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
     const { vehicles } = this.props.vehicles;
     const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
     return (
@@ -45,10 +45,7 @@ class Dashboard extends Component {
           <Insights {...insightsData}/>
           <TripPane id="trip-pane" title="Trips" addChild={this.toggleTripModal}>
             {trips.map((trip) => <Trip key={trip._id} 
-            {...trip}
-            start={+trip.start}
-            end={+trip.end} 
-            date={JSONtoDateString(trip.date)} 
+            {...trip} 
             delete={deleteTrip} 
             update={updateTrip} 
             addVehicle={addVehicle} 
