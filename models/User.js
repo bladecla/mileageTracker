@@ -107,6 +107,7 @@ module.exports.addTrip = (_id, trip, done) => {
 }
 
 module.exports.deleteTrip = (tripId, done) => {
+  console.log(tripId)
   User.findOne({"data.trips._id": tripId}, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
@@ -124,7 +125,8 @@ module.exports.deleteTrip = (tripId, done) => {
     User.findByIdAndUpdate(user._id, changes, {new: true}, (error, updatedUser) => {
       if (error) return done(error);
       if (!updatedUser) return done(null, false);
-      return done(null, updatedUser.data);
+      const {totalMileage, businessMiles, businessTrips} = updatedUser.data;
+      return done(null, {success:true, _id: tripId, totalMileage, businessMiles, businessTrips});
     })
   })
 }

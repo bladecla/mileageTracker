@@ -42,9 +42,23 @@ export const updateTrip = newTrip => dispatch => {
     })
 }
 
-export const deleteTrip = tripData => {
-    return {
-        type: DELETE_TRIP,
-        payload: tripData
-    }
+export const deleteTrip = tripId => dispatch => {
+    console.log(tripId)
+    axios
+    .delete('api/trips/' + tripId)
+    .then(res => {
+        console.log(res.data)
+        if (res.data.success){
+            const {_id, totalMileage, businessMiles, businessTrips} = res.data;
+            dispatch({
+                type: DELETE_TRIP,
+                payload: {
+                    _id,
+                    totalMileage: +totalMileage,
+                    businessMiles: +businessMiles,
+                    businessTrips: +businessTrips
+                }
+            })
+        }
+    })
 }

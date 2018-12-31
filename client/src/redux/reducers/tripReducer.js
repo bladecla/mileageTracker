@@ -36,11 +36,12 @@ export default function (state = initialState, { type, payload }){
       }
 
     case DELETE_TRIP:
+      const { _id} = payload;
       return {
-        trips: state.trips.filter(trip => trip._id !== payload._id),
-        totalMileage: state.totalMileage - payload.dist,
-        businessMiles: payload.isBusiness ? state.businessMiles - payload.dist : state.businessMiles,
-        businessTrips: payload.isBusiness ? state.businessTrips - 1 : state.businessTrips,
+        trips: state.trips.filter(trip => trip._id !== _id),
+        totalMileage: payload.totalMileage,
+        businessMiles: payload.businessMiles,
+        businessTrips: payload.businessTrips
       }
 
     default:
