@@ -1,4 +1,4 @@
-import { GET_VEHICLES, SET_VEHICLES, ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE } from './../actions/types';
+import { GET_VEHICLES, SET_VEHICLES, ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE, LOGOUT } from './../actions/types';
 
 const initialState = {
     vehicles: ["Nissan", "Toyota"]
@@ -25,6 +25,9 @@ export default (state = initialState, { type, payload }) => {
       return {
         vehicles: state.vehicles.filter(vehicle => vehicle !== payload)
       }
+
+    case LOGOUT:
+    return initialState;
       
     default:
       return state

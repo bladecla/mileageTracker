@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { cleanTrips } from './../../helpers';
+import { cleanTrips, success } from './../../helpers';
 import { SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from './types';
+;
 
 export const getTrips = () => {
     return {
@@ -12,17 +13,19 @@ export const addTrip = trip => dispatch => {
     axios
     .post('api/trips', trip)
     .then(res => {
-        const {trips, totalMileage, businessMiles, businessTrips} = res.data;
-        dispatch({
-            type: SET_TRIPS,
-            payload: {
-                trips: cleanTrips(trips),
-                totalMileage: +totalMileage,
-                businessMiles: +businessMiles,
-                businessTrips: +businessTrips
-            }
-        })
-    })
+        if(success(res.data.status, dispatch)){
+            const {trips, totalMileage, businessMiles, businessTrips} = res.data;
+            dispatch({
+                type: SET_TRIPS,
+                payload: {
+                    trips: cleanTrips(trips),
+                    totalMileage: +totalMileage,
+                    businessMiles: +businessMiles,
+                    businessTrips: +businessTrips
+                }
+            })
+        }
+    }, err => console.error(err) )
 }
 
 export const updateTrip = newTrip => dispatch => {

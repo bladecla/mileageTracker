@@ -1,4 +1,4 @@
-import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from '../actions/types'
+import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP, LOGOUT } from '../actions/types'
 const initialState = {
     trips: [],
     totalMileage: 0,
@@ -43,6 +43,9 @@ export default function (state = initialState, { type, payload }){
         businessMiles: payload.businessMiles,
         businessTrips: payload.businessTrips
       }
+    
+    case LOGOUT:
+    return initialState;
 
     default:
       return state

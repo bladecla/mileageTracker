@@ -6,6 +6,8 @@ const session = require('express-session');
 const User = require('./models/User');
 const app = express();
 
+const hi = 0;
+
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {
   console.log("Connected to MongoDB");
   const listener = app.listen(process.env.PORT || 5500, () => {
@@ -15,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {
 
 // middleware
 app.use(bodyParser.json());
-app.use(session({ secret: process.env.SECRET, resave: true, saveUninitialized: true }))
+app.use(session({ secret: process.env.SECRET, resave: true, saveUninitialized: true}))
 app.use(passport.initialize());
 app.use(passport.session());
 

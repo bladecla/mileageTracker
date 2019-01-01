@@ -31,7 +31,7 @@ class Dashboard extends Component {
   
   render(){
     const { trips, totalMileage, businessMiles, businessTrips } = this.props.trips;
-    const { name, email, authenticating } = this.props.user
+    const { name, email, authenticating, loggedIn } = this.props.user
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
     const { vehicles } = this.props.vehicles;
     const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
@@ -39,7 +39,7 @@ class Dashboard extends Component {
       <div id="dash">
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
-          <h1>{"Welcome, " + name + "!" }</h1>
+          <h1>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
           <Insights {...insightsData}/>
           <TripPane id="trip-pane" title="Trips" addChild={this.toggleTripModal}>
             {trips.map((trip) => <Trip key={trip._id} 

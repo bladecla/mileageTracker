@@ -38,12 +38,8 @@ module.exports = function(passport, User){
     router.get("/logout", (req, res) => {
         console.log("logging out " + req.user.name)
         req.logout();
-        res.send("You are logged out");
+        res.send({success: true});
       })
-    
-    router.get("/profile", checkAuth, (req, res) => {
-        res.send("Welcome, " + req.user.name)
-    })
 
     router.get("/reset", checkAuth, (req, res) => {
         User.reset(req.user._id, (err, userData) => {

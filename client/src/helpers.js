@@ -1,3 +1,5 @@
+import { LOGOUT } from './redux/actions/types';
+
 export const JSONtoDateObject = date => {
   if (typeof date === "string"){
     const [yyyy, mm, dd] = date.slice(0, 11).split('-').map(n => parseInt(n));
@@ -31,4 +33,19 @@ export const stringifyDate = date => {
       trip.date = JSONtoDateObject(trip.date);
       return trip;
     });
+  }
+
+  export const success = (status, dispatch) => {
+    if (!status) return true;
+    if (status === 401){
+      console.log("dispatching logout")
+      dispatch({ type: LOGOUT });
+      return false;
+    }
+    else if (status === 404){
+      console.log("Not found")
+      return false;
+    }
+    console.log("Misc. error: ", status)
+    return true;
   }

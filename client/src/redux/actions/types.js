@@ -9,4 +9,5 @@ export const SET_VEHICLES = 'SET_VEHICLES';
 export const DELETE_VEHICLE = 'DELETE_VEHICLE';
 export const UPDATE_VEHICLE = 'UPDATE_VEHICLE';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATING = 'AUTHENTICATING';

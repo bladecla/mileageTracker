@@ -12,8 +12,8 @@ export default class Insights extends Component {
 
   render() {
     const {totalMileage, totalTrips, businessTrips, businessMiles} = this.props, 
-        percentBusinessMiles = ((businessMiles / totalMileage) * 100).toFixed(1), 
-        percentBusinessTrips = ((businessTrips / totalTrips) * 100).toFixed(1),
+        percentBusinessMiles = totalMileage ? ((businessMiles / totalMileage) * 100).toFixed(1) : 0, 
+        percentBusinessTrips = totalMileage ? ((businessTrips / totalTrips) * 100).toFixed(1) : 0,
         personalMiles = totalMileage - businessMiles,
         personalTrips = totalTrips - businessTrips;
         

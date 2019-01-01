@@ -1,4 +1,4 @@
-import { LOGIN, AUTHENTICATING } from './../actions/types';
+import { LOGIN, AUTHENTICATING, LOGOUT } from './../actions/types';
 
 const initialState = {
   name: "",
@@ -15,6 +15,10 @@ export default (state = initialState, { type, payload }) => {
   
   case LOGIN:
     return { ...state, loggedIn: true, name: payload.name, email: payload.email, authenticating: false }
+  
+  case LOGOUT:
+    console.log("logging out...")
+    return initialState;
 
   default:
     return state
