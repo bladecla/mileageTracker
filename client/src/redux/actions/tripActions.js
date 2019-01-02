@@ -31,7 +31,7 @@ export const addTrip = trip => dispatch => {
             dispatch({
                 type: ADD_TRIP,
                 payload: {
-                    trip: cleanTrips([trip])[0],
+                    trip: cleanTrips(trip),
                     totalMileage: +totalMileage,
                     businessMiles: +businessMiles,
                     businessTrips: +businessTrips
@@ -50,7 +50,7 @@ export const updateTrip = newTrip => dispatch => {
             dispatch({
                 type: UPDATE_TRIP,
                 payload: {
-                    newTrip: cleanTrips([trip])[0],
+                    newTrip: cleanTrips(trip),
                     totalMileage: +totalMileage,
                     businessMiles: +businessMiles,
                     businessTrips: +businessTrips

@@ -43,7 +43,7 @@ module.exports = User = mongoose.model('User', userSchema);
 module.exports.findByEmail = (email, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) return done(err);
-    if (!user) return done(null, {404: "User Not Found"});
+    if (!user) return done(null, {status: 404});
     done(null, user);
   })
 }

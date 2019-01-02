@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_VEHICLES, ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE } from './../actions/types';
+import { ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE } from './../actions/types';
 import { success } from './../../helpers';
 
 export const addVehicle = vehicle => dispatch => {
