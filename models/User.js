@@ -102,7 +102,8 @@ module.exports.addTrip = (_id, trip, done) => {
   User.findByIdAndUpdate(_id, changes, {new: true}, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
-    return done(null, user.data)
+    const {totalMileage, businessMiles, businessTrips} = user.data;
+    return done(null, {trip, totalMileage, businessMiles, businessTrips});
   })
 }
 
@@ -126,7 +127,7 @@ module.exports.deleteTrip = (tripId, done) => {
       if (error) return done(error);
       if (!updatedUser) return done(null, false);
       const {totalMileage, businessMiles, businessTrips} = updatedUser.data;
-      return done(null, {success:true, _id: tripId, totalMileage, businessMiles, businessTrips});
+      return done(null, {_id: tripId, totalMileage, businessMiles, businessTrips});
     })
   })
 }

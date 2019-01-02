@@ -6,6 +6,7 @@ html, body {
   padding: 0;
   margin: 0;
   /* background-color: rgb(221, 220, 241); */
+
   font-family: 'Roboto Slab', sans-serif;
   box-sizing: border-box;
   overflow: hidden;
@@ -34,7 +35,7 @@ html, body {
 
 .pane {
   font-family: 'Raleway', sans-serif;
-  background-color: rgba(245, 245, 245, 0.836);
+  background-color: rgb(245, 245, 245, 0.836);
   border-radius: 3px;
   min-width: 400px;
   /* max-width: 1000px; */
@@ -47,8 +48,10 @@ html, body {
   box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.32);
 }
 
-.pane > .trip{
+#trip-pane{
   max-width: 1000px;
+  max-height: 50vh;
+  overflow: hidden;
 }
 
 .modal {
@@ -75,6 +78,7 @@ html, body {
   text-align: center;
   width: 95%;
   user-select: none;
+  align-self: center;
 }
 
 .trip:hover, .selected.trip{

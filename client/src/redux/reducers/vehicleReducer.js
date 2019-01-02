@@ -6,14 +6,11 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case ADD_VEHICLE:
-      return { vehicles: [...state.vehicles, payload] }
-
-    case GET_VEHICLES:
-      return state
-    
     case SET_VEHICLES:
       return { vehicles: [...payload] }
+      
+    case ADD_VEHICLE:
+      return { vehicles: [...state.vehicles, payload] }
     
     case UPDATE_VEHICLE: 
       const idx = state.vehicles.indexOf(payload);

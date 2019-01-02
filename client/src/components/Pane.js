@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 
 const Pane = (props) => (
-  <div className="pane">
+  <div className="pane" id="trip-pane">
     <div style={{display: "flex", justifyContent: "space-between", marginBottom: "1rem"}}>    
       <h3>{props.title}</h3>
       <div onClick={props.addChild} className="icon" style={{display: "flex"}}>
@@ -10,7 +10,7 @@ const Pane = (props) => (
         <i className="fa fa-plus-circle fa-2x"></i>
       </div>
     </div>
-    <div style={{display: "flex", flexDirection: "column"}}>
+    <div style={{display: "flex", flexDirection: "column", overflowY: "scroll"}}>
       {props.children.length ? props.children : `You have not added any ${props.title.toLowerCase()} yet.`}
     </div>
   </div>

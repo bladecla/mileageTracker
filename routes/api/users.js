@@ -28,10 +28,11 @@ module.exports = function(passport, User){
     router.post("/login", passport.authenticate('local'), (req, res) => {
         User.getData(req.user._id, (err, userData) => {
             if (err) {
-                res.json({success: false})
+                res.json({status: 500})
                 return console.error(err);
             }
-            if (userData) res.json({success: true, user: userData});
+            if (userData) res.json({user: userData});
+                else res.json({status: 404});
         })
     });
 

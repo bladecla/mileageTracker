@@ -7,7 +7,7 @@ import Insights from './Insights';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
 import { addTrip, getTrips, deleteTrip, updateTrip } from './../redux/actions/tripActions'
-import { addVehicle, getVehicles} from './../redux/actions/vehicleActions';
+import { addVehicle } from './../redux/actions/vehicleActions';
 import { login } from './../redux/actions/userActions';
 
 class Dashboard extends Component {
@@ -39,15 +39,16 @@ class Dashboard extends Component {
       <div id="dash">
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
-          <h1>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
+          <h1 style={{color: "whitesmoke"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
           <Insights {...insightsData}/>
-          <TripPane id="trip-pane" title="Trips" addChild={this.toggleTripModal}>
-            {trips.map((trip) => <Trip key={trip._id} 
-            {...trip} 
-            delete={deleteTrip} 
-            update={updateTrip} 
-            addVehicle={addVehicle} 
-            vehicles={vehicles}/>)}
+          <TripPane title="Trips" addChild={this.toggleTripModal}>
+            {trips.map(trip => <Trip key={trip._id} 
+              {...trip} 
+              delete={deleteTrip} 
+              update={updateTrip} 
+              addVehicle={addVehicle} 
+              vehicles={vehicles}
+            />)}
           </TripPane>
         </React.Fragment>
       }
@@ -70,6 +71,6 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, addVehicle, getVehicles, login}
+const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, addVehicle, login}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

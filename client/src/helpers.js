@@ -1,5 +1,6 @@
 import { LOGOUT } from './redux/actions/types';
 
+// convert dates from JSON strings used in API to Date object
 export const JSONtoDateObject = date => {
   if (typeof date === "string"){
     const [yyyy, mm, dd] = date.slice(0, 11).split('-').map(n => parseInt(n));
@@ -7,6 +8,7 @@ export const JSONtoDateObject = date => {
   } else return date;
 } 
 
+// convert from Date object to string formatted to be displayed
 export const processDate = inputDate => {
     if (typeof inputDate === "string") JSONtoDateObject(inputDate)
     let weekdays, day, month, date, year;
@@ -18,6 +20,7 @@ export const processDate = inputDate => {
     return `${day} ${month}-${date}-${year}`;
   }
   
+// convert Date object to string formatted to be value for <input type=date/>
 export const stringifyDate = date => {
     function doubleDigits(num){
       if (num.toString().length < 2) num = "0" + num;
@@ -26,6 +29,7 @@ export const stringifyDate = date => {
     return date ? `${date.getFullYear()}-${doubleDigits(date.getMonth() + 1)}-${doubleDigits(date.getDate())}` : "";
   }
 
+// format raw JSON trip objects for use in app state
   export const cleanTrips = trips => {
     return trips.map(trip => {
       trip.start = +trip.start;
@@ -35,6 +39,7 @@ export const stringifyDate = date => {
     });
   }
 
+// catch custom request error responses and logout if auth fails
   export const success = (status, dispatch) => {
     if (!status) return true;
     if (status === 401){
