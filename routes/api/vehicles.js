@@ -6,9 +6,9 @@ const router = express.Router();
 const callback = res => (err, vehicles) => {
   if (err) {
     console.error(err);
-    res.send("Server error")
+    res.status(500).json({status: 500})
   }
-  if (!vehicles) res.json({success: false});
+  if (!vehicles) res.json({status: 404});
   res.send(vehicles);
 }
 
@@ -16,6 +16,6 @@ router.route("/")
   .get(checkAuth, (req, res) => User.getVehicles(req.user._id, callback(res)))
   .post(checkAuth, (req, res) => User.addVehicle(req.user._id, req.body.vehicle, callback(res)))
   .put(checkAuth, (req, res) => User.updateVehicle(req.user._id, req.body.vehicle, req.body.newVehicle, callback(res)))
-  .delete(checkAuth, (req, res) => User.deleteVehicle(req.user._id, req.body.vehicle, callback(res)))
+router.delete("/:vehicle", checkAuth, (req, res) => User.deleteVehicle(req.user._id, req.params.vehicle, callback(res)))
 
 module.exports = router;

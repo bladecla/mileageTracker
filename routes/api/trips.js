@@ -6,7 +6,7 @@ const express = require('express'),
 
 const callback = res => {
     return (err, data) => {
-        if (err) return res.send(console.error(err));
+        if (err) return res.status(500).json({status: 500});
         if (!data) return res.json({status: 404});
         res.send(data)
     }

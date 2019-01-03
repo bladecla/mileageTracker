@@ -11,6 +11,7 @@ export default class TripForm extends Component {
         super(props);
         this.state = {
             trip: this.props.isUpdate ? {
+                _id: this.props._id,
                 start: this.props.start,
                 end: this.props.end,
                 isBusiness: this.props.isBusiness,
@@ -39,10 +40,10 @@ export default class TripForm extends Component {
 
     submit = (e) => {
         e.preventDefault();
+        if (this.state.newVehicleName) return this.addVehicle();
         if(this.validate()){
             const tripData = { ...this.state.trip };
             if (!this.state.trip.date) tripData.date = new Date();
-            if (this.props.isUpdate) tripData._id = this.props._id;
             this.props.onSubmit(tripData);
             this.props.close();
         }
@@ -89,7 +90,7 @@ export default class TripForm extends Component {
     addVehicle = () => {
         const newVehicle = this.state.newVehicleName;
         if (newVehicle) this.props.addVehicle(newVehicle);
-        this.setState({ trip: {...this.state.trip, vehicle: newVehicle} })
+        this.setState({newVehicleName: ""});
         this.toggleVehicleForm();
     }
 

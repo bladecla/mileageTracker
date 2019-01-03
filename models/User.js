@@ -182,10 +182,11 @@ module.exports.updateTrip = (newTrip, done) => {
 // vehicle operations
 
 module.exports.addVehicle = (_id, vehicle, done) => {
+  if (!vehicle) return done(console.log("Invalid string"), false)
   User.findByIdAndUpdate(_id, { $addToSet: { "data.vehicles": vehicle } }, {new: true}, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
-    return done(null, user.data.vehicles)
+    return done(null, {vehicle})
   })
 }
 
@@ -202,7 +203,7 @@ module.exports.updateVehicle = (_id, vehicle, newVehicle, done) => {
   {new: true}, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
-    return done(null, user.data.vehicles)
+    return done(null, {vehicle})
   })
 }
 
@@ -210,7 +211,7 @@ module.exports.deleteVehicle = (_id, vehicle, done) => {
   User.findByIdAndUpdate(_id, { $pull: { "data.vehicles": vehicle } }, {new: true}, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
-    return done(null, user.data.vehicles)
+    return done(null, {vehicle})
   })
 }
 

@@ -33,7 +33,7 @@ export const login = credentials => dispatch => {
         payload: vehicles
       })
     }
-  })
+  }, err => console.error(err))
 }
 
 export const logout = () => dispatch => {
