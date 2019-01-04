@@ -43,3 +43,7 @@ export const logout = () => dispatch => {
     })
   })
 }
+
+export const register = () => dispatch => {
+  
+}

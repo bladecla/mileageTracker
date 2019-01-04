@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm';
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { login, register } from "./redux/actions/userActions";
 
 class App extends Component {
   render() {
@@ -13,7 +14,12 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route path='/' component={Dashboard} exact/>
-          <Route path='/login' component={LoginForm}/>
+          <Route path='/login'>
+            <LoginForm onSubmit={login} register={false}/>
+          </Route>
+          <Route path='/register'>
+            <LoginForm onSubmit={register} register={true}/>
+          </Route>
         </Switch>
       </BrowserRouter>
     </Provider>

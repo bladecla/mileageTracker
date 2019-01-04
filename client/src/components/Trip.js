@@ -70,7 +70,7 @@ class Trip extends Component {
             </form>
           </Modal>}
         {updatePending &&
-          <Modal title="Update Trip" formName="trip" label="Update Trip" close={this.closeUpdateModal}>
+          <Modal title="Edit Trip" formName="trip" label="Update Trip" close={this.closeUpdateModal}>
             <TripForm isUpdate={true} onSubmit={this.props.update} close={this.closeUpdateModal} addVehicle={addVehicle} vehicles={vehicles} {...trip}/>
           </Modal>
         }
