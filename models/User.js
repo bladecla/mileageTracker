@@ -60,9 +60,9 @@ module.exports.localAuth = (email, password, done) => {
 module.exports.register = (name, email, password, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) return done(err);
-    if (user) return done(null, {success: false, message: "Authorization failed"});
+    if (user) return done(null, {success: false});
     if (!user) user = new User({name, email, password: bcrypt.hashSync(password, 12)});
-    user.save(done(null, {success: true, message: "Registration successful"}))
+    user.save(done(null, {success: true}))
   })
 }
 
@@ -108,7 +108,6 @@ module.exports.addTrip = (_id, trip, done) => {
 }
 
 module.exports.deleteTrip = (tripId, done) => {
-  console.log(tripId)
   User.findOne({"data.trips._id": tripId}, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);

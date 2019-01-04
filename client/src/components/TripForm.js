@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import style from './styles/form.css'
-import uuid from 'uuid';
 import { stringifyDate } from './../helpers';
 
 const {form, error, body, checkbox, checked, unchecked, label, checkgroup, addCar, plus, subform} = style;

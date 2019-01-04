@@ -31,7 +31,7 @@ class Dashboard extends Component {
   
   render(){
     const { trips, totalMileage, businessMiles, businessTrips } = this.props.trips;
-    const { name, email, authenticating, loggedIn } = this.props.user
+    const { name, authenticating, loggedIn } = this.props.user
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
     const { vehicles } = this.props.vehicles;
     const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
