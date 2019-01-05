@@ -8,7 +8,7 @@ import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
 import { addTrip, getTrips, deleteTrip, updateTrip } from './../redux/actions/tripActions'
 import { addVehicle } from './../redux/actions/vehicleActions';
-import { login } from './../redux/actions/userActions';
+import { login, logout } from './../redux/actions/userActions';
 
 class Dashboard extends Component {
   constructor(props){
@@ -20,10 +20,7 @@ class Dashboard extends Component {
   }
   
   componentDidMount(){
-    if (!this.props.user.loggedIn) this.props.login({
-      email: "waluigi.numbah1@gmail.com",
-      password: "wahhhhhhh!"
-    })
+   
   }
 
   toggleTripModal = () => this.setState({ isTripModalOpen: !this.state.isTripModalOpen });
@@ -34,12 +31,13 @@ class Dashboard extends Component {
     const { name, authenticating, loggedIn } = this.props.user
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
     const { vehicles } = this.props.vehicles;
-    const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
+    const { addTrip, deleteTrip, updateTrip, addVehicle, logout } = this.props;
     return (
       <div id="dash">
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
           <h1 style={{color: "whitesmoke"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
+          <button onClick={logout}>Logout</button>
           <Insights {...insightsData}/>
           <TripPane title="Trips" addChild={this.toggleTripModal}>
             {trips.map(trip => <Trip key={trip._id} 
@@ -71,6 +69,6 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, addVehicle, login}
+const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, addVehicle, login, logout}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

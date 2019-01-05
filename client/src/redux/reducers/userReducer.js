@@ -14,6 +14,7 @@ export default (state = initialState, { type, payload }) => {
     return { ...state, authenticating: true }
   
   case LOGIN:
+    console.log("logging in " + payload.name)
     return { ...state, loggedIn: true, name: payload.name, email: payload.email, authenticating: false }
   
   case LOGOUT:

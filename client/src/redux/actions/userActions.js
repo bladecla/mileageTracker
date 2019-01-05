@@ -9,10 +9,12 @@ export const setAuthenticating = () => {
 }
 
 export const login = credentials => dispatch => {
+  console.log("Attempting login")
   dispatch(setAuthenticating());
   axios
   .post('api/users/login', credentials)
   .then(({data}) => {
+    console.log(data)
     if (success(data.status)){
       const {name, email, trips, businessMiles, businessTrips, totalMileage, vehicles} = data.user;
       dispatch({
