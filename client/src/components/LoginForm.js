@@ -23,9 +23,10 @@ class LoginForm extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const { isRegister, register, login } = this.props;
+    const { isRegister, register, login, close } = this.props;
     const submit = isRegister ? register : login;
-    submit({...this.state})
+    submit({...this.state});
+    close();
   }
 
   onChange = ({target}) => {
@@ -33,10 +34,10 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { isRegister } = this.props;
+    const { isRegister, close } = this.props;
     return (
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
-        <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Sign In"} label={isRegister ? "Register" : "Log in"}>
+        <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Sign In"} label={isRegister ? "Register" : "Log in"} close={close}>
           <div style={{...body, height: isRegister ? "150px" : "100px"}}>
             <form id="login" onSubmit={this.onSubmit} style={form}>
               {isRegister && 

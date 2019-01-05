@@ -37,6 +37,7 @@ class Dashboard extends Component {
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
           <h1 style={{color: "whitesmoke"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
+          <button onClick={this.toggleLoginModal}>Login</button>
           <button onClick={logout}>Logout</button>
           <Insights {...insightsData}/>
           <TripPane title="Trips" addChild={this.toggleTripModal}>
@@ -54,10 +55,7 @@ class Dashboard extends Component {
           <Modal title="New Trip" formName="trip" label="Add Trip" close={this.toggleTripModal}>
             <TripForm onSubmit={addTrip} close={this.toggleTripModal} addVehicle={addVehicle} vehicles={vehicles}/>
           </Modal>}
-        {this.state.isLoginModalOpen && 
-          <Modal title="Log In" formName="login" label="Log In" close={this.toggleLoginModal}>
-            <LoginForm close={this.toggleLoginModal}/>
-          </Modal>}
+        {this.state.isLoginModalOpen && <LoginForm isRegister={false} close={this.toggleLoginModal}/>}
       </div>
     );
   }
