@@ -2,29 +2,41 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Dashboard from './components/Dashboard';
 import LoginForm from './components/LoginForm';
+import Navbar from './components/Navbar';
+import { connect } from 'react-redux';
 import './App.css';
-import { Provider } from 'react-redux';
-import store from './redux/store';
+
 
 
 class App extends Component {
   render() {
+    const { loggedIn } = this.props.user;
     return (
-    <Provider store={store}>
       <BrowserRouter>
-        <Switch>
-          <Route path='/' component={Dashboard} exact/>
-          <Route path='/login'>
-            <LoginForm isRegister={false}/>
-          </Route>
-          <Route path='/register'>
-            <LoginForm isRegister={true}/>
-          </Route>
-        </Switch>
+        <React.Fragment>
+        <Navbar />
+          <Switch>
+            <Route path='/' component={Dashboard} exact/>
+            <Route path='/login'>
+              <LoginForm loggedIn={loggedIn} isRegister={false}/>
+            </Route>
+            <Route path='/register'>
+              <LoginForm loggedIn={loggedIn} isRegister={true}/>
+            </Route>
+          </Switch>
+        </React.Fragment>
       </BrowserRouter>
-    </Provider>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  user: state.user
+})
+
+const mapDispatchToProps = {
+  
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

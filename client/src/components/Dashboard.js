@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { addTrip, getTrips, deleteTrip, updateTrip } from './../redux/actions/tripActions'
 import { addVehicle } from './../redux/actions/vehicleActions';
 import { login, logout } from './../redux/actions/userActions';
+import { Redirect } from 'react-router-dom';
 
 class Dashboard extends Component {
   constructor(props){
@@ -33,6 +34,7 @@ class Dashboard extends Component {
     const { vehicles } = this.props.vehicles;
     const { addTrip, deleteTrip, updateTrip, addVehicle, logout } = this.props;
     return (
+      loggedIn ?
       <div id="dash">
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
@@ -57,6 +59,7 @@ class Dashboard extends Component {
           </Modal>}
         {this.state.isLoginModalOpen && <LoginForm isRegister={false} close={this.toggleLoginModal}/>}
       </div>
+      : <Redirect to="/login"/>
     );
   }
 }

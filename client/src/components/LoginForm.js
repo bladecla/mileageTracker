@@ -4,7 +4,8 @@ import FormWrapper from './FormWrapper';
 import modal from './styles/modal.css'
 import formStyle from './styles/form.css'
 import { connect } from 'react-redux'
-import { login, register } from "./../redux/actions/userActions";
+import { login, register } from "./../redux/actions/userActions"
+import { Redirect } from 'react-router-dom';
 
 const { form, body } = formStyle;
 
@@ -26,7 +27,7 @@ class LoginForm extends Component {
     const { isRegister, register, login, close } = this.props;
     const submit = isRegister ? register : login;
     submit({...this.state});
-    close();
+    if (close) close();
   }
 
   onChange = ({target}) => {
@@ -34,8 +35,10 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { isRegister, close } = this.props;
+    const { isRegister, close, loggedIn } = this.props;
+    console.log(loggedIn)
     return (
+      loggedIn ? <Redirect to="/"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
         <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Sign In"} label={isRegister ? "Register" : "Log in"} close={close}>
           <div style={{...body, height: isRegister ? "150px" : "100px"}}>

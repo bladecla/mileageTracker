@@ -4,11 +4,14 @@ const checkAuth = require('./../../auth/check-auth');
 
 module.exports = function(passport, User){
     router.route('/')
-        .post((req, res) => {
+        .post(checkAuth,(req, res) => {
             User.getData(req.user._id, (err, userData) => {
-                if (err) return console.error(err);
-                if (userData) res.json({success: true, user: userData});
-                console.log(userData)
+                if (err) {
+                    res.json({status: 500})
+                    return console.error(err);
+                }
+                if (userData) res.json({user: userData});
+                    else res.json({status: 404});
             })
         })
         .get((req, res) => {

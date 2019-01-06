@@ -14,7 +14,6 @@ export const login = credentials => dispatch => {
   axios
   .post('api/users/login', credentials)
   .then(({data}) => {
-    console.log(data)
     if (success(data.status)){
       const {name, email, trips, businessMiles, businessTrips, totalMileage, vehicles} = data.user;
       dispatch({
