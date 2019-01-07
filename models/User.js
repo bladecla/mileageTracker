@@ -60,9 +60,12 @@ module.exports.localAuth = (email, password, done) => {
 module.exports.register = (name, email, password, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) return done(err);
-    if (user) return done(null, {success: false});
+    if (user) return done(new Error('User already exists.'));
     if (!user) user = new User({name, email, password: bcrypt.hashSync(password, 12)});
-    user.save(done(null, {success: true}))
+    user.save(error => {
+      if (error) return done(error);
+      done(null, {success: true})
+    })
   })
 }
 

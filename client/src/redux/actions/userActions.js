@@ -13,28 +13,7 @@ export const login = (credentials, shouldAuthenticate = true) => dispatch => {
   dispatch(setAuthenticating());
   axios
   .post(`api/users/${shouldAuthenticate ? "login" : ""}`, credentials)
-  .then(({data}) => {
-    if (success(data.status, dispatch)){
-      const {name, email, trips, businessMiles, businessTrips, totalMileage, vehicles} = data.user;
-      dispatch({
-        type: LOGIN,
-        payload: {name, email}
-      })
-      dispatch({
-        type: SET_TRIPS,
-        payload: {
-          trips: cleanTrips(trips), 
-          businessTrips: +businessTrips, 
-          businessMiles: +businessMiles, 
-          totalMileage: +totalMileage
-        }
-      })
-      dispatch({
-        type: SET_VEHICLES,
-        payload: vehicles
-      })
-    }
-  }, err => console.error(err))
+  .then(({data}) => dispatchLoginActions(data, dispatch, "login successful"), err => console.error(err))
 }
 
 export const logout = () => dispatch => {
@@ -46,6 +25,33 @@ export const logout = () => dispatch => {
   })
 }
 
-export const register = () => dispatch => {
-  
+export const register = credentials => dispatch => {
+  dispatch(setAuthenticating());
+  axios
+    .post('api/users/register', credentials)
+    .then(({data}) => dispatchLoginActions(data, dispatch, "registration successful"))
+}
+
+const dispatchLoginActions = (data, dispatch, successLog) => {
+  if (success(data.status, dispatch)){
+    if (successLog) console.log(successLog);
+    const {name, email, trips, businessMiles, businessTrips, totalMileage, vehicles} = data.user;
+    dispatch({
+      type: LOGIN,
+      payload: {name, email}
+    })
+    dispatch({
+      type: SET_TRIPS,
+      payload: {
+        trips: cleanTrips(trips), 
+        businessTrips: +businessTrips, 
+        businessMiles: +businessMiles, 
+        totalMileage: +totalMileage
+      }
+    })
+    dispatch({
+      type: SET_VEHICLES,
+      payload: vehicles
+    })
+  }
 }

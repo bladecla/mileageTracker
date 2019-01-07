@@ -2,36 +2,30 @@ const express = require('express');
 const router = express.Router();
 const checkAuth = require('./../../auth/check-auth');
 
+const userDataCB = res => (err, userData) => {
+    if (err) {
+        res.json({status: 500})
+        return console.error(err);
+    }
+    if (userData) res.json({user: userData});
+        else res.json({status: 404});
+}
+
 module.exports = function(passport, User){
     router.route('/')
-        .post(checkAuth,(req, res) => {
-            User.getData(req.user._id, (err, userData) => {
-                if (err) {
-                    res.json({status: 500})
-                    return console.error(err);
-                }
-                if (userData) res.json({user: userData});
-                    else res.json({status: 404});
-            })
-        })
+        .post(checkAuth, (req, res) => User.getData(req.user._id, userDataCB(res)))
 
-    router.post('/register', (req, res) => {
+    router.post('/register', (req, res, next) => {
         User.register(req.body.name, req.body.email, req.body.password, (err, result) => {
-            if (err) return console.error(err);
-            res.json(result);
-        })
-    })
-
-    router.post("/login", passport.authenticate('local'), (req, res) => {
-        User.getData(req.user._id, (err, userData) => {
             if (err) {
-                res.json({status: 500})
+                res.json({status: 401})
                 return console.error(err);
             }
-            if (userData) res.json({user: userData});
-                else res.json({status: 404});
+            if (result.success) next();
         })
-    });
+    }, passport.authenticate('local'), (req, res) => User.getData(req.user._id, userDataCB(res)));
+
+    router.post("/login", passport.authenticate('local'), (req, res) => User.getData(req.user._id, userDataCB(res)));
 
     router.get("/logout", (req, res) => {
         console.log("logging out " + req.user.name)

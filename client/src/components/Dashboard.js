@@ -15,8 +15,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       isTripModalOpen: false,
-      shouldRedirect: false,
-      willRedirect: false,
+      shouldRedirect: false
     }
   }
   
@@ -25,12 +24,8 @@ class Dashboard extends Component {
     if (!this.props.user.loggedIn) this.props.login(null, false);
   }
 
-  // redirect if logout button was pressed.
-  componentDidUpdate(){
-    if (!this.props.user.loggedIn && this.state.shouldRedirect) this.setState({willRedirect: true})
-  }
-
   toggleTripModal = () => this.setState({ isTripModalOpen: !this.state.isTripModalOpen });
+  
   signOut = () => {
     this.setState({ shouldRedirect: true })
     this.props.logout()
@@ -38,13 +33,15 @@ class Dashboard extends Component {
   
   render(){
     const { trips, totalMileage, businessMiles, businessTrips } = this.props.trips;
-    const { name, authenticating, loggedIn, authFailed } = this.props.user
+    const { authenticating, loggedIn, authFailed } = this.props.user;
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
     const { vehicles } = this.props.vehicles;
     const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
-    console.log(loggedIn, this.state.shouldRedirect, this.state.willRedirect)
+    let name = this.props.user.name;
+    if (name) name = name.match(/\w+\s?/)[0].trimEnd();
+    console.log(loggedIn, this.state.shouldRedirect)
     return (
-      authFailed || this.state.willRedirect ?
+      authFailed || (!loggedIn && this.state.shouldRedirect) ?
       <LoggedRedirect to="/login"/> 
       : 
       <div id="dash">

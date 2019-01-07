@@ -41,7 +41,7 @@ class LoginForm extends Component {
       loggedIn ? <LoggedRedirect to="/"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
         <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Sign In"} label={isRegister ? "Register" : "Log in"} close={close}>
-          {authFailed && <p style={error}>You are not logged in.</p>}
+          {authFailed && <p style={error}>{isRegister ? "Account already exists." : "You are not logged in."}</p>}
           <div style={{...body, height: isRegister ? "150px" : "100px"}}>
             <form id="login" onSubmit={this.onSubmit} style={form}>
               {isRegister && 
