@@ -17,7 +17,14 @@ const style = {
       height: "100%",
   },
   subform: {
-      display: "flex"
+      display: "flex",
+      justifyContent: "center"
+    },
+  redir: {
+      display: "flex",
+      justifyContent: "space-around",
+      width: "70%",
+      marginTop: "10px"
   },
   addCar: {
       textAlign: "right",

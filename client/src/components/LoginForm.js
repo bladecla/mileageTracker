@@ -5,9 +5,10 @@ import modal from './styles/modal.css'
 import formStyle from './styles/form.css'
 import { connect } from 'react-redux'
 import { login, register } from "./../redux/actions/userActions"
+import { Link } from 'react-router-dom';
 import LoggedRedirect from './LoggedRedirect';
 
-const { form, body, error } = formStyle;
+const { form, body, error, subform, redir } = formStyle;
 
 class LoginForm extends Component {
   constructor(props){
@@ -24,6 +25,7 @@ class LoginForm extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    if (this.props.user.authenticating) return;
     const { isRegister, register, login, close } = this.props;
     const submit = isRegister ? register : login;
     submit({...this.state});
@@ -36,7 +38,7 @@ class LoginForm extends Component {
 
   render() {
     const { isRegister, close } = this.props;
-    const { authFailed, loggedIn } = this.props.user;
+    const { authFailed, loggedIn, authenticating } = this.props.user;
     return (
       loggedIn ? <LoggedRedirect to="/"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
@@ -45,12 +47,17 @@ class LoginForm extends Component {
           <div style={{...body, height: isRegister ? "150px" : "100px"}}>
             <form id="login" onSubmit={this.onSubmit} style={form}>
               {isRegister && 
-              <input className="input" onChange={this.onChange} type="text" name="name" placeholder="Your Name"/>
+              <input className="input" onChange={this.onChange} type="text" name="name" placeholder="Your Name" disabled={authenticating}/>
               }
-              <input className="input" onChange={this.onChange} type="email" name="email" placeholder="email address"/>
-              <input className="input" onChange={this.onChange} type="password" name="password" placeholder="password"/>
+              <input className="input" onChange={this.onChange} type="email" name="email" placeholder="email address" disabled={authenticating}/>
+              <input className="input" onChange={this.onChange} type="password" name="password" placeholder="password" disabled={authenticating}/>
             </form>
           </div>
+          <div style={subform}>{
+              isRegister 
+              ? <div style={redir}><span>Already have an account? </span><Link to="/login">Log In</Link></div>
+              : <div style={redir}><span>Don't have an account? </span><Link to="/register">Sign up</Link></div>
+          }</div>
         </FormWrapper>
       </div>
     )
