@@ -8,13 +8,13 @@ export const setAuthenticating = () => {
   }
 }
 
-export const login = credentials => dispatch => {
+export const login = (credentials, shouldAuthenticate = true) => dispatch => {
   console.log("Attempting login")
   dispatch(setAuthenticating());
   axios
-  .post('api/users/login', credentials)
+  .post(`api/users/${shouldAuthenticate ? "login" : ""}`, credentials)
   .then(({data}) => {
-    if (success(data.status)){
+    if (success(data.status, dispatch)){
       const {name, email, trips, businessMiles, businessTrips, totalMileage, vehicles} = data.user;
       dispatch({
         type: LOGIN,
@@ -40,7 +40,8 @@ export const login = credentials => dispatch => {
 export const logout = () => dispatch => {
   axios.get('api/users/logout').then(res => {
     if (res.data.success) dispatch({
-      type: LOGOUT
+      type: LOGOUT,
+      payload: false
     })
   })
 }

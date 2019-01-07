@@ -45,8 +45,8 @@ export const stringifyDate = date => {
   export const success = (status, dispatch) => {
     if (!status) return true;
     if (status === 401){
-      console.log("dispatching logout")
-      dispatch({ type: LOGOUT });
+      console.log("authorization failed.")
+      dispatch({ type: LOGOUT, payload: true });
       return false;
     }
     else if (status === 404){

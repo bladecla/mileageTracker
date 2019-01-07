@@ -5,9 +5,9 @@ import modal from './styles/modal.css'
 import formStyle from './styles/form.css'
 import { connect } from 'react-redux'
 import { login, register } from "./../redux/actions/userActions"
-import { Redirect } from 'react-router-dom';
+import LoggedRedirect from './LoggedRedirect';
 
-const { form, body } = formStyle;
+const { form, body, error } = formStyle;
 
 class LoginForm extends Component {
   constructor(props){
@@ -35,12 +35,13 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { isRegister, close, loggedIn } = this.props;
-    console.log(loggedIn)
+    const { isRegister, close } = this.props;
+    const { authFailed, loggedIn } = this.props.user;
     return (
-      loggedIn ? <Redirect to="/"/> :
+      loggedIn ? <LoggedRedirect to="/"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
         <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Sign In"} label={isRegister ? "Register" : "Log in"} close={close}>
+          {authFailed && <p style={error}>You are not logged in.</p>}
           <div style={{...body, height: isRegister ? "150px" : "100px"}}>
             <form id="login" onSubmit={this.onSubmit} style={form}>
               {isRegister && 

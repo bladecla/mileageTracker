@@ -4,6 +4,7 @@ const initialState = {
   name: "",
   email: "",
   authenticating: false,
+  authFailed: false,
   loggedIn: false
 }
 
@@ -11,15 +12,16 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
 
   case AUTHENTICATING:
-    return { ...state, authenticating: true }
+    console.log("authenticating...")
+    return { ...state, authenticating: true, authFailed: false }
   
   case LOGIN:
     console.log("logging in " + payload.name)
-    return { ...state, loggedIn: true, name: payload.name, email: payload.email, authenticating: false }
+    return { ...state, authFailed: false, loggedIn: true, name: payload.name, email: payload.email, authenticating: false }
   
   case LOGOUT:
-    console.log("logging out...")
-    return initialState;
+    console.log(payload ? "redirecting to login..." : "logging out...")
+    return payload ? {...initialState, authFailed: true } : {...initialState};
 
   default:
     return state

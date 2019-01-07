@@ -14,12 +14,6 @@ module.exports = function(passport, User){
                     else res.json({status: 404});
             })
         })
-        .get((req, res) => {
-            User.find((err, users) => {
-                if (err) return console.error(err);
-                res.json(users);
-            })
-        })
 
     router.post('/register', (req, res) => {
         User.register(req.body.name, req.body.email, req.body.password, (err, result) => {
