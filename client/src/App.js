@@ -13,9 +13,13 @@ class App extends Component {
         <Navbar />
           <Switch>
             <Route path='/' component={Dashboard} exact/>
-            <Route path='/login'>
-              <LoginForm isRegister={false}/>
-            </Route>
+            <Route path='/login'
+              render = {props => {
+                const state = props.location.state,
+                      redirect = state ? state.redirect : false;
+              return <LoginForm redirect={redirect} isRegister={false}/>
+            }}
+            />
             <Route path='/register'>
               <LoginForm isRegister={true}/>
             </Route>

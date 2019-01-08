@@ -29,7 +29,7 @@ export const register = credentials => dispatch => {
   dispatch(setAuthenticating());
   axios
     .post('api/users/register', credentials)
-    .then(({data}) => dispatchLoginActions(data, dispatch, "registration successful"))
+    .then(({data}) => dispatchLoginActions(data, dispatch, "registration successful"), err => console.error(err))
 }
 
 const dispatchLoginActions = (data, dispatch, successLog) => {

@@ -41,8 +41,12 @@ class Dashboard extends Component {
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
     console.log(loggedIn, this.state.shouldRedirect)
     return (
-      authFailed || (!loggedIn && this.state.shouldRedirect) ?
-      <LoggedRedirect to="/login"/> 
+      authFailed || (!loggedIn && this.state.shouldRedirect) 
+      ? <LoggedRedirect 
+        to={{
+          pathname: "/login", 
+          state: { redirect: true } 
+        }}/> 
       : 
       <div id="dash">
         {authenticating ? <h1>Loading...</h1> :

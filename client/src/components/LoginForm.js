@@ -20,7 +20,9 @@ class LoginForm extends Component {
     }
   }
   static propTypes = {
-    isRegister: PropTypes.bool.isRequired
+    isRegister: PropTypes.bool.isRequired,
+    redirect: PropTypes.bool,
+    close: PropTypes.func
   }
 
   onSubmit = e => {
@@ -37,10 +39,11 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { isRegister, close } = this.props;
+    const { isRegister, close, redirect } = this.props;
     const { authFailed, loggedIn, authenticating } = this.props.user;
+    console.log(redirect)
     return (
-      loggedIn ? <LoggedRedirect to="/"/> :
+      (loggedIn && redirect) ? <LoggedRedirect to="/"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
         <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Log In"} label={isRegister ? "Register" : "Log in"} close={close}>
           {authFailed && <p style={error}>{isRegister ? "Account already exists." : "You are not logged in."}</p>}
