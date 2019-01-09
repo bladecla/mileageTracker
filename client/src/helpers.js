@@ -31,14 +31,20 @@ export const stringifyDate = date => {
 
 // format raw JSON trip objects for use in app state
   export const cleanTrips = trips => {
-    const cleanTrip = trip => {
+    function cleanTrip(trip){
       trip.start = +trip.start;
       trip.end = +trip.end;
       trip.date = JSONtoDateObject(trip.date);
       return trip;
-    };
+    }
     if (Array.isArray(trips)) return trips.map(cleanTrip);
     return cleanTrip(trips);
+  }
+
+  export const cleanNumbers = (numbers) => {
+    const cleaned = {};
+    for (let n in numbers) cleaned[n] = +numbers[n];
+    return cleaned
   }
 
 // catch custom request error responses and logout if auth fails

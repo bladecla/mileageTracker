@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { cleanTrips, success } from './../../helpers';
+import { cleanTrips, cleanNumbers, success } from './../../helpers';
 import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from './types';
 ;
 
@@ -12,10 +12,8 @@ export const getTrips = () => dispatch => {
             dispatch({
                 type: SET_TRIPS,
                 payload: {
-                    trips: cleanTrips(trips),
-                    totalMileage: +totalMileage,
-                    businessMiles: +businessMiles,
-                    businessTrips: +businessTrips
+                    ...cleanNumbers({ totalMileage, businessMiles, businessTrips }),
+                    trips: cleanTrips(trips)
                 }
             })
         }
@@ -31,10 +29,8 @@ export const addTrip = trip => dispatch => {
             dispatch({
                 type: ADD_TRIP,
                 payload: {
-                    trip: cleanTrips(trip),
-                    totalMileage: +totalMileage,
-                    businessMiles: +businessMiles,
-                    businessTrips: +businessTrips
+                    ...cleanNumbers({ totalMileage, businessMiles, businessTrips }),
+                    trip: cleanTrips(trip)
                 }
             })
         }
@@ -50,10 +46,8 @@ export const updateTrip = newTrip => dispatch => {
             dispatch({
                 type: UPDATE_TRIP,
                 payload: {
-                    newTrip: cleanTrips(trip),
-                    totalMileage: +totalMileage,
-                    businessMiles: +businessMiles,
-                    businessTrips: +businessTrips
+                    ...cleanNumbers({ totalMileage, businessMiles, businessTrips }),
+                    newTrip: cleanTrips(trip)
                 }
             })
         }    
@@ -70,10 +64,8 @@ export const deleteTrip = tripId => dispatch => {
             dispatch({
                 type: DELETE_TRIP,
                 payload: {
-                    _id,
-                    totalMileage: +totalMileage,
-                    businessMiles: +businessMiles,
-                    businessTrips: +businessTrips
+                    ...cleanNumbers({ totalMileage, businessMiles, businessTrips }),
+                    _id
                 }
             })
         }

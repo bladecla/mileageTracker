@@ -13,8 +13,9 @@ const updateCache = () => {
   currentState = store.getState();
 
   if (currentState !== previousState) {
-    const {trips, user, vehicles} = currentState;
-    const userData = { ...trips, ...user, ...vehicles };
+    const { trips, user, vehicles } = currentState;
+    const { name, email } = user;
+    const userData = { ...trips, ...vehicles, name, email };
     cacheUserData(userData)
   } 
 }
