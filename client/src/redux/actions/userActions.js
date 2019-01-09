@@ -18,7 +18,7 @@ export const checkAuth = () => dispatch => {
        }, err => console.error(err))
 }
 
-export const login = (credentials) => dispatch => {
+export const login = credentials => dispatch => {
   console.log("Attempting login")
   dispatch(setAuthenticating());
   axios

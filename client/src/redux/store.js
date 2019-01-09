@@ -1,25 +1,24 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import { cacheUserData } from './../helpers';
 
 const initialState = {};
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 
 // update cache if state changes. Relies on non-mutated state!
 let currentState;
-const cacheChanges = () => {
+const updateCache = () => {
   let previousState = currentState;
   currentState = store.getState();
 
   if (currentState !== previousState) {
-    // combine state trees into one stringified JSON object
     const {trips, user, vehicles} = currentState;
-    const trees = [trips, user, vehicles];
-    const userData = '{' + trees.map(tree => JSON.stringify(tree).slice(1, -1)).join(',') + '}';
-    sessionStorage.setItem("userData", userData)
+    const userData = { ...trips, ...user, ...vehicles };
+    cacheUserData(userData)
   } 
 }
 
-store.subscribe(cacheChanges);
+store.subscribe(updateCache);
 
 export default store;
