@@ -7,7 +7,7 @@ import Insights from './Insights';
 import { connect } from 'react-redux';
 import { addTrip, getTrips, deleteTrip, updateTrip } from './../redux/actions/tripActions'
 import { addVehicle } from './../redux/actions/vehicleActions';
-import { login, logout } from './../redux/actions/userActions';
+import { checkAuth, logout } from './../redux/actions/userActions';
 import LoggedRedirect from './LoggedRedirect';
 
 class Dashboard extends Component {
@@ -19,9 +19,9 @@ class Dashboard extends Component {
     }
   }
   
-  // request user data if state has been reset
+  // check authentication and pull user data from cache if state has been reset
   componentDidMount(){
-    if (!this.props.user.loggedIn) this.props.login(null, false);
+    if (!this.props.user.loggedIn) this.props.checkAuth();
   }
 
   toggleTripModal = () => this.setState({ isTripModalOpen: !this.state.isTripModalOpen });
@@ -80,6 +80,6 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, addVehicle, login, logout}
+const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, addVehicle, checkAuth, logout}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

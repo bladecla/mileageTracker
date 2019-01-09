@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { cleanTrips, success } from './../../helpers';
+import { cleanTrips, success, getCachedUserData, cacheUserData } from './../../helpers';
 import { LOGIN, LOGOUT, AUTHENTICATING, SET_TRIPS, SET_VEHICLES} from './../actions/types';
 
 export const setAuthenticating = () => {
@@ -8,12 +8,22 @@ export const setAuthenticating = () => {
   }
 }
 
-export const login = (credentials, shouldAuthenticate = true) => dispatch => {
+export const checkAuth = () => dispatch => {
+  axios.get('api/users')
+       .then(({data}) => {
+          if (success(data.status, dispatch) && data.success){
+            const user = getCachedUserData();
+            if (user) dispatchLoginActions(user, dispatch);
+          }
+       }, err => console.error(err))
+}
+
+export const login = (credentials) => dispatch => {
   console.log("Attempting login")
   dispatch(setAuthenticating());
   axios
-  .post(`api/users/${shouldAuthenticate ? "login" : ""}`, credentials)
-  .then(({data}) => dispatchLoginActions(data, dispatch, "login successful"), err => console.error(err))
+  .post('api/users/login', credentials)
+  .then(({data}) => handleAuthResponse(data, dispatch, "login successful"), err => console.error(err))
 }
 
 export const logout = () => dispatch => {
@@ -29,13 +39,19 @@ export const register = credentials => dispatch => {
   dispatch(setAuthenticating());
   axios
     .post('api/users/register', credentials)
-    .then(({data}) => dispatchLoginActions(data, dispatch, "registration successful"), err => console.error(err))
+    .then(({data}) => handleAuthResponse(data, dispatch, "registration successful"), err => console.error(err))
 }
 
-const dispatchLoginActions = (data, dispatch, successLog) => {
-  if (success(data.status, dispatch)){
+const handleAuthResponse = ({status, user}, dispatch, successLog) => {
+  if (success(status, dispatch)){
     if (successLog) console.log(successLog);
-    const {name, email, trips, businessMiles, businessTrips, totalMileage, vehicles} = data.user;
+    dispatchLoginActions(user, dispatch)
+  }
+  cacheUserData(user);
+}
+
+const dispatchLoginActions = (user, dispatch) => {
+  const {name, email, trips, businessMiles, businessTrips, totalMileage, vehicles} = user;
     dispatch({
       type: LOGIN,
       payload: {name, email}
@@ -53,5 +69,4 @@ const dispatchLoginActions = (data, dispatch, successLog) => {
       type: SET_VEHICLES,
       payload: vehicles
     })
-  }
 }

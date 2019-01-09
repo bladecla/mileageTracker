@@ -13,7 +13,7 @@ const userDataCB = res => (err, userData) => {
 
 module.exports = function(passport, User){
     router.route('/')
-        .post(checkAuth, (req, res) => User.getData(req.user._id, userDataCB(res)))
+        .get(checkAuth, (req, res) => res.json({success: true}))
 
     router.post('/register', (req, res, next) => {
         User.register(req.body.name, req.body.email, req.body.password, (err, result) => {

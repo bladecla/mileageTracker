@@ -56,3 +56,7 @@ export const stringifyDate = date => {
     console.log("Misc. error: ", status)
     return true;
   }
+
+  // caching functions
+  export const getCachedUserData = () => JSON.parse(sessionStorage.getItem("userData"));
+  export const cacheUserData = userData => sessionStorage.setItem("userData", JSON.stringify(userData));
