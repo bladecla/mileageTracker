@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Dashboard from './components/Dashboard';
 import LoginForm from './components/LoginForm';
-import Navbar from './components/Navbar';
+import Header from './components/Header';
 import './App.css';
 
 class App extends Component {
@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <React.Fragment>
-        <Navbar />
+          <Header/>
           <Switch>
             <Route path='/' component={Dashboard} exact/>
             <Route path='/login'

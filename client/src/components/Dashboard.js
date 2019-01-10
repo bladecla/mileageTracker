@@ -51,9 +51,10 @@ class Dashboard extends Component {
       <div id="dash">
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
-          <h1 style={{color: "whitesmoke"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
-          <button onClick={this.toggleLoginModal}>Login</button>
-          <button onClick={this.signOut}>Logout</button>
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+            <h1 style={{color: "whitesmoke"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
+            <button className="submit" onClick={this.signOut}>Logout</button>
+          </div>
           <Insights {...insightsData}/>
           <TripPane title="Trips" addChild={this.toggleTripModal}>
             {trips.map(trip => <Trip key={trip._id} 

@@ -3,12 +3,12 @@ import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
   return (
-    <div style={{position: "fixed",zIndex: 1000}}>
-      <NavLink to={{
+    <div id="navbar">
+      <NavLink className="navlink" to={{
         pathname: "/login",
         state: { redirect: false }
         }}>Login</NavLink>
-      <NavLink to="/">Dashboard</NavLink>
+      <NavLink className="navlink" to="/">Dashboard</NavLink>
     </div>
   )
 }
