@@ -14,8 +14,7 @@ class Dashboard extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isTripModalOpen: false,
-      shouldRedirect: false
+      isTripModalOpen: false
     }
   }
   
@@ -26,11 +25,6 @@ class Dashboard extends Component {
 
   toggleTripModal = () => this.setState({ isTripModalOpen: !this.state.isTripModalOpen });
   
-  signOut = () => {
-    this.setState({ shouldRedirect: true })
-    this.props.logout()
-  }
-  
   render(){
     const { trips, totalMileage, businessMiles, businessTrips } = this.props.trips;
     const { authenticating, loggedIn, authFailed } = this.props.user;
@@ -39,9 +33,8 @@ class Dashboard extends Component {
     const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
-    console.log(loggedIn, this.state.shouldRedirect)
     return (
-      authFailed || (!loggedIn && this.state.shouldRedirect) 
+      authFailed || !loggedIn 
       ? <LoggedRedirect 
         to={{
           pathname: "/login", 
@@ -51,12 +44,8 @@ class Dashboard extends Component {
       <div id="dash">
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
-          <div style={{display: "flex", justifyContent: "space-between"}}>
-            <h1 style={{color: "whitesmoke"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
-            <button className="submit" onClick={this.signOut}>Logout</button>
-          </div>
           <Insights {...insightsData}/>
-          <TripPane title="Trips" addChild={this.toggleTripModal}>
+          <TripPane addChild={this.toggleTripModal}>
             {trips.map(trip => <Trip key={trip._id} 
               {...trip} 
               delete={deleteTrip} 

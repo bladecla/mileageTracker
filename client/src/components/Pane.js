@@ -2,22 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types';
 
 const Pane = (props) => (
-  <div className="pane" id="trip-pane">
-    <div style={{display: "flex", justifyContent: "space-between", marginBottom: "1rem"}}>    
-      <h3>{props.title}</h3>
+  <div id="trip-pane">
+    <div className="pane" style={{display: "flex", flexDirection: "row", justifyContent: "space-between", minHeight: "30px", marginBottom: "1rem"}}>    
+      <h3>Trips</h3>
       <div onClick={props.addChild} className="icon" style={{display: "flex"}}>
-        <span style={{marginRight: "1em", alignSelf: "center"}}>{"Add " + props.title}</span>
+        <span style={{marginRight: "1em", alignSelf: "center"}}>Add Trips</span>
         <i className="fa fa-plus-circle fa-2x"></i>
       </div>
     </div>
     <div style={{display: "flex", flexDirection: "column", overflowY: "scroll"}}>
-      {props.children.length ? props.children : `You have not added any ${props.title.toLowerCase()} yet.`}
+      {props.children.length ? props.children : `You have not added any trips yet.`}
     </div>
   </div>
   );
     
 Pane.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.array,
   addChild: PropTypes.func.isRequired
 };

@@ -1,18 +1,18 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 
-const Navbar = () => {
+import { SignedInLinks, SignedOutLinks } from './Links';
+
+const Navbar = props => {
+  const { loggedIn, name, logout } = props;
+  console.log(loggedIn)
   return (
-    <div id="navbar">
-      <NavLink className="navlink" to={{
-        pathname: "/login",
-        state: { redirect: false }
-        }}>Login</NavLink>
-      <NavLink className="navlink" to="/">Dashboard</NavLink>
+    <div className="center">
+      <div id="navbar">
+        <h1 id="welcome" style={loggedIn ? {color: "whitesmoke"} : {visibility: "hidden"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
+        {loggedIn ? <SignedInLinks logout={logout}/> : <SignedOutLinks />}
+      </div>
     </div>
   )
 }
 
 export default Navbar
-
-
