@@ -10,7 +10,7 @@ export const JSONtoDateObject = date => {
 
 // convert from Date object to string formatted to be displayed
 export const processDate = inputDate => {
-    if (typeof inputDate === "string") JSONtoDateObject(inputDate)
+    if (typeof inputDate === "string") inputDate = JSONtoDateObject(inputDate);
     let weekdays, day, month, date, year;
     weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     day = weekdays[inputDate.getDay()];
