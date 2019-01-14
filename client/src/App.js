@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { logout } from './redux/actions/userActions'
 import Dashboard from './components/Dashboard';
+import Settings from './components/Settings';
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
@@ -19,6 +20,7 @@ class App extends Component {
           <Navbar loggedIn={loggedIn} name={name} logout={logout}/>
           <Switch>
             <Route path='/' component={Dashboard} exact/>
+            <Route path='/settings' component={Settings} />
             <Route path='/login'>
               <LoginForm isRegister={false}/>
             </Route>

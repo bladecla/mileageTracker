@@ -41,7 +41,7 @@ class Dashboard extends Component {
           state: { redirect: true } 
         }}/> 
       : 
-      <div id="dash">
+      <div className="dash">
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
           <Insights {...insightsData}/>
