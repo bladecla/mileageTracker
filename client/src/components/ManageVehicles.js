@@ -11,7 +11,7 @@ export default class ManageVehicles extends Component {
   }
   
   static propTypes = {
-    prop: PropTypes
+    prop: PropTypes.object
   }
 
   render() {

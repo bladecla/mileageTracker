@@ -11,7 +11,7 @@ export default class AccountSettings extends Component {
   }
   
   static propTypes = {
-    prop: PropTypes
+    prop: PropTypes.object
   }
 
   render() {
