@@ -4,6 +4,7 @@ import Modal from './Modal';
 import TripForm from './TripForm';
 import { processDate } from './../helpers';
 import style from './styles/trip.css';
+import DeleteModal from './DeleteModal';
 
 const {earnings, p, gray} = style;
 
@@ -62,13 +63,7 @@ class Trip extends Component {
           {isMouseOver && <i className="fa fa-pencil icon" onClick={this.openUpdateModal}></i>}
           {isMouseOver && <i className="fa fa-times icon" onClick={this.openDeleteModal}></i>}
         </div>
-        {deletePending && 
-          <Modal title="Delete Trip?" formName="delete" label="Delete This Trip" close={this.closeDeleteModal}>
-            <form id="delete" onSubmit={this.delete}>
-              <p style={p}>Are you sure you want to delete this trip?</p>
-              <input type="hidden" name="a" value="b"/>
-            </form>
-          </Modal>}
+        {deletePending && <DeleteModal resourceName="Trip" close={this.closeDeleteModal} onSubmit={this.delete}/>}
         {updatePending &&
           <Modal title="Edit Trip" formName="trip" label="Update Trip" close={this.closeUpdateModal}>
             <TripForm isUpdate={true} onSubmit={this.props.update} close={this.closeUpdateModal} addVehicle={addVehicle} vehicles={vehicles} {...trip}/>

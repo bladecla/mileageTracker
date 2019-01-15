@@ -25,6 +25,7 @@ class AccountSettings extends Component {
         <h3>Change Email Address</h3>
         <hr/>
         <p>The email address used to sign in.</p>
+        <br/>
         <div>
           <form id="change-email" className="settings-form" style={form}>
             <div style={labelinput}>
@@ -40,11 +41,12 @@ class AccountSettings extends Component {
             </div>
           </form>
         </div>
+        <br/>
         <div>
-          <br/>
           <h3>Change Password</h3>
           <hr/>
           <p>You can change your password by entering a new one below.</p>
+          <br/>
           <form id="change-password" className="settings-form" style={form}>
             <div style={labelinput}>
               <label for="oldPassword">Current Password: </label>
@@ -63,6 +65,7 @@ class AccountSettings extends Component {
             </div>
           </form>
         </div>
+        <br/>
       </div>
     )
   }

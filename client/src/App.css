@@ -57,7 +57,7 @@ label {
 #nav {
   z-index: 1000;
   position: relative;
-  width: 250px;
+  min-width: 180px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -116,7 +116,6 @@ label {
   max-width: 1000px;
   max-height: 50vh;
   overflow: hidden;
-  
 }
 
 .modal {
@@ -169,7 +168,7 @@ label {
 #settings-body{
   width: 100%;
   min-height: 400px;
-  padding: 20px;
+  padding: 21px 42px;
 }
 
 .settings-form {
@@ -188,7 +187,7 @@ label {
 }
 
 .menu h3 {
-  padding: 15px;
+  padding: 15px 20px;
   color: goldenrod;
   border-bottom: 1px solid gray;
 }
@@ -199,7 +198,7 @@ a:last-child li {
 
 .menu-item {
   list-style-type: none;
-  padding: 15px;
+  padding: 15px 20px;
   border-bottom: 1px solid gray;
 }
 

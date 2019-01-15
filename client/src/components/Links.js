@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 export const SignedInLinks = props => {
   return (
-    <nav id="nav">
+    <nav id="nav" style={{width: "250px"}}>
       <NavLink className="navlink" to="/">
         Dashboard
       </NavLink>

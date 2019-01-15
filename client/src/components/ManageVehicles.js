@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { addVehicle, deleteVehicle, updateVehicle } from './../redux/actions/vehicleActions'
 
-export default class ManageVehicles extends Component {
+class ManageVehicles extends Component {
   constructor(props) {
     super(props)
   
@@ -15,10 +17,31 @@ export default class ManageVehicles extends Component {
   }
 
   render() {
+    const { vehicles } = this.props.vehicles;
+    const cars = ['nishan', 'toyyola', 'miss a bshi']
     return (
       <div>
-        ManageVehicles
+        <h3>Vehicles</h3>
+        <hr/>
+          <div>
+            {cars.map((vehicle, idx) => (
+              <div key={vehicle + idx}>
+                <span>{vehicle}</span>
+                <i className="fa fa-pencil icon" onClick={this.update}></i>
+                <i className="fa fa-times icon" onClick={this.openDeleteModal}></i>
+              </div>
+            ))}
+          </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  vehicles: state.vehicles
+})
+
+const mapDispatchToProps = { addVehicle, deleteVehicle, updateVehicle }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageVehicles)
