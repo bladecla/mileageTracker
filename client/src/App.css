@@ -12,6 +12,13 @@ html, body {
   overflow: hidden;
 }
 
+p, label {
+  font-family: 'Raleway', sans-serif;
+}
+
+label {
+  margin-right: 20px;
+}
 
 #bg {
   position: absolute;
@@ -69,7 +76,7 @@ html, body {
 }
 
 .dash{
-  max-width: 1600px;
+  max-width: 1200px;
   width: 80%;
   display: block;
   margin: 0 auto;
@@ -161,8 +168,13 @@ html, body {
 
 #settings-body{
   width: 100%;
-  height: 400px;
+  min-height: 400px;
   padding: 20px;
+}
+
+.settings-form {
+  min-width: 400px;
+  max-width: 600px;
 }
 
 .menu {
@@ -173,6 +185,12 @@ html, body {
   display: flex;
   flex-direction: column;
   background-color: rgb(55,55,55)
+}
+
+.menu h3 {
+  padding: 15px;
+  color: goldenrod;
+  border-bottom: 1px solid gray;
 }
 
 a:last-child li {

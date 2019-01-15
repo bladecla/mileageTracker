@@ -16,6 +16,15 @@ const style = {
       justifyContent: "space-between",
       height: "100%",
   },
+  labelinput: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      marginBottom: "15px"
+  },
+  submit: {
+      display: "flex",
+      justifyContent: "flex-end"
+  },
   subform: {
       display: "flex",
       justifyContent: "center"

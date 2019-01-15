@@ -35,6 +35,7 @@ export default class Settings extends Component {
       <div className="dash">
         <div id="settings" className="window">
           <nav className="menu">
+            <h3>Settings</h3>
             { this.subroutes.map(({pathId, name}) => (
               <NavLink to={`/settings/${pathId}`} className="navlink" key={pathId}>
                 <li className="menu-item">{name}</li>
