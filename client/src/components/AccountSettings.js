@@ -33,7 +33,7 @@ class AccountSettings extends Component {
               <label><strong>{email ? email : "temporary.email@deletethis.com"}</strong></label>
             </div>
             <div style={labelinput}>
-              <label for="newEmail">New Email Address: </label>
+              <label htmlFor="newEmail">New Email Address: </label>
               <input className="input" type="email" name="newEmail" />
             </div>
             <div style={submit}>
@@ -49,15 +49,15 @@ class AccountSettings extends Component {
           <br/>
           <form id="change-password" className="settings-form" style={form}>
             <div style={labelinput}>
-              <label for="oldPassword">Current Password: </label>
+              <label htmlFor="oldPassword">Current Password: </label>
               <input className="input" type="password" name="oldPassword" />
             </div>
             <div style={labelinput}>
-              <label for="newPassword">New Password: </label>
+              <label htmlFor="newPassword">New Password: </label>
               <input className="input" type="password" name="newPassword" />
             </div>
             <div style={labelinput}>
-              <label for="confirmPassword">Confirm New Password: </label>
+              <label htmlFor="confirmPassword">Confirm New Password: </label>
               <input className="input" type="password" name="confirmPassword" />
             </div>
             <div style={submit}>

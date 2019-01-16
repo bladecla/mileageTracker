@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addVehicle, deleteVehicle, updateVehicle } from './../redux/actions/vehicleActions'
+import Vehicle from './Vehicle';
+import AddVehicle from './AddVehicle';
+
 
 class ManageVehicles extends Component {
   constructor(props) {
     super(props)
   
     this.state = {
-       
+       showVehicleForm: false
     }
   }
   
@@ -16,22 +19,28 @@ class ManageVehicles extends Component {
     prop: PropTypes.object
   }
 
+  toggleVehicleForm = () => this.setState({ showVehicleForm: !this.state.showVehicleForm })
+
   render() {
+    const { showVehicleForm } = this.state;
     const { vehicles } = this.props.vehicles;
+    const { deleteVehicle, updateVehicle, addVehicle } = this.props;
     const cars = ['nishan', 'toyyola', 'miss a bshi']
     return (
       <div>
         <h3>Vehicles</h3>
         <hr/>
+        <p>Add or remove vehicles, or edit nicknames below.</p>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
           <div>
-            {cars.map((vehicle, idx) => (
-              <div key={vehicle + idx}>
-                <span>{vehicle}</span>
-                <i className="fa fa-pencil icon" onClick={this.update}></i>
-                <i className="fa fa-times icon" onClick={this.openDeleteModal}></i>
-              </div>
+            {vehicles.map((vehicle, idx) => (
+              <Vehicle key={vehicle + idx} vehicle={vehicle} delete={deleteVehicle} update={updateVehicle}/>
             ))}
           </div>
+          <div>
+            <AddVehicle show={showVehicleForm} toggle={this.toggleVehicleForm} addVehicle={addVehicle}/>
+          </div>
+        </div>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { logout } from './redux/actions/userActions'
+import { logout, checkAuth } from './redux/actions/userActions'
 import Dashboard from './components/Dashboard';
 import Settings from './components/Settings';
 import LoginForm from './components/LoginForm';
@@ -38,7 +38,7 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = { logout }
+const mapDispatchToProps = { logout, checkAuth }
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -30,6 +30,10 @@ export default class Settings extends Component {
     match: PropTypes.object.isRequired
   }
 
+  componentDidMount(){
+    
+  }
+
   render() {
     return (
       <div className="dash">

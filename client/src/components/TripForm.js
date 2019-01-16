@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 
 import style from './styles/form.css'
 import { stringifyDate } from './../helpers';
+import AddVehicle from './AddVehicle';
 
 const {form, error, body, checkbox, checked, unchecked, label, checkgroup, addCar, plus, subform} = style;
 
 export default class TripForm extends Component {
     constructor(props){
         super(props);
+        // TODO: use object spread
         this.state = {
             trip: this.props.isUpdate ? {
                 _id: this.props._id,
@@ -22,8 +24,7 @@ export default class TripForm extends Component {
             },
             isTripValid: true,
             isDateValid: true,
-            showVehicleForm: false,
-            newVehicleName: ""
+            showVehicleForm: false
         };
     }
     static propTypes = {
@@ -39,8 +40,8 @@ export default class TripForm extends Component {
     }
 
     submit = (e) => {
+        // TODO: handle add vehicle on submit
         e.preventDefault();
-        if (this.state.newVehicleName) return this.addVehicle();
         if(this.validate()){
             const tripData = { ...this.state.trip };
             if (!this.state.trip.date) tripData.date = new Date();
@@ -76,33 +77,27 @@ export default class TripForm extends Component {
         });
     }
 
-    vehicleChange = (e) => {
-        const value = e.target.value;
+    vehicleChange = ({ target }) => {
+        const { value } = target;
         if (value) this.setState({
             trip: {...this.state.trip, vehicle: value }
         });
     }
 
-    toggleVehicleForm = () => this.setState({ showVehicleForm: !this.state.showVehicleForm})
-
-    newVehicleNameChange = (e) => this.setState({ newVehicleName: e.target.value });
-
-    addVehicle = () => {
-        const newVehicle = this.state.newVehicleName;
-        if (newVehicle) this.props.addVehicle(newVehicle);
-        this.setState({newVehicleName: ""});
-        this.toggleVehicleForm();
-    }
+    toggleVehicleForm = () => this.setState({ showVehicleForm: !this.state.showVehicleForm })
 
     render() {
-        const {isBusiness, start, end, date, vehicle} = this.state.trip;
+        const { showVehicleForm, isTripValid, isDateValid } = this.state;
+        const { addVehicle } = this.props;
+        const { isBusiness, start, end, date, vehicle } = this.state.trip;
+
         const dateString = date ? stringifyDate(date) : "";
         const checkCN = isBusiness ? "fa fa-check-square fa-2x" : "fa fa-square fa-2x";
         const cbStyle = isBusiness ? checked : unchecked;
         return (
             <React.Fragment>
-                {!this.state.isTripValid && <p style={error}>Starting mileage must be less than ending mileage.</p>}
-                {!this.state.isDateValid && <p style={error}>Date cannot be in the future.</p>}
+                {!isTripValid && <p style={error}>Starting mileage must be less than ending mileage.</p>}
+                {!isDateValid && <p style={error}>Date cannot be in the future.</p>}
                 <div style={body}>
                     <form id="trip" onSubmit={this.submit} style={form}>
                         <input className="input" onChange={this.mileageChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
@@ -112,16 +107,7 @@ export default class TripForm extends Component {
                             <option value="">Select Vehicle</option>
                             {this.props.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
                         </select>
-                        {!this.state.showVehicleForm ?
-                            <div className="icon" onClick={this.toggleVehicleForm} style={addCar}>
-                                <i className="fa fa-plus-circle" style={plus}></i><span>Add Vehicle</span>
-                            </div>
-                        : 
-                        <div style={subform}>
-                            <input onChange={this.newVehicleNameChange} type="text" name="new-vehicle" placeholder="Nickname (e.g. 'Nissan')"  />
-                            <i onClick={this.addVehicle} className="icon fa fa-plus-circle" style={plus}></i>
-                        </div>    
-                        }    
+                        <AddVehicle show={showVehicleForm} toggle={this.toggleVehicleForm} addVehicle={addVehicle}/>   
                         <div style={checkgroup}>
                             <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
                             <label htmlFor={checkCN} style={label}>{isBusiness ? "Business" : "Personal"}</label>

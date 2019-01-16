@@ -65,6 +65,7 @@ label {
 
 #navbar {
   width: 80%;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
@@ -99,7 +100,7 @@ label {
 }
 
 .window {
-  background-color: rgb(245, 245, 245, 0.836);
+  background-color: rgb(245, 245, 245);
   border-radius: 3px;
   min-width: 400px;
   overflow: hidden;
@@ -205,6 +206,18 @@ a:last-child li {
 .menu-link {
   color: black;
   text-decoration: none;
+}
+
+.vehicle {
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 18px 18px;
+  grid-column-gap: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 300px;
+  background-color: #dfdfdf;
+  border-radius: 2px;
 }
 
 h2, h3 {

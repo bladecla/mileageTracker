@@ -4,7 +4,7 @@ import { success } from './../../helpers';
 
 export const addVehicle = vehicle => dispatch => {
   axios
-    .post('api/vehicles', {vehicle})
+    .post('/api/vehicles', {vehicle})
     .then(({data}) => {
       if (success(data.status, dispatch)){
         dispatch({
@@ -17,7 +17,7 @@ export const addVehicle = vehicle => dispatch => {
 
 export const updateVehicle = (vehicle, newVehicle) => dispatch => {
   axios
-    .put('api/vehicles', {vehicle, newVehicle})
+    .put('/api/vehicles', {vehicle, newVehicle})
     .then(({data}) => {
       if (success(data.status, dispatch)){
         dispatch({
@@ -30,7 +30,7 @@ export const updateVehicle = (vehicle, newVehicle) => dispatch => {
 
 export const deleteVehicle = vehicle => dispatch => {
   axios
-    .delete('api/vehicles' + vehicle)
+    .delete('/api/vehicles/' + vehicle)
     .then(({data}) => {
       if (success(data.status, dispatch)){
         dispatch({

@@ -35,7 +35,7 @@ class Trip extends Component {
   closeDeleteModal = () => this.setState({ deletePending: false });
   openUpdateModal = () => this.setState({ updatePending: true, isMouseOver: false });
   closeUpdateModal = () => this.setState({ updatePending: false });
-  delete = (e) => {
+  delete = e => {
     e.preventDefault();
     this.closeDeleteModal();
     this.props.delete(this.props._id)
@@ -44,7 +44,7 @@ class Trip extends Component {
   nothing = () => false; //prevents annoying console errors. Remove for production
   
   render(){
-    const {start, end, date, isBusiness, vehicle, _id, addVehicle, vehicles} = this.props;
+    const {start, end, date, isBusiness, vehicle, _id, addVehicle, vehicles, update} = this.props;
     const trip = {_id, start, end, isBusiness, vehicle, date};
     const { deletePending, updatePending, isSelected, isMouseOver} = this.state;
     const tripDist = end - start;
@@ -66,7 +66,7 @@ class Trip extends Component {
         {deletePending && <DeleteModal resourceName="Trip" close={this.closeDeleteModal} onSubmit={this.delete}/>}
         {updatePending &&
           <Modal title="Edit Trip" formName="trip" label="Update Trip" close={this.closeUpdateModal}>
-            <TripForm isUpdate={true} onSubmit={this.props.update} close={this.closeUpdateModal} addVehicle={addVehicle} vehicles={vehicles} {...trip}/>
+            <TripForm isUpdate={true} onSubmit={update} close={this.closeUpdateModal} addVehicle={addVehicle} vehicles={vehicles} {...trip}/>
           </Modal>
         }
       </React.Fragment>
