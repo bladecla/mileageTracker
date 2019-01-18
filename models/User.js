@@ -210,11 +210,15 @@ module.exports.updateVehicle = (_id, vehicle, newVehicle, done) => {
 }
 
 module.exports.deleteVehicle = (_id, vehicle, done) => {
-  User.findByIdAndUpdate(_id, { $pull: { "data.vehicles": vehicle } }, {new: true}, (err, user) => {
-    if (err) return done(err);
-    if (!user) return done(null, false);
-    return done(null, {vehicle})
-  })
+  User.findOneAndUpdate({ _id: _id, "data.trips.vehicle": vehicle }, 
+    { $pull: { "data.vehicles": vehicle }, 
+      $unset: { "data.trips.$[trip].vehicle": "" } }, 
+      { arrayFilters: [ { "trip.vehicle": vehicle } ], multi: true, new: true }, 
+      (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      return done(null, {vehicle})
+    })
 }
 
 // reset user data

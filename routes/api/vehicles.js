@@ -6,7 +6,7 @@ const router = express.Router();
 const callback = res => (err, vehicles) => {
   if (err) {
     console.error(err);
-    res.status(500).json({status: 500})
+    return res.status(500).json({status: 500})
   }
   if (!vehicles) res.json({status: 404});
   res.send(vehicles);

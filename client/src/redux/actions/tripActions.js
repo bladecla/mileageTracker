@@ -5,7 +5,7 @@ import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP } from './type
 
 export const getTrips = () => dispatch => {
     axios
-    .get('api/trips')
+    .get('/api/trips')
     .then(({data}) => {
         if(success(data.status, dispatch)){
             const {trips, totalMileage, businessMiles, businessTrips} = data;
@@ -22,7 +22,7 @@ export const getTrips = () => dispatch => {
 
 export const addTrip = trip => dispatch => {
     axios
-    .post('api/trips', trip)
+    .post('/api/trips', trip)
     .then(({data}) => {
         if(success(data.status, dispatch)){
             const {trip, totalMileage, businessMiles, businessTrips} = data;
@@ -39,7 +39,7 @@ export const addTrip = trip => dispatch => {
 
 export const updateTrip = newTrip => dispatch => {
     axios
-    .put('api/trips', newTrip)
+    .put('/api/trips', newTrip)
     .then(({data}) => {
         if (success(data.status, dispatch)){
             const {trip, totalMileage, businessMiles, businessTrips} = data;
@@ -57,7 +57,7 @@ export const updateTrip = newTrip => dispatch => {
 export const deleteTrip = tripId => dispatch => {
     console.log(tripId)
     axios
-    .delete('api/trips/' + tripId)
+    .delete('/api/trips/' + tripId)
     .then(({data})=> {
         if (success(data.status)){
             const {_id, totalMileage, businessMiles, businessTrips} = data;

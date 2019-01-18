@@ -9,7 +9,7 @@ export const setAuthenticating = () => {
 }
 
 export const checkAuth = () => dispatch => {
-  axios.get('api/users')
+  axios.get('/api/users')
        .then(({data}) => {
           if (success(data.status, dispatch) && data.success){
             const user = getCachedUserData();
@@ -22,12 +22,12 @@ export const login = credentials => dispatch => {
   console.log("Attempting login")
   dispatch(setAuthenticating());
   axios
-  .post('api/users/login', credentials)
+  .post('/api/users/login', credentials)
   .then(({data}) => handleAuthResponse(data, dispatch, "login successful"), err => console.error(err))
 }
 
 export const logout = () => dispatch => {
-  axios.get('api/users/logout').then(res => {
+  axios.get('/api/users/logout').then(res => {
     if (res.data.success) dispatch({
       type: LOGOUT,
       payload: false
@@ -38,7 +38,7 @@ export const logout = () => dispatch => {
 export const register = credentials => dispatch => {
   dispatch(setAuthenticating());
   axios
-    .post('api/users/register', credentials)
+    .post('/api/users/register', credentials)
     .then(({data}) => handleAuthResponse(data, dispatch, "registration successful"), err => console.error(err))
 }
 
