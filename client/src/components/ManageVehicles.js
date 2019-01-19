@@ -25,7 +25,6 @@ class ManageVehicles extends Component {
     const { showVehicleForm } = this.state;
     const { vehicles } = this.props.vehicles;
     const { deleteVehicle, updateVehicle, addVehicle } = this.props;
-    const cars = ['nishan', 'toyyola', 'miss a bshi']
     return (
       <div>
         <h3>Vehicles</h3>

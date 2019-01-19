@@ -31,7 +31,7 @@ export default class Settings extends Component {
   }
 
   componentDidMount(){
-    
+    // TODO: checkAuth
   }
 
   render() {

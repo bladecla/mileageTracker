@@ -5,7 +5,7 @@ import style from './styles/form.css'
 import { stringifyDate } from './../helpers';
 import AddVehicle from './AddVehicle';
 
-const {form, error, body, checkbox, checked, unchecked, label, checkgroup, addCar, plus, subform} = style;
+const {form, error, body, checkbox, checked, unchecked, label, checkgroup} = style;
 
 export default class TripForm extends Component {
     constructor(props){
