@@ -201,12 +201,14 @@ module.exports.getVehicles = (_id, done) => {
 }
 
 module.exports.updateVehicle = (_id, vehicle, newVehicle, done) => {
-  User.findOneAndUpdate({_id: _id, "data.vehicles": vehicle}, { $set: { "data.vehicles.$": newVehicle }},
-  {new: true}, (err, user) => {
-    if (err) return done(err);
-    if (!user) return done(null, false);
-    return done(null, {vehicle})
-  })
+  User.findOneAndUpdate({_id: _id, "data.vehicles": vehicle}, 
+    { $set: { "data.vehicles.$": newVehicle, "data.trips.$[trip].vehicle": newVehicle }},
+    { arrayFilters: [ { "trip.vehicle": vehicle } ], multi: true, new: true }, 
+    (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      return done(null, {vehicle})
+    })
 }
 
 module.exports.deleteVehicle = (_id, vehicle, done) => {
