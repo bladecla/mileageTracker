@@ -41,12 +41,14 @@ export default class Vehicle extends Component {
 
   render() {
     const { vehicle } = this.props;
-    const { isUpdateFormOpen } = this.state;
+    const { isUpdateFormOpen, updateVehicle } = this.state;
     return (
       <React.Fragment>
         <div className="vehicle">
           { isUpdateFormOpen
-            ? <input className="input" onChange={this.onChange} type="text" name="updateVehicle" placeholder="Vehicle Nickname" value={vehicle} />
+            ? <input className="input" onChange={this.onChange} 
+            type="text" name="updateVehicle" placeholder="Vehicle Nickname" 
+            value={updateVehicle ? updateVehicle : vehicle} />
             : <span>{vehicle}</span>
           }
           { isUpdateFormOpen
