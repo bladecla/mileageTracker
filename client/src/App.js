@@ -20,13 +20,15 @@ class App extends Component {
           <Navbar loggedIn={loggedIn} name={name} logout={logout}/>
           <Switch>
             <Route path='/' component={Dashboard} exact/>
-            <Route path='/settings/:pathId?' component={Settings} />
             <Route path='/login'>
               <LoginForm isRegister={false}/>
             </Route>
             <Route path='/register'>
               <LoginForm isRegister={true}/>
             </Route>
+            <Route path='/settings/:pathId?'
+              render={({ match }) => <Settings checkAuth={checkAuth} loggedIn={loggedIn} match={match}/>}
+              />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

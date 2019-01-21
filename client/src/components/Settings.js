@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Route, NavLink, Redirect } from 'react-router-dom'
 import AccountSettings from './AccountSettings'
 import ManageVehicles from './ManageVehicles'
-import { Route, NavLink, Redirect } from 'react-router-dom'
 
 export default class Settings extends Component {
   constructor(props) {
@@ -31,11 +31,12 @@ export default class Settings extends Component {
   }
 
   componentDidMount(){
-    // TODO: checkAuth
+    if (!this.props.loggedIn) this.props.checkAuth();
   }
 
   render() {
-    return (
+    const { loggedIn } = this.props;
+    return !loggedIn ? <Redirect to="/login" /> : (
       <div className="dash">
         <div id="settings" className="window">
           <nav className="menu">
