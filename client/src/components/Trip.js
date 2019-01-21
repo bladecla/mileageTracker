@@ -6,7 +6,7 @@ import { processDate } from './../helpers';
 import style from './styles/trip.css';
 import DeleteModal from './DeleteModal';
 
-const {earnings, p, gray} = style;
+const {earnings, gray} = style;
 
 class Trip extends Component {
   constructor(props){
