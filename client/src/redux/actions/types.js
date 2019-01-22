@@ -3,6 +3,7 @@ export const GET_TRIPS = 'GET_TRIPS';
 export const SET_TRIPS = 'SET_TRIPS';
 export const DELETE_TRIP = 'DELETE_TRIP';
 export const UPDATE_TRIP = 'UPDATE_TRIP';
+export const SELECT_TRIP = 'SELECT_TRIP';
 export const ADD_VEHICLE = 'ADD_VEHICLE';
 export const SET_VEHICLES = 'SET_VEHICLES';
 export const DELETE_VEHICLE = 'DELETE_VEHICLE';

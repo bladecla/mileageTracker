@@ -1,7 +1,8 @@
-import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP, LOGOUT, DELETE_VEHICLE, UPDATE_VEHICLE } from '../actions/types'
+import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP, LOGOUT, DELETE_VEHICLE, UPDATE_VEHICLE, SELECT_TRIP } from '../actions/types'
 
 const initialState = {
     trips: [],
+    selected: [],
     totalMileage: 0,
     businessMiles: 0,
     businessTrips: 0
@@ -12,6 +13,7 @@ export default function (state = initialState, { type, payload }){
     case ADD_TRIP:
       const {trip, totalMileage, businessMiles, businessTrips} = payload;
       return {
+        ...state,
         trips: [ trip, ...state.trips ],
         totalMileage,
         businessMiles,
@@ -22,7 +24,12 @@ export default function (state = initialState, { type, payload }){
       return state
 
     case SET_TRIPS:
-      return {...payload}
+      return {...state, ...payload}
+
+    case SELECT_TRIP:
+      return state.selected.includes(payload) 
+        ? { ...state, selected: state.selected.filter(_id => _id !== payload) }
+        : { ...state, selected: [...state.selected, payload] }
 
     case UPDATE_TRIP:
       const { newTrip } = payload;
@@ -38,6 +45,7 @@ export default function (state = initialState, { type, payload }){
     case DELETE_TRIP:
       const { _id } = payload;
       return {
+        ...state,
         trips: state.trips.filter(trip => trip._id !== _id),
         totalMileage: payload.totalMileage,
         businessMiles: payload.businessMiles,

@@ -12,7 +12,6 @@ class Trip extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isSelected: false,
       isMouseOver: false,
       deletePending: false,
       updatePending: false
@@ -24,11 +23,13 @@ class Trip extends Component {
     isBusiness: PropTypes.bool.isRequired,
     date: PropTypes.instanceOf(Date),
     vehicle: PropTypes.string,
+    selected: PropTypes.bool.isRequired,
+    select: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired
   }
   
-  toggleSelect = () => this.setState({ isSelected: !this.state.isSelected });
+  toggleSelect = () => this.props.select(this.props._id);
   mouseIn = () => this.setState({ isMouseOver: true })
   mouseOut = () => this.setState({ isMouseOver: false })
   openDeleteModal = () => this.setState({ deletePending: true, isMouseOver: false });
@@ -44,15 +45,15 @@ class Trip extends Component {
   nothing = () => false; //prevents annoying console errors. Remove for production
   
   render(){
-    const {start, end, date, isBusiness, vehicle, _id, addVehicle, vehicles, update} = this.props;
+    const {start, end, date, isBusiness, vehicle, _id, addVehicle, vehicles, update, selected} = this.props;
     const trip = {_id, start, end, isBusiness, vehicle, date};
-    const { deletePending, updatePending, isSelected, isMouseOver} = this.state;
+    const { deletePending, updatePending, isMouseOver} = this.state;
     const tripDist = end - start;
     const styledDate = date ? processDate(date) : "";
     return (
       <React.Fragment>
-        <div className={isSelected ? "isSelected trip" : "trip"} onClick={this.toggleSelect} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
-          <input type="checkbox" onChange={this.nothing} checked={isSelected}/>
+        <div className={selected ? "isSelected trip" : "trip"} onClick={this.toggleSelect} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
+          <input type="checkbox" onChange={this.nothing} checked={selected}/>
           <span>{tripDist + " mi"}</span>
           <span>{isBusiness ? "Business" : "Personal"}</span>
           <span style={isBusiness ? earnings : {}}>

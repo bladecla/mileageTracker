@@ -5,7 +5,7 @@ import Modal from './Modal';
 import TripForm from './TripForm';
 import Insights from './Insights';
 import { connect } from 'react-redux';
-import { addTrip, getTrips, deleteTrip, updateTrip } from './../redux/actions/tripActions'
+import { addTrip, getTrips, deleteTrip, updateTrip, selectTrip } from './../redux/actions/tripActions'
 import { addVehicle } from './../redux/actions/vehicleActions';
 import { checkAuth, logout } from './../redux/actions/userActions';
 import LoggedRedirect from './LoggedRedirect';
@@ -27,13 +27,15 @@ class Dashboard extends Component {
   toggleTripModal = () => this.setState({ isTripModalOpen: !this.state.isTripModalOpen });
   
   render(){
-    const { trips, totalMileage, businessMiles, businessTrips } = this.props.trips;
+    const { trips, selected, totalMileage, businessMiles, businessTrips } = this.props.trips;
     const { authenticating, loggedIn, authFailed } = this.props.user;
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
     const { vehicles } = this.props.vehicles;
-    const { addTrip, deleteTrip, updateTrip, addVehicle } = this.props;
+    const { addTrip, deleteTrip, updateTrip, addVehicle, selectTrip } = this.props;
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
+
+    console.log(this.props.trips)
     return (
       authFailed || !loggedIn 
       ? <LoggedRedirect 
@@ -48,7 +50,9 @@ class Dashboard extends Component {
           <Insights {...insightsData}/>
           <TripPane addChild={this.toggleTripModal}>
             {trips.map(trip => <Trip key={trip._id} 
-              {...trip} 
+              {...trip}
+              selected={selected.includes(trip._id)}
+              select={selectTrip}
               delete={deleteTrip} 
               update={updateTrip} 
               addVehicle={addVehicle} 
@@ -71,6 +75,6 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, addVehicle, checkAuth, logout}
+const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, selectTrip, addVehicle, checkAuth, logout}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
