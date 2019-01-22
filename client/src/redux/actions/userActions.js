@@ -9,6 +9,7 @@ export const setAuthenticating = () => {
 }
 
 export const checkAuth = () => dispatch => {
+  console.log("sending check auth request")
   axios.get('/api/users')
        .then(({data}) => {
           if (success(data.status, dispatch) && data.success){
@@ -40,6 +41,18 @@ export const register = credentials => dispatch => {
   axios
     .post('/api/users/register', credentials)
     .then(({data}) => handleAuthResponse(data, dispatch, "registration successful"), err => console.error(err))
+}
+
+export const changeCredentials = ( formId, credentials) => dispatch => {
+  console.log('PUT /api/users/' + formId)
+  axios
+    .put('/api/users/' + formId, credentials)
+    .then(({data}) => {
+      if (success(data.status, dispatch) && data.success){
+        console.log("email/password change successful")
+      }
+      console.log(data)
+    }, err => console.error(err))
 }
 
 const handleAuthResponse = ({status, user}, dispatch, successLog) => {

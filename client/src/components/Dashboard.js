@@ -20,6 +20,7 @@ class Dashboard extends Component {
   
   // check authentication and pull user data from cache if state has been reset
   componentDidMount(){
+    console.log("Dashboard mounted")
     if (!this.props.user.loggedIn) this.props.checkAuth();
   }
 
@@ -39,7 +40,7 @@ class Dashboard extends Component {
         to={{
           pathname: "/login", 
           state: { redirect: true } 
-        }}/> 
+        }} from="/"/> 
       : 
       <div className="dash">
         {authenticating ? <h1>Loading...</h1> :

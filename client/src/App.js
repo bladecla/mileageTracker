@@ -12,7 +12,7 @@ import './App.css';
 class App extends Component {
   render() {
     const { loggedIn, name } = this.props.user;
-    const { logout } = this.props;
+    const { logout, checkAuth } = this.props;
     return (
       <BrowserRouter>
         <React.Fragment>

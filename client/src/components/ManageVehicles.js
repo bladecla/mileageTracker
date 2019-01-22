@@ -30,7 +30,7 @@ class ManageVehicles extends Component {
         <h3>Vehicles</h3>
         <hr/>
         <p>Add or remove vehicles, or edit nicknames below.</p>
-        <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div className="settings-form" style={{display: "flex", justifyContent: "space-between"}}>
           <div>
             {vehicles.map((vehicle, idx) => (
               <Vehicle key={vehicle + idx} vehicle={vehicle} delete={deleteVehicle} update={updateVehicle}/>

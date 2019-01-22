@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom';
 
 const LoggedRedirect = props => {
-  const {to} = props;
-  console.log("Redirecting to " + (to.pathname ? to.pathname : to))
+  const { to, from } = props;
+  console.log(`Redirecting to ${to.pathname ? to.pathname : to} ${from ? `from ${from}.` : "."}`)
   return <Redirect {...props}/>
 }
 

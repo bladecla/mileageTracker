@@ -33,6 +33,17 @@ module.exports = function(passport, User){
         res.send({success: true});
       })
 
+    router.put("/change-password", checkAuth, passport.authenticate('local'), (req, res) => {
+        User.changePassword(req.user._id, req.body.newPassword, (err, result) => {
+            if (err) {
+                res.json({status: 500});
+                return console.error(err);
+            }
+            if (result.success) return res.json(result);
+            res.json({status: 404});
+        })
+    })
+
     router.get("/reset", checkAuth, (req, res) => {
         User.reset(req.user._id, (err, userData) => {
             if (err) return console.error(err);

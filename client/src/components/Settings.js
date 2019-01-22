@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Route, NavLink, Redirect } from 'react-router-dom'
+import { Route, NavLink } from 'react-router-dom'
 import AccountSettings from './AccountSettings'
 import ManageVehicles from './ManageVehicles'
+import LoggedRedirect from './LoggedRedirect';
 
 export default class Settings extends Component {
   constructor(props) {
@@ -27,7 +28,9 @@ export default class Settings extends Component {
   }
 
   static propTypes = {
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    checkAuth: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool.isRequired
   }
 
   componentDidMount(){
@@ -36,7 +39,7 @@ export default class Settings extends Component {
 
   render() {
     const { loggedIn } = this.props;
-    return !loggedIn ? <Redirect to="/login" /> : (
+    return !loggedIn ? <LoggedRedirect to="/login" from="/settings" /> : (
       <div className="dash">
         <div id="settings" className="window">
           <nav className="menu">
@@ -54,7 +57,7 @@ export default class Settings extends Component {
               ({ match }) => this.subroutes.find(({ pathId }) => pathId === match.params.pathId).component
             } />
             :
-            <Redirect to="/settings/account-settings" />
+            <LoggedRedirect to="/settings/account-settings" />
           }
           </div>
         </div>

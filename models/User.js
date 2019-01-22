@@ -40,6 +40,20 @@ const userSchema = new Schema({
 
 module.exports = User = mongoose.model('User', userSchema);
 
+
+// local authentication strategy
+
+module.exports.localAuth = (email, password, done) => {
+  User.findOne({ email: email }, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    if (!bcrypt.compareSync(password, user.password)) return done(null, false);
+    done(null, user);
+  })
+};
+
+// user operations
+
 module.exports.findByEmail = (email, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) return done(err);
@@ -47,15 +61,6 @@ module.exports.findByEmail = (email, done) => {
     done(null, user);
   })
 }
-
-module.exports.localAuth = (email, password, done) => {
-  User.findOne({ email: email }, (err, user) => {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      if (!bcrypt.compareSync(password, user.password)) return done(null, false);
-      done(null, user);
-  })
-};
 
 module.exports.register = (name, email, password, done) => {
   User.findOne({ email: email }, (err, user) => {
@@ -67,6 +72,16 @@ module.exports.register = (name, email, password, done) => {
       done(null, {success: true})
     })
   })
+}
+
+module.exports.changePassword = ( _id, newPassword, done ) => {
+  User.findByIdAndUpdate( _id, 
+    { $set: { password: bcrypt.hashSync(newPassword, 12) } }, 
+    (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      done(null, {success: true})
+    })
 }
 
 // get all user data except password
