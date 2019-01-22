@@ -20,18 +20,18 @@ export class ChangeEmail extends Component {
 
   onChange = ({ target }) => this.setState({ [target.name]: target.value })
 
-  submit = ({ target, preventDefault }) => {
-    preventDefault();
+  submit = e => {
+    e.preventDefault();
     if (this.validate()){
       const { email, onSubmit} = this.props;
       const { password, newEmail } = this.state;
-      onSubmit(target.id, {email, password, newEmail});
+      onSubmit({email, password, newEmail});
       
     }
   }
 
   validate = () => {
-    return true;
+    return this.state.newEmail !== this.props.email;
   }
 
   render() {

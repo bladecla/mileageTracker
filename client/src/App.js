@@ -11,7 +11,7 @@ import './App.css';
 
 class App extends Component {
   render() {
-    const { loggedIn, name } = this.props.user;
+    const { loggedIn, name, authFailed } = this.props.user;
     const { logout, checkAuth } = this.props;
     return (
       <BrowserRouter>
@@ -27,7 +27,7 @@ class App extends Component {
               <LoginForm isRegister={true}/>
             </Route>
             <Route path='/settings/:pathId?'
-              render={({ match }) => <Settings checkAuth={checkAuth} loggedIn={loggedIn} match={match}/>}
+              render={({ match }) => <Settings checkAuth={checkAuth} authFailed={authFailed} loggedIn={loggedIn} match={match}/>}
               />
           </Switch>
         </React.Fragment>

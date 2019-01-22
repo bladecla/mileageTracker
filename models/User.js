@@ -84,6 +84,16 @@ module.exports.changePassword = ( _id, newPassword, done ) => {
     })
 }
 
+module.exports.changeEmail = ( _id, newEmail, done ) => {
+  User.findByIdAndUpdate( _id, 
+    { $set: { email: newEmail } }, {new: true}, 
+    (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      done(null, { email: user.email })
+    })
+}
+
 // get all user data except password
 
 module.exports.getData = (_id, done) => {

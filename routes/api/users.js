@@ -12,6 +12,9 @@ const userDataCB = res => (err, userData) => {
 }
 
 module.exports = function(passport, User){
+
+    // authentication routes
+
     router.route('/')
         .get(checkAuth, (req, res) => res.json({success: true}))
 
@@ -33,6 +36,8 @@ module.exports = function(passport, User){
         res.send({success: true});
       })
 
+    // profile update routes
+
     router.put("/change-password", checkAuth, passport.authenticate('local'), (req, res) => {
         User.changePassword(req.user._id, req.body.newPassword, (err, result) => {
             if (err) {
@@ -40,6 +45,17 @@ module.exports = function(passport, User){
                 return console.error(err);
             }
             if (result.success) return res.json(result);
+            res.json({status: 404});
+        })
+    })
+    
+    router.put("/change-email", checkAuth, passport.authenticate('local'), (req, res) => {
+        User.changeEmail(req.user._id, req.body.newEmail, (err, result) => {
+            if (err) {
+                res.json({status: 500});
+                return console.error(err);
+            }
+            if (result) return res.json(result);
             res.json({status: 404});
         })
     })

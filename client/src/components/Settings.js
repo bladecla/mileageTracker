@@ -38,8 +38,10 @@ export default class Settings extends Component {
   }
 
   render() {
-    const { loggedIn } = this.props;
-    return !loggedIn ? <LoggedRedirect to="/login" from="/settings" /> : (
+    const { loggedIn, authFailed } = this.props;
+    return authFailed || !loggedIn 
+    ? <LoggedRedirect to="/login" from="/settings" /> 
+    : (
       <div className="dash">
         <div id="settings" className="window">
           <nav className="menu">

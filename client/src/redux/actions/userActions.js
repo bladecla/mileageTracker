@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { cleanTrips, cleanNumbers, success, getCachedUserData, cacheUserData } from './../../helpers';
-import { LOGIN, LOGOUT, AUTHENTICATING, SET_TRIPS, SET_VEHICLES} from './../actions/types';
+import { LOGIN, LOGOUT, AUTHENTICATING, SET_TRIPS, SET_VEHICLES, SET_EMAIL} from './../actions/types';
 
 export const setAuthenticating = () => {
   return {
@@ -43,16 +43,32 @@ export const register = credentials => dispatch => {
     .then(({data}) => handleAuthResponse(data, dispatch, "registration successful"), err => console.error(err))
 }
 
-export const changeCredentials = ( formId, credentials) => dispatch => {
-  console.log('PUT /api/users/' + formId)
+export const changePassword = credentials => dispatch => {
   axios
-    .put('/api/users/' + formId, credentials)
+    .put('/api/users/change-password', credentials)
     .then(({data}) => {
       if (success(data.status, dispatch) && data.success){
-        console.log("email/password change successful")
+        console.log("password change successful")
       }
-      console.log(data)
     }, err => console.error(err))
+}
+
+export const changeEmail = credentials => dispatch => {
+  axios
+    .put('/api/users/change-email', credentials)
+    .then(({data}) => {
+      if (success(data.status, dispatch)){
+        dispatch({
+          type: SET_EMAIL,
+          payload: data.email
+        })
+        console.log("email change successful")
+      }
+    }, err => console.error(err))
+}
+
+export const changeName = newName => dispatch => {
+
 }
 
 const handleAuthResponse = ({status, user}, dispatch, successLog) => {

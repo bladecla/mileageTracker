@@ -1,4 +1,4 @@
-import { LOGIN, AUTHENTICATING, LOGOUT } from './../actions/types';
+import { LOGIN, AUTHENTICATING, LOGOUT, SET_NAME, SET_EMAIL } from './../actions/types';
 
 const initialState = {
   name: "",
@@ -22,6 +22,12 @@ export default (state = initialState, { type, payload }) => {
   case LOGOUT:
     console.log(payload ? "redirecting to login..." : "logging out...")
     return payload ? {...initialState, authFailed: true } : {...initialState};
+
+  case SET_NAME:
+    return { ...state, name: payload }
+    
+  case SET_EMAIL:
+    return { ...state, email: payload }
 
   default:
     return state
