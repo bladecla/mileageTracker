@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { connect } from 'react-redux'
+import { addVehicle } from './../redux/actions/vehicleActions'
+import { addTrip, updateTrip } from './../redux/actions/tripActions'
 import style from './styles/form.css'
 import { stringifyDate } from './../helpers';
 import AddVehicle from './AddVehicle';
 
 const {form, error, body, checkbox, checked, unchecked, label, checkgroup} = style;
 
-export default class TripForm extends Component {
+class TripForm extends Component {
     constructor(props){
         super(props);
         // TODO: use object spread
@@ -28,13 +30,12 @@ export default class TripForm extends Component {
         };
     }
     static propTypes = {
-        onSubmit: PropTypes.func.isRequired,
-        close: PropTypes.func.isRequired,
-        addVehicle: PropTypes.func.isRequired,
+        close: PropTypes.func,
         isUpdate: PropTypes.bool,
-        vehicles: PropTypes.array,
+        _id: PropTypes.string,
         start: PropTypes.number,
         end: PropTypes.number,
+        isBusiness: PropTypes.bool,
         date: PropTypes.instanceOf(Date),
         vehicle: PropTypes.string,
     }
@@ -44,9 +45,11 @@ export default class TripForm extends Component {
         e.preventDefault();
         if(this.validate()){
             const tripData = { ...this.state.trip };
+            const { addTrip, updateTrip, close, isUpdate } = this.props;
+            const onSubmit = isUpdate ? updateTrip : addTrip;
             if (!this.state.trip.date) tripData.date = new Date();
-            this.props.onSubmit(tripData);
-            this.props.close();
+            onSubmit(tripData);
+            if (close) close();
         }
     }
 
@@ -105,7 +108,7 @@ export default class TripForm extends Component {
                         <input className="input" onChange={this.dateChange} type="date" name="date" value={dateString}/>
                         <select className="input" onChange={this.vehicleChange} name="vehicle" value={vehicle ? vehicle : ""}>
                             <option value="">Select Vehicle</option>
-                            {this.props.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
+                            {this.props.vehicles.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
                         </select>
                         <AddVehicle show={showVehicleForm} toggle={this.toggleVehicleForm} addVehicle={addVehicle}/>   
                         <div style={checkgroup}>
@@ -118,3 +121,11 @@ export default class TripForm extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+  vehicles: state.vehicles,
+})
+
+const mapDispatchToProps = { addVehicle, addTrip, updateTrip }
+
+export default connect(mapStateToProps, mapDispatchToProps)(TripForm)

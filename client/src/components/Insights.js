@@ -18,7 +18,7 @@ export default class Insights extends Component {
         personalTrips = totalTrips - businessTrips;
         
     return (
-      <div className="pane" style={{alignItems: "center", width: "100%"}}>
+      <div className="pane" style={{alignItems: "center"}}>
         {totalTrips > 0 
         ?
         <React.Fragment>

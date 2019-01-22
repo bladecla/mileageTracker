@@ -26,10 +26,12 @@ class Trip extends Component {
     selected: PropTypes.bool.isRequired,
     select: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
-    update: PropTypes.func.isRequired
   }
   
-  toggleSelect = () => this.props.select(this.props._id);
+  toggleSelect = () => {
+    const {start, end, date, isBusiness, vehicle, _id, select} = this.props;
+    select({_id, start, end, isBusiness, vehicle, date})
+  };
   mouseIn = () => this.setState({ isMouseOver: true })
   mouseOut = () => this.setState({ isMouseOver: false })
   openDeleteModal = () => this.setState({ deletePending: true, isMouseOver: false });
@@ -45,14 +47,14 @@ class Trip extends Component {
   nothing = () => false; //prevents annoying console errors. Remove for production
   
   render(){
-    const {start, end, date, isBusiness, vehicle, _id, addVehicle, vehicles, update, selected} = this.props;
+    const {start, end, date, isBusiness, vehicle, _id, selected} = this.props;
     const trip = {_id, start, end, isBusiness, vehicle, date};
     const { deletePending, updatePending, isMouseOver} = this.state;
     const tripDist = end - start;
     const styledDate = date ? processDate(date) : "";
     return (
       <React.Fragment>
-        <div className={selected ? "isSelected trip" : "trip"} onClick={this.toggleSelect} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
+        <div className={selected ? "selected trip" : "trip"} onClick={this.toggleSelect} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
           <input type="checkbox" onChange={this.nothing} checked={selected}/>
           <span>{tripDist + " mi"}</span>
           <span>{isBusiness ? "Business" : "Personal"}</span>
@@ -67,7 +69,7 @@ class Trip extends Component {
         {deletePending && <DeleteModal resourceName="Trip" close={this.closeDeleteModal} onSubmit={this.delete}/>}
         {updatePending &&
           <Modal title="Edit Trip" formName="trip" label="Update Trip" close={this.closeUpdateModal}>
-            <TripForm isUpdate={true} onSubmit={update} close={this.closeUpdateModal} addVehicle={addVehicle} vehicles={vehicles} {...trip}/>
+            <TripForm isUpdate={true} close={this.closeUpdateModal} {...trip}/>
           </Modal>
         }
       </React.Fragment>

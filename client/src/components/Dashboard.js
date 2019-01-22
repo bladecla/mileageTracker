@@ -9,6 +9,7 @@ import { addTrip, getTrips, deleteTrip, updateTrip, selectTrip } from './../redu
 import { addVehicle } from './../redux/actions/vehicleActions';
 import { checkAuth, logout } from './../redux/actions/userActions';
 import LoggedRedirect from './LoggedRedirect';
+import ContextPane from './ContextPane';
 
 class Dashboard extends Component {
   constructor(props){
@@ -30,12 +31,11 @@ class Dashboard extends Component {
     const { trips, selected, totalMileage, businessMiles, businessTrips } = this.props.trips;
     const { authenticating, loggedIn, authFailed } = this.props.user;
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
-    const { vehicles } = this.props.vehicles;
-    const { addTrip, deleteTrip, updateTrip, addVehicle, selectTrip } = this.props;
+    const { deleteTrip, selectTrip } = this.props;
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
 
-    console.log(this.props.trips)
+    console.log(selected)
     return (
       authFailed || !loggedIn 
       ? <LoggedRedirect 
@@ -48,21 +48,21 @@ class Dashboard extends Component {
         {authenticating ? <h1>Loading...</h1> :
         <React.Fragment>
           <Insights {...insightsData}/>
-          <TripPane addChild={this.toggleTripModal}>
-            {trips.map(trip => <Trip key={trip._id} 
-              {...trip}
-              selected={selected.includes(trip._id)}
-              select={selectTrip}
-              delete={deleteTrip} 
-              update={updateTrip} 
-              addVehicle={addVehicle} 
-              vehicles={vehicles}
-            />)}
-          </TripPane>
+          <div style={{display: "flex"}}>
+            <TripPane addChild={this.toggleTripModal}>
+              {trips.map(trip => <Trip key={trip._id} 
+                {...trip}
+                selected={selected.find(sel => sel._id === trip._id) ? true : false}
+                select={selectTrip}
+                delete={deleteTrip} 
+              />)}
+            </TripPane>
+            <ContextPane selected={selected} />
+          </div>
         </React.Fragment>}   
         {this.state.isTripModalOpen && 
           <Modal title="New Trip" formName="trip" label="Add Trip" close={this.toggleTripModal}>
-            <TripForm onSubmit={addTrip} close={this.toggleTripModal} addVehicle={addVehicle} vehicles={vehicles}/>
+            <TripForm close={this.toggleTripModal}/>
           </Modal>}
       </div>
     );

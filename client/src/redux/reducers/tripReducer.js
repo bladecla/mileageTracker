@@ -27,13 +27,13 @@ export default function (state = initialState, { type, payload }){
       return {...state, ...payload}
 
     case SELECT_TRIP:
-      return state.selected.includes(payload) 
-        ? { ...state, selected: state.selected.filter(_id => _id !== payload) }
+      return state.selected.find(trip => trip._id === payload._id)
+        ? { ...state, selected: state.selected.filter(trip => trip._id !== payload._id) }
         : { ...state, selected: [...state.selected, payload] }
 
     case UPDATE_TRIP:
       const { newTrip } = payload;
-      const currTrip = state.trips.filter(trp => trp._id === newTrip._id)[0];
+      const currTrip = state.trips.find(trp => trp._id === newTrip._id);
       const idx = state.trips.indexOf(currTrip);
       return {
         trips: [...state.trips.slice(0, idx), newTrip, ...state.trips.slice(idx + 1) ],
@@ -47,6 +47,7 @@ export default function (state = initialState, { type, payload }){
       return {
         ...state,
         trips: state.trips.filter(trip => trip._id !== _id),
+        selected: state.selected.filter(trip => trip._id !== _id),
         totalMileage: payload.totalMileage,
         businessMiles: payload.businessMiles,
         businessTrips: payload.businessTrips
