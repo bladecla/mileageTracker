@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { ChangeEmail, ChangePassword } from './SettingsForms';
-import { changePassword, changeEmail } from '../redux/actions/userActions';
+import { ChangeEmail, ChangePassword, ChangeName } from './SettingsForms';
+import { changePassword, changeEmail, changeName } from '../redux/actions/userActions';
 
 
 class AccountSettings extends Component {
@@ -19,10 +19,12 @@ class AccountSettings extends Component {
   }
 
   render() {
-    const { email } = this.props.user;
-    const { changePassword, changeEmail } = this.props;
+    const { email, name } = this.props.user;
+    const { changePassword, changeEmail, changeName } = this.props;
     return (
       <div>
+        <ChangeName onSubmit={changeName} name={name} />
+        <br/>
         <ChangeEmail onSubmit={changeEmail} email={email} />
         <br/>
         <ChangePassword onSubmit={changePassword} email={email} />
@@ -36,6 +38,6 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = { changePassword, changeEmail }
+const mapDispatchToProps = { changePassword, changeEmail, changeName }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountSettings)

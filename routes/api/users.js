@@ -59,6 +59,17 @@ module.exports = function(passport, User){
             res.json({status: 404});
         })
     })
+    
+    router.put("/change-name", checkAuth, (req, res) => {
+        User.changeName(req.user._id, req.body.newName, (err, result) => {
+            if (err) {
+                res.json({status: 500});
+                return console.error(err);
+            }
+            if (result) return res.json(result);
+            res.json({status: 404});
+        })
+    })
 
     router.get("/reset", checkAuth, (req, res) => {
         User.reset(req.user._id, (err, userData) => {

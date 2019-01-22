@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { cleanTrips, cleanNumbers, success, getCachedUserData, cacheUserData } from './../../helpers';
-import { LOGIN, LOGOUT, AUTHENTICATING, SET_TRIPS, SET_VEHICLES, SET_EMAIL} from './../actions/types';
+import { LOGIN, LOGOUT, AUTHENTICATING, SET_TRIPS, SET_VEHICLES, SET_EMAIL, SET_NAME} from './../actions/types';
 
 export const setAuthenticating = () => {
   return {
@@ -68,7 +68,17 @@ export const changeEmail = credentials => dispatch => {
 }
 
 export const changeName = newName => dispatch => {
-
+  axios
+  .put('/api/users/change-name', newName)
+  .then(({data}) => {
+    if (success(data.status, dispatch)){
+      dispatch({
+        type: SET_NAME,
+        payload: data.name
+      })
+      console.log("name change successful")
+    }
+  }, err => console.error(err))
 }
 
 const handleAuthResponse = ({status, user}, dispatch, successLog) => {

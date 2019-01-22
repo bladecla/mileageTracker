@@ -4,6 +4,61 @@ import style from './styles/form.css'
 
 const { form, labelinput, submit } = style;
 
+export class ChangeName extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       
+    }
+  }
+  
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired
+  }
+
+  onChange = ({ target }) => this.setState({ [target.name]: target.value })
+
+  submit = e => {
+    e.preventDefault();
+    if (this.validate()){
+      this.props.onSubmit({newName: this.state.newName});
+    }
+  }
+
+  validate = () => {
+    return this.state.newName !== this.props.name;
+  }
+
+  render() {
+    const { name } = this.props;
+    return (
+      <div>
+        <h3>Change Name</h3>
+        <hr/>
+        <p>Your name.</p>
+        <br/>
+        <div>
+          <form id="change-name" onSubmit={this.submit} className="settings-form" style={form}>
+            <div style={labelinput}>
+              <label>Name: </label>
+              <label><strong>{name}</strong></label>
+            </div>
+            <div style={labelinput}>
+              <label htmlFor="newName">New Name: </label>
+              <input className="input" type="text" name="newName" onChange={this.onChange} required />
+            </div>
+            <div style={submit}>
+              <input className="submit" type="submit" value="Save"/>
+            </div>
+          </form>
+        </div>
+      </div>
+    )
+  }
+}
+
 export class ChangeEmail extends Component {
   constructor(props) {
     super(props)
