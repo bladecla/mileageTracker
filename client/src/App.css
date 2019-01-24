@@ -50,6 +50,10 @@ label {
   justify-content: center;
 }
 
+.m10 {
+  margin-top: 10px;
+}
+
 #welcome {
   margin: 0;
 }
@@ -131,12 +135,12 @@ label {
 
 .input {
   padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid rgba(0,0,0,0.32);
   border-radius: 4px;
 }
 
 .submit {
-  align-self: flex-start;
   color: black;
   background-color: rgb(255, 202, 56);
   border: none;

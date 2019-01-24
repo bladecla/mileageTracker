@@ -36,6 +36,7 @@ export default function (state = initialState, { type, payload }){
       const currTrip = state.trips.find(trp => trp._id === newTrip._id);
       const idx = state.trips.indexOf(currTrip);
       return {
+        ...state,
         trips: [...state.trips.slice(0, idx), newTrip, ...state.trips.slice(idx + 1) ],
         totalMileage: payload.totalMileage,
         businessMiles: payload.businessMiles,
