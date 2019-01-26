@@ -6,7 +6,10 @@ const express = require('express'),
 
 const callback = res => {
     return (err, data) => {
-        if (err) return res.status(500).json({status: 500});
+        if (err) {
+            console.error(err)
+            return res.status(500).json({status: 500});
+        }
         if (!data) return res.json({status: 404});
         res.send(data)
     }
@@ -18,5 +21,8 @@ router.route('/')
     .put(checkAuth, (req, res) => User.updateTrip(new Trip(req.body), callback(res)))
     
 router.delete('/:_id', checkAuth, (req, res) => User.deleteTrip(req.params._id, callback(res)))
+
+router.route('/batch')
+    .put(checkAuth, (req, res) => User.batchUpdateTrips(req.user._id, req.body.tripIds, req.body.updates, callback(res)))
 
 module.exports = router;

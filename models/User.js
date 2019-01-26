@@ -216,6 +216,22 @@ module.exports.updateTrip = (newTrip, done) => {
   })
 }
 
+module.exports.batchUpdateTrips = (_id, tripIds, updateValues, done) => {
+  tripIds = tripIds.map(id => mongoose.Types.ObjectId(id));
+  const updates = {};
+  for (const field in updateValues) {
+    updates["data.trips.$[trip]." + field] = updateValues[field];
+  }
+  User.findOneAndUpdate({_id: _id}, 
+    { $set: updates }, 
+    { arrayFilters: [{"trip._id": {$in: tripIds} }], multi: true, new: true },
+    (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      return done(null, { trips: tripIds.map(id => user.data.trips.id(id)) })
+    })
+}
+
 // vehicle operations
 
 module.exports.addVehicle = (_id, vehicle, done) => {
