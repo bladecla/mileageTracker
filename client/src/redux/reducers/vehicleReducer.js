@@ -1,4 +1,4 @@
-import { SET_VEHICLES, ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE, LOGOUT } from './../actions/types';
+import { SET_VEHICLES, ADD_VEHICLE, UPDATE_VEHICLE, DELETE_VEHICLE, LOGOUT, RESET } from './../actions/types';
 
 const initialState = {
     vehicles: []
@@ -25,7 +25,10 @@ export default (state = initialState, { type, payload }) => {
       }
 
     case LOGOUT:
-    return initialState;
+      return initialState;
+      
+    case RESET:
+      return initialState;
       
     default:
       return state

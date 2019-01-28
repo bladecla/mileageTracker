@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Modal from './Modal'
 import style from './styles/form.css'
+import tripStyle from './styles/trip.css'
 
 const { form, labelinput, submit } = style;
+const { p } = tripStyle;
 
 export class ChangeName extends Component {
   constructor(props) {
@@ -175,6 +178,55 @@ export class ChangePassword extends Component {
             </div>
           </form>
         </div>
+      </div>
+    )
+  }
+}
+
+export class Reset extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       showResetModal: false
+    }
+  }
+
+  static propTypes = {
+    reset: PropTypes.func.isRequired
+  }
+
+  toggleResetModal = () => this.setState({ showResetModal: !this.state.showResetModal })
+
+  submit = e => {
+    e.preventDefault();
+    this.props.reset();
+    this.toggleResetModal();
+  }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <h3>Reset Account</h3>
+          <hr/>
+          <p>Permanently delete all trip and vehicle data.</p>
+          <br/>
+          <div style={submit} className="settings-form">
+              <button className="submit" onClick={this.toggleResetModal} style={{backgroundColor: "red", color: "white"}}>
+                Reset
+              </button>
+          </div>
+        </div>
+        {this.state.showResetModal &&
+          <Modal title={"Reset Account?"} formName="reset" label={"Reset Account"} close={this.toggleResetModal}>
+            <form id="reset" onSubmit={this.submit}>
+              <p style={p}>{`Resetting this account will permanently delete all trip and vehicle records. This cannot be undone.`}</p>
+              <p style={p}>{`Are you sure you want to reset data for this account?`}</p>
+              <input type="hidden" name="a" value="b"/>
+            </form>
+          </Modal>
+        }
       </div>
     )
   }

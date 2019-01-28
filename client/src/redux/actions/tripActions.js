@@ -96,9 +96,13 @@ export const batchDeleteTrips = tripIds => dispatch => {
     .post('/api/trips/batch', tripIds)
     .then(({data}) => {
         if (success(data.status)){
+            const {trips, totalMileage, businessMiles, businessTrips} = data;
             dispatch({
                 type: BATCH_DELETE_TRIP,
-                payload: data.trips
+                payload: {
+                    ...cleanNumbers({ totalMileage, businessMiles, businessTrips }),
+                    trips
+                }
             })
         }
     }, err => console.error(err))

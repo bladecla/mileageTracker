@@ -74,7 +74,7 @@ module.exports = function(passport, User){
     router.get("/reset", checkAuth, (req, res) => {
         User.reset(req.user._id, (err, userData) => {
             if (err) return console.error(err);
-            if (!userData) return res.json("No user data")
+            if (!userData) return res.json({status: 404})
             res.json(userData);
         })
     })

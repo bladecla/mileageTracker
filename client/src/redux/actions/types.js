@@ -15,3 +15,4 @@ export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATING = 'AUTHENTICATING';
 export const SET_NAME = 'SET_NAME';
 export const SET_EMAIL = 'SET_EMAIL';
+export const RESET = 'RESET';

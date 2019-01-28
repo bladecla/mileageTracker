@@ -233,15 +233,36 @@ module.exports.batchUpdateTrips = (_id, tripIds, updateValues, done) => {
 }
 
 module.exports.batchDeleteTrips = (_id, tripIds, done) => {
-  tripIds = tripIds.map(id => mongoose.Types.ObjectId(id));
-  User.findByIdAndUpdate(_id,
-    { $pull: { "data.trips": { _id: {$in: tripIds} } } },
-    { multi: true, new: true }, 
-    (err, user) => {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      return done(null, { trips: tripIds })
-    })
+  User.findById(_id, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+    var set = {
+      "data.totalMileage": 0,
+      "data.businessMiles": 0,
+      "data.businessTrips": 0
+    }
+    tripIds.forEach(id => {
+      const trip = user.data.trips.id(id);
+      if (!trip.end) return done(null, false);
+      const dist = trip.end - trip.start;
+      set["data.totalMileage"] -= dist;
+      if (trip.isBusiness){
+        set["data.businessMiles"] -= dist;
+        set["data.businessTrips"]--;
+      }
+    });
+    tripIds = tripIds.map(id => mongoose.Types.ObjectId(id));
+    User.findByIdAndUpdate(_id,
+      { $pull: { "data.trips": { _id: {$in: tripIds} } },
+        $inc: set },
+      { multi: true, new: true }, 
+      (error, updatedUser) => {
+        if (error) return done(error);
+        if (!updatedUser) return done(null, false);
+        const { totalMileage, businessMiles, businessTrips } = updatedUser.data;
+        return done(null, { trips: tripIds, totalMileage, businessMiles, businessTrips })
+      })
+  })
 }
 
 // vehicle operations

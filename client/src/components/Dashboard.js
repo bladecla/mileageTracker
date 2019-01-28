@@ -35,7 +35,6 @@ class Dashboard extends Component {
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
 
-    console.log(selected)
     return (
       authFailed || !loggedIn 
       ? <LoggedRedirect 

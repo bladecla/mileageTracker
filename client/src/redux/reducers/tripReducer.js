@@ -1,4 +1,4 @@
-import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP, LOGOUT, DELETE_VEHICLE, UPDATE_VEHICLE, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP } from '../actions/types'
+import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP, LOGOUT, DELETE_VEHICLE, UPDATE_VEHICLE, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP, RESET } from '../actions/types'
 
 const initialState = {
     trips: [],
@@ -81,12 +81,19 @@ export default function (state = initialState, { type, payload }){
     case BATCH_DELETE_TRIP:
       return {
         ...state,
-        trips: state.trips.filter(trip => !payload.includes(trip._id))
+        trips: state.trips.filter(trip => !payload.trips.includes(trip._id)),
+        selected: state.selected.filter(trip => !payload.trips.includes(trip._id)),
+        totalMileage: payload.totalMileage,
+        businessMiles: payload.businessMiles,
+        businessTrips: payload.businessTrips
       }
 
     case LOGOUT:
       return initialState;
-
+    
+    case RESET:
+      return initialState;
+      
     default:
       return state
   }

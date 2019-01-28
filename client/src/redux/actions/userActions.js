@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { cleanTrips, cleanNumbers, success, getCachedUserData, cacheUserData } from './../../helpers';
-import { LOGIN, LOGOUT, AUTHENTICATING, SET_TRIPS, SET_VEHICLES, SET_EMAIL, SET_NAME} from './../actions/types';
+import { LOGIN, LOGOUT, AUTHENTICATING, SET_TRIPS, SET_VEHICLES, SET_EMAIL, SET_NAME, RESET} from './../actions/types';
 
 export const setAuthenticating = () => {
   return {
@@ -77,6 +77,19 @@ export const changeName = newName => dispatch => {
         payload: data.name
       })
       console.log("name change successful")
+    }
+  }, err => console.error(err))
+}
+
+export const reset = () => dispatch => {
+  axios
+  .get('/api/users/reset')
+  .then(({data}) => {
+    if (success(data.status, dispatch)){
+      dispatch({
+        type: RESET
+      })
+      console.log("user data reset successful")
     }
   }, err => console.error(err))
 }
