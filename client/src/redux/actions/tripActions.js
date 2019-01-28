@@ -1,11 +1,17 @@
 import axios from 'axios';
 import { cleanTrips, cleanNumbers, success } from './../../helpers';
-import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP } from './types';
+import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP, SELECT_ALL, DESELECT_ALL } from './types';
 
 export const selectTrip = trip => {
     return {
         type: SELECT_TRIP,
         payload: trip
+    }
+}
+
+export const selectAll = isSelect => {
+    return {
+        type: isSelect ? SELECT_ALL : DESELECT_ALL
     }
 }
 

@@ -5,7 +5,7 @@ import Modal from './Modal';
 import TripForm from './TripForm';
 import Insights from './Insights';
 import { connect } from 'react-redux';
-import { addTrip, getTrips, deleteTrip, updateTrip, selectTrip } from './../redux/actions/tripActions'
+import { addTrip, getTrips, deleteTrip, updateTrip, selectTrip, selectAll } from './../redux/actions/tripActions'
 import { addVehicle } from './../redux/actions/vehicleActions';
 import { checkAuth, logout } from './../redux/actions/userActions';
 import LoggedRedirect from './LoggedRedirect';
@@ -31,7 +31,7 @@ class Dashboard extends Component {
     const { trips, selected, totalMileage, businessMiles, businessTrips } = this.props.trips;
     const { authenticating, loggedIn, authFailed } = this.props.user;
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
-    const { deleteTrip, selectTrip } = this.props;
+    const { deleteTrip, selectTrip, selectAll } = this.props;
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
 
@@ -56,7 +56,7 @@ class Dashboard extends Component {
                 delete={deleteTrip} 
               />)}
             </TripPane>
-            <ContextPane selected={selected} />
+            <ContextPane selected={selected} selectAll={selectAll}/>
           </div>
         </React.Fragment>}   
         {this.state.isTripModalOpen && 
@@ -74,6 +74,6 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, selectTrip, addVehicle, checkAuth, logout}
+const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, selectTrip, addVehicle, checkAuth, logout, selectAll}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
