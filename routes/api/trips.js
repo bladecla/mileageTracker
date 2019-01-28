@@ -24,5 +24,6 @@ router.delete('/:_id', checkAuth, (req, res) => User.deleteTrip(req.params._id, 
 
 router.route('/batch')
     .put(checkAuth, (req, res) => User.batchUpdateTrips(req.user._id, req.body.tripIds, req.body.updates, callback(res)))
+    .post(checkAuth, (req, res) => User.batchDeleteTrips(req.user._id, req.body.tripIds, callback(res)))
 
 module.exports = router;

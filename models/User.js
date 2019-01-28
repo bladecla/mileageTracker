@@ -222,13 +222,25 @@ module.exports.batchUpdateTrips = (_id, tripIds, updateValues, done) => {
   for (const field in updateValues) {
     updates["data.trips.$[trip]." + field] = updateValues[field];
   }
-  User.findOneAndUpdate({_id: _id}, 
+  User.findByIdAndUpdate(_id, 
     { $set: updates }, 
     { arrayFilters: [{"trip._id": {$in: tripIds} }], multi: true, new: true },
     (err, user) => {
       if (err) return done(err);
       if (!user) return done(null, false);
       return done(null, { trips: tripIds.map(id => user.data.trips.id(id)) })
+    })
+}
+
+module.exports.batchDeleteTrips = (_id, tripIds, done) => {
+  tripIds = tripIds.map(id => mongoose.Types.ObjectId(id));
+  User.findByIdAndUpdate(_id,
+    { $pull: { "data.trips": { _id: {$in: tripIds} } } },
+    { multi: true, new: true }, 
+    (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      return done(null, { trips: tripIds })
     })
 }
 

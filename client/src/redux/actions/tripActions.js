@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { cleanTrips, cleanNumbers, success } from './../../helpers';
-import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP, SELECT_TRIP } from './types';
+import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP } from './types';
 
 export const selectTrip = trip => {
     return {
@@ -73,6 +73,32 @@ export const deleteTrip = tripId => dispatch => {
                     ...cleanNumbers({ totalMileage, businessMiles, businessTrips }),
                     _id
                 }
+            })
+        }
+    }, err => console.error(err))
+}
+
+export const batchUpdateTrips = tripIds => dispatch => {
+    axios
+    .put('/api/trips/batch', tripIds)
+    .then(({data}) => {
+        if (success(data.status)){
+            dispatch({
+                type: BATCH_UPDATE_TRIP,
+                payload: data.trips
+            })
+        }
+    }, err => console.error(err))
+}
+
+export const batchDeleteTrips = tripIds => dispatch => {
+    axios
+    .post('/api/trips/batch', tripIds)
+    .then(({data}) => {
+        if (success(data.status)){
+            dispatch({
+                type: BATCH_DELETE_TRIP,
+                payload: data.trips
             })
         }
     }, err => console.error(err))
