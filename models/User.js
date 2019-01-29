@@ -127,7 +127,7 @@ module.exports.getTrips = (_id, done) => {
 
 module.exports.addTrip = (_id, trip, done) => {
   if (!trip.end) return done(null, false);
-  if (typeof trip.date === "object") trip.date = trip.date.toJSON;
+  if (typeof trip.date === "object") trip.date = trip.date.toJSON();
   let dist = trip.end - trip.start;
   let changes = {
     $push: { "data.trips": trip },
@@ -200,6 +200,7 @@ module.exports.updateTrip = (newTrip, done) => {
     for (const field in newTrip.toObject()){
       updates["data.trips.$." + field] = newTrip[field];
     }
+
     User.findOneAndUpdate({"data.trips._id": currTrip._id}, {
       $inc: {
         "data.totalMileage": distChange,
@@ -217,19 +218,52 @@ module.exports.updateTrip = (newTrip, done) => {
 }
 
 module.exports.batchUpdateTrips = (_id, tripIds, updateValues, done) => {
-  tripIds = tripIds.map(id => mongoose.Types.ObjectId(id));
-  const updates = {};
-  for (const field in updateValues) {
-    updates["data.trips.$[trip]." + field] = updateValues[field];
-  }
-  User.findByIdAndUpdate(_id, 
-    { $set: updates }, 
-    { arrayFilters: [{"trip._id": {$in: tripIds} }], multi: true, new: true },
-    (err, user) => {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      return done(null, { trips: tripIds.map(id => user.data.trips.id(id)) })
-    })
+  User.findById(_id, (err, user) => {
+    if (err) return done(err);
+    if (!user) return done(null, false);
+
+    const changes = {};
+    const set = {};
+    for (const field in updateValues) {
+      set["data.trips.$[trip]." + field] = updateValues[field];
+    }
+    if (updateValues.hasOwnProperty("isBusiness")){
+      let businessMilesChange = 0,
+          businessTripsChange = 0;
+      const isBusiness = updateValues.isBusiness === true;
+      tripIds = tripIds.map(id => {
+        const { start, end, isBusiness: wasBusiness} = user.data.trips.id(id);
+        if (wasBusiness && !isBusiness){
+          businessTripsChange--;
+          businessMilesChange -= end - start;
+        } 
+        else if (!wasBusiness && isBusiness){
+          businessTripsChange++;
+          businessMilesChange += end - start;
+        }
+        console.log(mongoose.Types.ObjectId(id))
+        return mongoose.Types.ObjectId(id);
+      })
+      changes["$inc"] = {
+        "data.businessMiles": businessMilesChange,
+        "data.businessTrips": businessTripsChange
+      }
+    } 
+    else {
+      tripIds = tripIds.map(id => mongoose.Types.ObjectId(id));
+    }
+    changes["$set"] = set;
+    
+    User.findByIdAndUpdate(_id, changes, 
+      { arrayFilters: [{"trip._id": {$in: tripIds} }], multi: true, new: true },
+      (error, updatedUser) => {
+        if (error) return done(error);
+        if (!updatedUser) return done(null, false);
+        const {totalMileage, businessMiles, businessTrips} = updatedUser.data;
+        return done(null, { trips: tripIds.map(id => updatedUser.data.trips.id(id)), totalMileage, businessMiles, businessTrips })
+      }
+    )
+  })
 }
 
 module.exports.batchDeleteTrips = (_id, tripIds, done) => {

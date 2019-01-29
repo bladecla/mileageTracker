@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { addVehicle } from './../redux/actions/vehicleActions'
 import { addTrip, updateTrip } from './../redux/actions/tripActions'
 import style from './styles/form.css'
-import { stringifyDate } from './../helpers';
+import { stringifyDate, JSONtoDateObject } from './../helpers';
 import AddVehicle from './AddVehicle';
 
 const {form, error, body, checkbox, checked, unchecked, label, checkgroup} = style;
@@ -47,7 +47,7 @@ class TripForm extends Component {
             const tripData = { ...this.state.trip };
             const { addTrip, updateTrip, close, isUpdate } = this.props;
             const onSubmit = isUpdate ? updateTrip : addTrip;
-            if (!this.state.trip.date) tripData.date = new Date();
+            if (!this.state.trip.date) tripData.date = new Date()
             onSubmit(tripData);
             if (close) close();
         }
@@ -73,13 +73,8 @@ class TripForm extends Component {
         trip: { ...this.state.trip, isBusiness: !this.state.trip.isBusiness } 
     });
 
-    dateChange = (e) => {
-        const [ year, month, day ] = e.target.value.split('-').map(str => parseInt(str));
-        this.setState({
-            trip: { ...this.state.trip, date: new Date(year, month - 1, day) }
-        });
-    }
-
+    dateChange = ({ target }) => this.setState({ trip: { ...this.state.trip, date: JSONtoDateObject(target.value) } });
+    
     vehicleChange = ({ target }) => {
         const { value } = target;
         if (value) this.setState({

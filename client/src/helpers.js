@@ -6,7 +6,7 @@ export const JSONtoDateObject = date => {
     const [yyyy, mm, dd] = date.slice(0, 11).split('-').map(n => parseInt(n));
     return new Date(yyyy, mm - 1, dd);
   } else return date;
-} 
+}
 
 // convert from Date object to string formatted to be displayed
 export const processDate = inputDate => {

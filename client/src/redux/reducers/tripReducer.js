@@ -85,7 +85,19 @@ export default function (state = initialState, { type, payload }){
       }
 
     case BATCH_UPDATE_TRIP:
-      return state;
+      let updatedTrips = [...state.trips];
+      payload.trips.forEach(trip => {
+        const idx = updatedTrips.findIndex(elem => elem._id === trip._id);
+        updatedTrips[idx] = trip;
+      })
+      return {
+        ...state,
+        trips: updatedTrips,
+        totalMileage: payload.totalMileage,
+        businessMiles: payload.businessMiles,
+        businessTrips: payload.businessTrips
+        
+      };
 
     case BATCH_DELETE_TRIP:
       return {
