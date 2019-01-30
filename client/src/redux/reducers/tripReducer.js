@@ -1,4 +1,4 @@
-import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP, LOGOUT, DELETE_VEHICLE, UPDATE_VEHICLE, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP, RESET, SELECT_ALL, DESELECT_ALL } from '../actions/types'
+import { ADD_TRIP, GET_TRIPS, SET_TRIPS, DELETE_TRIP, UPDATE_TRIP, LOGOUT, DELETE_VEHICLE, UPDATE_VEHICLE, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP, RESET, SELECT_ALL, DESELECT_ALL, BATCH_SELECT_TRIP } from '../actions/types'
 
 const initialState = {
     trips: [],
@@ -30,6 +30,12 @@ export default function (state = initialState, { type, payload }){
       return state.selected.find(trip => trip._id === payload._id)
         ? { ...state, selected: state.selected.filter(trip => trip._id !== payload._id) }
         : { ...state, selected: [...state.selected, payload] }
+
+    case BATCH_SELECT_TRIP:
+      const tripIds = payload.trips.map(t => t._id)
+      return payload.isSelect
+        ? { ...state, selected: [ ...state.selected, ...payload.trips ] }
+        : { ...state, selected: state.selected.filter(trip => !tripIds.includes(trip._id)) }
 
     case SELECT_ALL:
       const selection = state.trips.length !== state.selected.length

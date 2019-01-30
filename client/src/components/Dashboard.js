@@ -5,7 +5,7 @@ import Modal from './Modal';
 import TripForm from './TripForm';
 import Insights from './Insights';
 import { connect } from 'react-redux';
-import { addTrip, getTrips, deleteTrip, updateTrip, selectTrip, selectAll } from './../redux/actions/tripActions'
+import { addTrip, getTrips, deleteTrip, updateTrip, selectTrip, selectAll, batchSelectTrip } from './../redux/actions/tripActions'
 import { addVehicle } from './../redux/actions/vehicleActions';
 import { checkAuth, logout } from './../redux/actions/userActions';
 import LoggedRedirect from './LoggedRedirect';
@@ -31,19 +31,30 @@ class Dashboard extends Component {
 
   processTrips = () => {
     const { selected, trips } = this.props.trips,
-          { selectTrip, deleteTrip} = this.props;
+          { selectTrip, deleteTrip, batchSelectTrip} = this.props;
     const processed = [];
-    let lastTripIds = [], lastDate;
+    let lastTrips = [], lastDate;
     
-    trips.sort((a,b) => b.date - a.date ).forEach((trip, i) => {
+    trips.sort((a,b) => b.date - a.date);
+    for (let i = trips.length -1; i > -1; i--) {
+      const trip = trips[i];
       let { date, _id } = trip;
-      
-      if(processDate(date) !== lastDate){
-        lastDate = processDate(date);
-        processed.push(<Day date={lastDate} tripIds={lastTripIds} select={() => console.log("hi.")} key={"day" + _id + i}/>);
-        lastTripIds = [];
+      let currentDate = processDate(date);
+
+      if (!lastDate) lastDate = currentDate;
+      if(currentDate !== lastDate){
+        processed.unshift(
+          <Day date={lastDate} 
+          trips={lastTrips} 
+          selected={selected} 
+          select={batchSelectTrip}
+          key={lastDate + _id}
+          />
+        );
+        lastDate = currentDate;
+        lastTrips = [];
       }
-      processed.push(
+      processed.unshift(
         <Trip key={_id} 
         {...trip}
         selected={selected.find(sel => sel._id === _id) ? true : false}
@@ -51,8 +62,18 @@ class Dashboard extends Component {
         delete={deleteTrip} 
         />
       );
-      lastTripIds.push(_id);
-    })
+      lastTrips.push(trip);
+      if(i === 0){
+        processed.unshift(
+          <Day date={lastDate} 
+          trips={lastTrips} 
+          selected={selected} 
+          select={batchSelectTrip}
+          key={lastDate + _id}
+          />
+        );
+      }
+    }
     return processed;
   }
   
@@ -98,6 +119,6 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, selectTrip, addVehicle, checkAuth, logout, selectAll}
+const mapDispatchToProps = {getTrips, addTrip, deleteTrip, updateTrip, selectTrip, addVehicle, checkAuth, logout, selectAll, batchSelectTrip}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

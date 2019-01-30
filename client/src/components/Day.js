@@ -2,15 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Day = props => {
-  const { date, tripIds, select } = props;
-  
+  const { date, trips, select, selected } = props;
+  const unselected = trips.filter(trip => !selected.find(t => t._id === trip._id))
+  const checked = unselected.length === 0;
+
   function selectAll(){
-    select(tripIds);
+    if (checked) return select(trips, false);
+    select(unselected);
   }
 
   return (
-    <div className="day trip">
-      <input onChange={selectAll} type="checkbox" />
+    <div className="day">
+      <input onChange={selectAll} type="checkbox" checked={checked} />
       <span>{date}</span>
     </div>
   )
@@ -18,7 +21,7 @@ const Day = props => {
 
 Day.propTypes = {
   date: PropTypes.string.isRequired,
-  tripIds: PropTypes.array.isRequired,
+  trips: PropTypes.array.isRequired,
   select: PropTypes.func.isRequired
 }
 

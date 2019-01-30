@@ -51,7 +51,6 @@ class Trip extends Component {
     const trip = {_id, start, end, isBusiness, vehicle, date};
     const { deletePending, updatePending, isMouseOver} = this.state;
     const tripDist = end - start;
-    const styledDate = date ? processDate(date) : "";
     return (
       <React.Fragment>
         <div className={selected ? "selected trip" : "trip"} onClick={this.toggleSelect} onMouseEnter={this.mouseIn} onMouseLeave={this.mouseOut}>
@@ -61,7 +60,6 @@ class Trip extends Component {
           <span style={isBusiness ? earnings : {}}>
             {isBusiness ? "$" + (tripDist * 0.0545).toFixed(2) : "--"}
           </span>
-          <span style={gray}>{styledDate}</span>
           <span>{vehicle}</span>
           {isMouseOver && <i className="fa fa-pencil icon" onClick={this.openUpdateModal}></i>}
           {isMouseOver && <i className="fa fa-times icon" onClick={this.openDeleteModal}></i>}

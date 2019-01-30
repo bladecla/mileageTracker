@@ -152,7 +152,7 @@ label {
 .trip {
   font-family: 'Raleway', sans-serif;
   display: grid; 
-  grid-template-columns: 20px 80px 80px 1fr 1fr 1fr 25px 25px;
+  grid-template-columns: 20px 80px 80px 1fr 1fr 25px 25px;
   padding: .75rem;
   border-bottom: 2px dotted rgb(197, 197, 197);
   text-align: center;
@@ -164,6 +164,14 @@ label {
 .day {
   color: whitesmoke;
   background-color: #333;
+  font-size: .75rem;
+  font-family: 'Roboto Slab', sans-serif;
+  display: grid; 
+  grid-template-columns: 40px 1fr 50px;
+  padding: .3rem;
+  width: 100%;
+  user-select: none;
+  align-self: center;
 }
 
 .trip:hover, .selected.trip{
