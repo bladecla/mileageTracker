@@ -270,22 +270,22 @@ module.exports.batchDeleteTrips = (_id, tripIds, done) => {
   User.findById(_id, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
-    var set = {
+    const set = {
       "data.totalMileage": 0,
       "data.businessMiles": 0,
       "data.businessTrips": 0
     }
-    tripIds.forEach(id => {
+    tripIds = tripIds.map(id => {
       const trip = user.data.trips.id(id);
       if (!trip.end) return done(null, false);
       const dist = trip.end - trip.start;
       set["data.totalMileage"] -= dist;
-      if (trip.isBusiness){
+      if (trip.isBusiness === true){
         set["data.businessMiles"] -= dist;
         set["data.businessTrips"]--;
       }
+      return mongoose.Types.ObjectId(id)
     });
-    tripIds = tripIds.map(id => mongoose.Types.ObjectId(id));
     User.findByIdAndUpdate(_id,
       { $pull: { "data.trips": { _id: {$in: tripIds} } },
         $inc: set },

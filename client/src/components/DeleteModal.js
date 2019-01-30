@@ -6,9 +6,9 @@ import style from './styles/trip.css'
 const DeleteModal = props => {
   const { resourceName, close, onSubmit } = props;
   return (
-    <Modal title={`Delete ${resourceName}?`} formName="delete" label={"Delete This " + resourceName} close={close}>
+    <Modal title={`Delete ${resourceName}?`} formName="delete" label="Delete" close={close}>
       <form id="delete" onSubmit={onSubmit}>
-        <p style={style.p}>{`Are you sure you want to delete this ${resourceName.toLowerCase()}?`}</p>
+        <p style={style.p}>{`Are you sure you want to delete ${resourceName.toLowerCase()}?`}</p>
         <input type="hidden" name="a" value="b"/>
       </form>
     </Modal>

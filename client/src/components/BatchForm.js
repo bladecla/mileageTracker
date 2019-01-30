@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { batchDeleteTrips, batchUpdateTrips } from './../redux/actions/tripActions'
 import style from './styles/form.css'
 import { JSONtoDateObject } from '../helpers';
+import DeleteModal from './DeleteModal';
 
 const { form, body } = style;
 
@@ -12,7 +13,8 @@ class BatchForm extends Component {
     super(props)
   
     this.state = {
-       updates: {}
+      showDeleteModal: false,
+      updates: {}
     }
   }
   
@@ -20,6 +22,8 @@ class BatchForm extends Component {
     batchDeleteTrips: PropTypes.func.isRequired,
     batchUpdateTrips: PropTypes.func.isRequired,
   }
+
+  toggleDeleteModal = () => this.setState({ showDeleteModal: !this.state.showDeleteModal })
 
   onVehicleChange = ({ target }) => {
     const { updates } = this.state;
@@ -42,6 +46,12 @@ class BatchForm extends Component {
     const tripIds = this.props.selected.map(trip => trip._id);
     this.props.batchUpdateTrips(tripIds, this.state.updates)
   }
+  
+  delete = e => {
+    e.preventDefault();
+    const tripIds = this.props.selected.map(trip => trip._id);
+    this.props.batchDeleteTrips(tripIds)
+  }
 
   render() {
     const { vehicles } = this.props.vehicles;
@@ -63,7 +73,10 @@ class BatchForm extends Component {
           </select>
           <input className="submit m10" type="submit" value="Update" />
         </form>
-        <button className="submit m10">Delete</button>
+        <button className="submit m10" onClick={this.toggleDeleteModal}>Delete</button>
+        {this.state.showDeleteModal &&
+        <DeleteModal resourceName={"These Trips"} close={this.toggleDeleteModal} onSubmit={this.delete} />
+        }
       </div>
     )
   }

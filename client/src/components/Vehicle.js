@@ -58,7 +58,7 @@ export default class Vehicle extends Component {
           <i className="fa fa-times icon" onClick={this.toggleDeleteModal}></i>
         </div>
         {this.state.isDeleteModalOpen && 
-        <DeleteModal resourceName={"Vehicle"} close={this.toggleDeleteModal} onSubmit={this.delete}
+        <DeleteModal resourceName={"This Vehicle"} close={this.toggleDeleteModal} onSubmit={this.delete}
         />}
       </React.Fragment>
     )

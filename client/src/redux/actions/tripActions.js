@@ -106,7 +106,7 @@ export const batchUpdateTrips = (tripIds, updates) => dispatch => {
 
 export const batchDeleteTrips = tripIds => dispatch => {
     axios
-    .post('/api/trips/batch', tripIds)
+    .post('/api/trips/batch', {tripIds})
     .then(({data}) => {
         if (success(data.status, dispatch)){
             const {trips, totalMileage, businessMiles, businessTrips} = data;
@@ -114,7 +114,7 @@ export const batchDeleteTrips = tripIds => dispatch => {
                 type: BATCH_DELETE_TRIP,
                 payload: {
                     ...cleanNumbers({ totalMileage, businessMiles, businessTrips }),
-                    trips: cleanTrips(trips)
+                    trips
                 }
             })
         }
