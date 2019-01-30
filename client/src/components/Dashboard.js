@@ -48,8 +48,9 @@ class Dashboard extends Component {
         <React.Fragment>
           <Insights {...insightsData}/>
           <div style={{display: "flex"}}>
-            <TripPane addChild={this.toggleTripModal}>
-              {trips.map(trip => <Trip key={trip._id} 
+            <TripPane addChild={this.toggleTripModal} selectAll={selectAll}>
+              {trips.sort((a , b) => b.date - a.date )
+                .map(trip => <Trip key={trip._id} 
                 {...trip}
                 selected={selected.find(sel => sel._id === trip._id) ? true : false}
                 select={selectTrip}

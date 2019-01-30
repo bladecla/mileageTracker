@@ -9,7 +9,7 @@ export const selectTrip = trip => {
     }
 }
 
-export const selectAll = isSelect => {
+export const selectAll = (isSelect = true) => {
     return {
         type: isSelect ? SELECT_ALL : DESELECT_ALL
     }
