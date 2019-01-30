@@ -10,6 +10,8 @@ import { addVehicle } from './../redux/actions/vehicleActions';
 import { checkAuth, logout } from './../redux/actions/userActions';
 import LoggedRedirect from './LoggedRedirect';
 import ContextPane from './ContextPane';
+import { processDate } from '../helpers';
+import Day from './Day';
 
 class Dashboard extends Component {
   constructor(props){
@@ -26,12 +28,39 @@ class Dashboard extends Component {
   }
 
   toggleTripModal = () => this.setState({ isTripModalOpen: !this.state.isTripModalOpen });
+
+  processTrips = () => {
+    const { selected, trips } = this.props.trips,
+          { selectTrip, deleteTrip} = this.props;
+    const processed = [];
+    let lastTripIds = [], lastDate;
+    
+    trips.sort((a,b) => b.date - a.date ).forEach((trip, i) => {
+      let { date, _id } = trip;
+      
+      if(processDate(date) !== lastDate){
+        lastDate = processDate(date);
+        processed.push(<Day date={lastDate} tripIds={lastTripIds} select={() => console.log("hi.")} key={"day" + _id + i}/>);
+        lastTripIds = [];
+      }
+      processed.push(
+        <Trip key={_id} 
+        {...trip}
+        selected={selected.find(sel => sel._id === _id) ? true : false}
+        select={selectTrip}
+        delete={deleteTrip} 
+        />
+      );
+      lastTripIds.push(_id);
+    })
+    return processed;
+  }
   
   render(){
     const { trips, selected, totalMileage, businessMiles, businessTrips } = this.props.trips;
     const { authenticating, loggedIn, authFailed } = this.props.user;
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
-    const { deleteTrip, selectTrip, selectAll } = this.props;
+    const { selectAll } = this.props;
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
 
@@ -49,13 +78,7 @@ class Dashboard extends Component {
           <Insights {...insightsData}/>
           <div style={{display: "flex"}}>
             <TripPane addChild={this.toggleTripModal} selectAll={selectAll}>
-              {trips.sort((a , b) => b.date - a.date )
-                .map(trip => <Trip key={trip._id} 
-                {...trip}
-                selected={selected.find(sel => sel._id === trip._id) ? true : false}
-                select={selectTrip}
-                delete={deleteTrip} 
-              />)}
+              {this.processTrips()}
             </TripPane>
             <ContextPane selected={selected} selectAll={selectAll}/>
           </div>
