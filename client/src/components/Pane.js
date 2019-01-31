@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types';
 
 const Pane = (props) => {
-  const {addChild, selectAll, children} = props;
+  const {addChild, selectAll, children, checked} = props;
   return (
     <div id="trip-pane" className="pane">
       <div  style={{display: "flex", justifyContent: "space-between", minHeight: "30px", marginBottom: "1rem"}}>
-        <input type="checkbox" name="selectAll" onChange={selectAll} />    
+        <input type="checkbox" name="selectAll" onChange={selectAll} checked={checked}/>    
         <h3>Trips</h3>
         <div onClick={addChild} className="icon" style={{display: "flex"}}>
           <span style={{marginRight: "1em", alignSelf: "center"}}>Add Trips</span>

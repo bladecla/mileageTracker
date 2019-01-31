@@ -82,6 +82,7 @@ class Dashboard extends Component {
     const { authenticating, loggedIn, authFailed } = this.props.user;
     const insightsData = { totalTrips: trips.length, totalMileage, businessMiles, businessTrips };
     const { selectAll } = this.props;
+    const checked = (selected.length > 0 && selected.length === trips.length)
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
 
@@ -98,7 +99,7 @@ class Dashboard extends Component {
         <React.Fragment>
           <Insights {...insightsData}/>
           <div style={{display: "flex"}}>
-            <TripPane addChild={this.toggleTripModal} selectAll={selectAll}>
+            <TripPane addChild={this.toggleTripModal} selectAll={selectAll} checked={checked}>
               {this.processTrips()}
             </TripPane>
             <ContextPane selected={selected} selectAll={selectAll}/>
