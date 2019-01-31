@@ -149,8 +149,7 @@ export class ChangePassword extends Component {
     }
   }
 
-  validate = () => this.state.newPassword === this.state.confirmPassword ? true : console.log(`${this.state.newPassword} !== ${this.state.confirmPassword}`)
-
+  validate = () => this.state.newPassword === this.state.confirmPassword
   render() {
     
     return (
@@ -167,11 +166,11 @@ export class ChangePassword extends Component {
             </div>
             <div style={labelinput}>
               <label htmlFor="newPassword">New Password: </label>
-              <input className="input" type="password" name="newPassword" onChange={this.onChange} minLength="8" required />
+              <input className="input" type="password" name="newPassword" onChange={this.onChange} minLength="8" maxLength="32" required />
             </div>
             <div style={labelinput}>
               <label htmlFor="confirmPassword">Confirm New Password: </label>
-              <input className="input" type="password" name="confirmPassword" onChange={this.onChange} minLength="8" required />
+              <input className="input" type="password" name="confirmPassword" onChange={this.onChange} minLength="8" maxLength="32" required />
             </div>
             <div style={submit}>
               <input className="submit" type="submit" value="Save"/>

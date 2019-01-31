@@ -43,8 +43,14 @@ class BatchForm extends Component {
 
   submit = e => {
     e.preventDefault();
-    const tripIds = this.props.selected.map(trip => trip._id);
-    this.props.batchUpdateTrips(tripIds, this.state.updates)
+    const { selected, batchUpdateTrips, vehicles } = this.props;
+    const { updates } = this.state;
+    const tripIds = selected.map(trip => trip._id);
+    let isVehicleNew;
+    
+    if (updates.vehicle) isVehicleNew = !vehicles.vehicles.includes(updates.vehicle);
+    console.log(isVehicleNew)
+    batchUpdateTrips(tripIds, updates, isVehicleNew)
   }
   
   delete = e => {

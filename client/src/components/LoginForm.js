@@ -51,7 +51,7 @@ class LoginForm extends Component {
               <input className="input" onChange={this.onChange} type="text" name="name" placeholder="Your Name" disabled={authenticating}/>
               }
               <input className="input" onChange={this.onChange} type="email" name="email" placeholder="email address" disabled={authenticating}/>
-              <input className="input" onChange={this.onChange} type="password" name="password" placeholder="password" disabled={authenticating}/>
+              <input className="input" onChange={this.onChange} type="password" name="password" placeholder="password" minLength="8" maxLength="32" disabled={authenticating}/>
             </form>
           </div>
           <div style={subform}>{

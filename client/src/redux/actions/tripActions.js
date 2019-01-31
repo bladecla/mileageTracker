@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { cleanTrips, cleanNumbers, success } from './../../helpers';
-import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP, SELECT_ALL, DESELECT_ALL, BATCH_SELECT_TRIP } from './types';
+import { ADD_TRIP, SET_TRIPS, GET_TRIPS, DELETE_TRIP, UPDATE_TRIP, SELECT_TRIP, BATCH_UPDATE_TRIP, BATCH_DELETE_TRIP, SELECT_ALL, DESELECT_ALL, BATCH_SELECT_TRIP, ADD_VEHICLE } from './types';
 
 export const selectTrip = trip => {
     return {
@@ -94,11 +94,12 @@ export const deleteTrip = tripId => dispatch => {
     }, err => console.error(err))
 }
 
-export const batchUpdateTrips = (tripIds, updates) => dispatch => {
+export const batchUpdateTrips = (tripIds, updates, isVehicleNew) => dispatch => {
     const body = { tripIds, updates }
-    console.log(body)
+    if (isVehicleNew) body.isVehicleNew = isVehicleNew;
+    console.log(isVehicleNew, updates.vehicle)
     axios
-    .put('/api/trips/batch', {tripIds, updates})
+    .put('/api/trips/batch', body)
     .then(({data}) => {
         console.log(data)
         if (success(data.status, dispatch)){
@@ -110,6 +111,13 @@ export const batchUpdateTrips = (tripIds, updates) => dispatch => {
                     trips: cleanTrips(trips)
                 }
             })
+            if (isVehicleNew && updates.vehicle) {
+                console.log("adding vehicle ", updates.vehicle)
+                dispatch({
+                    type: ADD_VEHICLE,
+                    payload: updates.vehicle
+                })
+            }
         }
     }, err => console.error(err))
 }
