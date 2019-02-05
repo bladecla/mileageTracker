@@ -22,7 +22,7 @@ export class ChangeName extends Component {
     onSubmit: PropTypes.func.isRequired
   }
 
-  onChange = ({ target }) => this.setState({ [target.name]: target.value })
+  onChange = ({ target }) => this.setState({ [target.name]: target.value, invalidInput: false })
 
   submit = e => {
     e.preventDefault();
@@ -80,7 +80,7 @@ export class ChangeEmail extends Component {
     onSubmit: PropTypes.func.isRequired
   }
 
-  onChange = ({ target }) => this.setState({ [target.name]: target.value })
+  onChange = ({ target }) => this.setState({ [target.name]: target.value, invalidInput: false })
 
   submit = e => {
     e.preventDefault();
@@ -144,7 +144,7 @@ export class ChangePassword extends Component {
     onSubmit: PropTypes.func.isRequired
   }
 
-  onChange = ({ target }) => this.setState({ [target.name]: target.value })
+  onChange = ({ target }) => this.setState({ [target.name]: target.value, invalidInput: false })
 
   submit = e => {
     e.preventDefault();

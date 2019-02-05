@@ -29,20 +29,20 @@ class BatchForm extends Component {
 
   onVehicleChange = ({ target }) => {
     const { updates } = this.state;
-    this.setState({updates: {...updates, [target.name]: target.value} });
+    this.setState({updates: {...updates, [target.name]: target.value}, errors: [] });
   }
   
   onBusinessChange = ({ target }) => {
     const { updates } = this.state;
     const { value } = target;
-    if (value) return this.setState({ updates: {...updates, isBusiness: value === "true" }});
+    if (value) return this.setState({ updates: {...updates, isBusiness: value === "true" }, errors: [] });
     this.setState({ updates: {...updates, isBusiness: "" }})
   }
 
   onDateChange = ({ target }) => {
     const { updates } = this.state;
     console.log(target.value)
-    this.setState({ updates: {...updates, date: JSONtoDateObject(target.value)}})
+    this.setState({ updates: {...updates, date: JSONtoDateObject(target.value)}, errors: [] })
   }
 
   validate = () => {
@@ -53,7 +53,9 @@ class BatchForm extends Component {
     if (date && date.getTime() > Date.now()) {
       this.setState({ errors: [
         ...errors,
-        <ErrorMsg>Date cannot be in the future.</ErrorMsg>
+        <ErrorMsg key={"err"+date.getTime()}>
+          Date cannot be in the future.
+        </ErrorMsg>
         ]
       })
       return false;
@@ -61,7 +63,9 @@ class BatchForm extends Component {
     if (vehicle && vehicle.length > 32) {
       this.setState({ errors: [
         ...errors,
-        <ErrorMsg>Vehicle nickname cannot exceed 32 characters.</ErrorMsg>
+        <ErrorMsg key={"err"+vehicle+vehicle.length}>
+          Vehicle nickname cannot exceed 32 characters.
+        </ErrorMsg>
         ]
       })
       return false;

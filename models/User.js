@@ -44,7 +44,7 @@ module.exports = User = mongoose.model('User', userSchema);
 // local authentication strategy
 
 module.exports.localAuth = (email, password, done) => {
-  User.findOne({ email: email }, (err, user) => {
+  User.findOne({ email }, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, false);
     if (!bcrypt.compareSync(password, user.password)) return done(null, false);
@@ -55,7 +55,7 @@ module.exports.localAuth = (email, password, done) => {
 // user operations
 
 module.exports.findByEmail = (email, done) => {
-  User.findOne({ email: email }, (err, user) => {
+  User.findOne({ email }, (err, user) => {
     if (err) return done(err);
     if (!user) return done(null, {status: 404});
     done(null, user);
@@ -63,7 +63,7 @@ module.exports.findByEmail = (email, done) => {
 }
 
 module.exports.register = (name, email, password, done) => {
-  User.findOne({ email: email }, (err, user) => {
+  User.findOne({ email }, (err, user) => {
     if (err) return done(err);
     if (user) return done(new Error('User already exists.'));
     if (!user) user = new User({name, email, password: bcrypt.hashSync(password, 12)});
@@ -319,7 +319,7 @@ module.exports.getVehicles = (_id, done) => {
 }
 
 module.exports.updateVehicle = (_id, vehicle, newVehicle, done) => {
-  User.findOneAndUpdate({_id: _id, "data.vehicles": vehicle}, 
+  User.findOneAndUpdate({_id, "data.vehicles": vehicle}, 
     { $set: { "data.vehicles.$": newVehicle, "data.trips.$[trip].vehicle": newVehicle }},
     { arrayFilters: [ { "trip.vehicle": vehicle } ], multi: true, new: true }, 
     (err, user) => {
@@ -330,7 +330,7 @@ module.exports.updateVehicle = (_id, vehicle, newVehicle, done) => {
 }
 
 module.exports.deleteVehicle = (_id, vehicle, done) => {
-  User.findOneAndUpdate({ _id: _id, "data.trips.vehicle": vehicle }, 
+  User.findByIdAndUpdate(_id, 
     { $pull: { "data.vehicles": vehicle }, 
       $unset: { "data.trips.$[trip].vehicle": "" } }, 
       { arrayFilters: [ { "trip.vehicle": vehicle } ], multi: true, new: true }, 

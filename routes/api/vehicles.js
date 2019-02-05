@@ -8,7 +8,7 @@ const callback = res => (err, vehicles) => {
     console.error(err);
     return res.status(500).json({status: 500})
   }
-  if (!vehicles) res.json({status: 404});
+  if (!vehicles) return res.json({status: 404});
   res.send(vehicles);
 }
 
