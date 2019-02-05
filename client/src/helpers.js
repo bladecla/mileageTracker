@@ -3,13 +3,15 @@ import { LOGOUT } from './redux/actions/types';
 // convert dates from JSON strings used in API to Date object
 export const JSONtoDateObject = date => {
   if (typeof date === "string"){
+    if (!date) return null;
     const [yyyy, mm, dd] = date.slice(0, 11).split('-').map(n => parseInt(n));
-    return new Date(yyyy, mm - 1, dd);
+    return new Date(yyyy, mm - 1, dd)
   } else return date;
 }
 
 // convert from Date object to string formatted to be displayed
 export const processDate = inputDate => {
+    if (!inputDate) return "";
     if (typeof inputDate === "string") inputDate = JSONtoDateObject(inputDate);
     let weekdays, day, month, date, year;
     weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -23,8 +25,7 @@ export const processDate = inputDate => {
 // convert Date object to string formatted to be value for <input type=date/>
 export const stringifyDate = date => {
     function doubleDigits(num){
-      if (num.toString().length < 2) num = "0" + num;
-      return num;
+      return num.toString().length < 2 ? "0" + num : num;
     };
     return date ? `${date.getFullYear()}-${doubleDigits(date.getMonth() + 1)}-${doubleDigits(date.getDate())}` : "";
   }

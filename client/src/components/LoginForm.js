@@ -7,8 +7,9 @@ import { connect } from 'react-redux'
 import { login, register } from "./../redux/actions/userActions"
 import { Link } from 'react-router-dom';
 import LoggedRedirect from './LoggedRedirect';
+import ErrorMsg from './ErrorMsg';
 
-const { form, body, error, subform, redir } = formStyle;
+const { form, body, subform, redir } = formStyle;
 
 class LoginForm extends Component {
   constructor(props){
@@ -44,7 +45,7 @@ class LoginForm extends Component {
       loggedIn ? <LoggedRedirect to="/"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
         <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Log In"} label={isRegister ? "Register" : "Log in"} close={close}>
-          {authFailed && <p style={error}>{isRegister ? "Account already exists." : "Authorization failed."}</p>}
+          {authFailed && <ErrorMsg>{isRegister ? "Account already exists." : "Authorization failed."}</ErrorMsg>}
           <div style={{...body, height: isRegister ? "150px" : "100px"}}>
             <form id="login" onSubmit={this.onSubmit} style={form}>
               {isRegister && 

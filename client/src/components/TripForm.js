@@ -6,6 +6,7 @@ import { addTrip, updateTrip } from './../redux/actions/tripActions'
 import style from './styles/form.css'
 import { stringifyDate, JSONtoDateObject } from './../helpers';
 import AddVehicle from './AddVehicle';
+import ErrorMsg from './ErrorMsg';
 
 const {form, error, body, checkbox, checked, unchecked, label, checkgroup} = style;
 
@@ -94,8 +95,8 @@ class TripForm extends Component {
         const cbStyle = isBusiness ? checked : unchecked;
         return (
             <React.Fragment>
-                {!isTripValid && <p style={error}>Starting mileage must be less than ending mileage.</p>}
-                {!isDateValid && <p style={error}>Date cannot be in the future.</p>}
+                {!isDateValid && <ErrorMsg>Date cannot be in the future.</ErrorMsg>}
+                {!isTripValid && <ErrorMsg>Starting mileage must be less than ending mileage.</ErrorMsg>}
                 <div style={body}>
                     <form id="trip" onSubmit={this.submit} style={form}>
                         <input className="input" onChange={this.mileageChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>

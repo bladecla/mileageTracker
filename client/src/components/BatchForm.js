@@ -5,6 +5,7 @@ import { batchDeleteTrips, batchUpdateTrips } from './../redux/actions/tripActio
 import style from './styles/form.css'
 import { JSONtoDateObject } from '../helpers';
 import DeleteModal from './DeleteModal';
+import ErrorMsg from './ErrorMsg';
 
 const { form, body } = style;
 
@@ -14,7 +15,8 @@ class BatchForm extends Component {
   
     this.state = {
       showDeleteModal: false,
-      updates: {}
+      updates: {},
+      errors: []
     }
   }
   
@@ -27,29 +29,62 @@ class BatchForm extends Component {
 
   onVehicleChange = ({ target }) => {
     const { updates } = this.state;
-    this.setState({...this.state, updates: {...updates, [target.name]: target.value} });
+    this.setState({updates: {...updates, [target.name]: target.value} });
   }
   
   onBusinessChange = ({ target }) => {
     const { updates } = this.state;
     const { value } = target;
-    if (value) this.setState({...this.state, updates: {...updates, isBusiness: value === "true" }});
+    if (value) return this.setState({ updates: {...updates, isBusiness: value === "true" }});
+    this.setState({ updates: {...updates, isBusiness: "" }})
   }
 
   onDateChange = ({ target }) => {
     const { updates } = this.state;
-    this.setState({...this.state, updates: {...updates, date: JSONtoDateObject(target.value)}})
+    console.log(target.value)
+    this.setState({ updates: {...updates, date: JSONtoDateObject(target.value)}})
+  }
+
+  validate = () => {
+    const { errors, updates } = this.state;
+    const { date, vehicle, isBusiness } = updates;
+
+    if (!(isBusiness || date || vehicle )) return console.log("All fields blank.");
+    if (date && date.getTime() > Date.now()) {
+      this.setState({ errors: [
+        ...errors,
+        <ErrorMsg>Date cannot be in the future.</ErrorMsg>
+        ]
+      })
+      return false;
+    }
+    if (vehicle && vehicle.length > 32) {
+      this.setState({ errors: [
+        ...errors,
+        <ErrorMsg>Vehicle nickname cannot exceed 32 characters.</ErrorMsg>
+        ]
+      })
+      return false;
+    }
+    this.setState({ errors: [] })
+    return true;
   }
 
   submit = e => {
     e.preventDefault();
+    if (!this.validate()) return;
     const { selected, batchUpdateTrips, vehicles } = this.props;
-    const { updates } = this.state;
     const tripIds = selected.map(trip => trip._id);
+    let updates = {...this.state.updates};
     let isVehicleNew;
+
+    for (let key in updates){
+      if (!updates[key]) delete updates[key];
+    } 
+
+    console.log("sending: ", updates)
     
     if (updates.vehicle) isVehicleNew = !vehicles.vehicles.includes(updates.vehicle);
-    console.log(isVehicleNew)
     batchUpdateTrips(tripIds, updates, isVehicleNew)
   }
   
@@ -61,12 +96,14 @@ class BatchForm extends Component {
 
   render() {
     const { vehicles } = this.props.vehicles;
+    const { errors, showDeleteModal } = this.state;
 
     return (
       <div className="m10" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+        {errors}
         <form id="batch-update" onSubmit={this.submit} style={form}>
           <input className="input" onChange={this.onDateChange} name="date" type="date" />
-          <input className="input" onChange={this.onVehicleChange} list="vehicle-list" name="vehicle" placeholder="Select Vehicle" />
+          <input className="input" onChange={this.onVehicleChange} list="vehicle-list" name="vehicle" placeholder="Select Vehicle" maxLength="32" />
           <datalist className="input" id="vehicle-list">
             {vehicles.map((vehicle, idx) =>
               <option key={vehicle + idx} value={vehicle}>{vehicle}</option>
@@ -80,7 +117,7 @@ class BatchForm extends Component {
           <input className="submit m10" type="submit" value="Update" />
         </form>
         <button className="submit m10" onClick={this.toggleDeleteModal}>Delete</button>
-        {this.state.showDeleteModal &&
+        {showDeleteModal &&
         <DeleteModal resourceName={"These Trips"} close={this.toggleDeleteModal} onSubmit={this.delete} />
         }
       </div>

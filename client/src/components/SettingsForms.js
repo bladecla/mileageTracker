@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Modal from './Modal'
 import style from './styles/form.css'
 import tripStyle from './styles/trip.css'
+import ErrorMsg from './ErrorMsg';
 
 const { form, labelinput, submit } = style;
 const { p } = tripStyle;
@@ -28,6 +29,7 @@ export class ChangeName extends Component {
     if (this.validate()){
       this.props.onSubmit({newName: this.state.newName});
     }
+    else this.setState({invalidInput: true})
   }
 
   validate = () => {
@@ -36,6 +38,7 @@ export class ChangeName extends Component {
 
   render() {
     const { name } = this.props;
+    const { invalidInput } = this.state;
     return (
       <div>
         <h3>Change Name</h3>
@@ -43,6 +46,7 @@ export class ChangeName extends Component {
         <p>Your name.</p>
         <br/>
         <div>
+        {invalidInput && <ErrorMsg>New name cannot be the same as the old one.</ErrorMsg>}
           <form id="change-name" onSubmit={this.submit} className="settings-form" style={form}>
             <div style={labelinput}>
               <label>Name: </label>
@@ -84,8 +88,8 @@ export class ChangeEmail extends Component {
       const { email, onSubmit} = this.props;
       const { password, newEmail } = this.state;
       onSubmit({email, password, newEmail});
-      
     }
+    else this.setState({invalidInput: true})
   }
 
   validate = () => {
@@ -94,6 +98,7 @@ export class ChangeEmail extends Component {
 
   render() {
     const { email } = this.props;
+    const { invalidInput } = this.state;
     return (
       <div>
         <h3>Change Email Address</h3>
@@ -101,6 +106,7 @@ export class ChangeEmail extends Component {
         <p>The email address used to sign in.</p>
         <br/>
         <div>
+          {invalidInput && <ErrorMsg>New email address cannot be the same as the old one.</ErrorMsg>}
           <form id="change-email" onSubmit={this.submit} className="settings-form" style={form}>
             <div style={labelinput}>
               <label>Email: </label>
@@ -147,11 +153,12 @@ export class ChangePassword extends Component {
       const { password, newPassword } = this.state;
       onSubmit(e.target.id, { email, password, newPassword });
     }
+    else this.setState({invalidInput: true})
   }
 
   validate = () => this.state.newPassword === this.state.confirmPassword
   render() {
-    
+    const { invalidInput } = this.state;
     return (
       <div>
         <div>
@@ -159,6 +166,7 @@ export class ChangePassword extends Component {
           <hr/>
           <p>You can change your password by entering a new one below.</p>
           <br/>
+          {invalidInput && <ErrorMsg>New password and confirm password do not match.</ErrorMsg>}
           <form id="change-password" onSubmit={this.submit} className="settings-form" style={form}>
             <div style={labelinput}>
               <label htmlFor="password">Current Password: </label>
@@ -220,8 +228,8 @@ export class Reset extends Component {
         {this.state.showResetModal &&
           <Modal title={"Reset Account?"} formName="reset" label={"Reset Account"} close={this.toggleResetModal}>
             <form id="reset" onSubmit={this.submit}>
-              <p style={p}>{`Resetting this account will permanently delete all trip and vehicle records. This cannot be undone.`}</p>
-              <p style={p}>{`Are you sure you want to reset data for this account?`}</p>
+              <ErrorMsg>Resetting this account will permanently delete all trip and vehicle records. This cannot be undone.</ErrorMsg>
+              <p style={p}>Are you sure you want to reset data for this account?</p>
               <input type="hidden" name="a" value="b"/>
             </form>
           </Modal>
