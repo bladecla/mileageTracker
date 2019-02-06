@@ -21,7 +21,8 @@ class LoginForm extends Component {
         email: "",
         password: ""
       },
-      errors: []
+      invalidInput: false,
+      submitAttempted: false
     }
   }
   static propTypes = {
@@ -29,13 +30,25 @@ class LoginForm extends Component {
     close: PropTypes.func
   }
 
+  componentDidUpdate(){
+
+  }
+
   onSubmit = e => {
     e.preventDefault();
-    if (!this.validate() || this.props.user.authenticating) return console.log("invalid credentials");
+    if (!this.validate() || this.props.user.authenticating) {
+      this.setState({
+        submitAttempted: true,
+        invalidInput: true
+      })
+      return console.log("invalid credentials");
+    }
     const { isRegister, register, login, close } = this.props;
     const submit = isRegister ? register : login;
     const credentials = {...this.state.credentials};
     submit(credentials);
+    this.setState({ submitAttempted: true })
+
     if (close) close();
   }
 
@@ -60,11 +73,21 @@ class LoginForm extends Component {
   render() {
     const { isRegister, close} = this.props;
     const { authFailed, loggedIn, authenticating } = this.props.user;
+    const { invalidInput, submitAttempted } = this.state;
+
     return (
       loggedIn ? <LoggedRedirect to="/"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
         <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Log In"} label={isRegister ? "Register" : "Log in"} close={close}>
-          {authFailed && <ErrorMsg>{isRegister ? "Account already exists." : "Authorization failed."}</ErrorMsg>}
+          {
+            (invalidInput && <ErrorMsg>Invalid credentials.</ErrorMsg>)
+            ||
+            (authFailed && 
+            <ErrorMsg>
+              {submitAttempted ? (isRegister ? "Account already exists." : "Authorization failed.") : "You are not logged in."}
+            </ErrorMsg>)
+          }
+          {this.state.errors}
           <div style={{...body, height: isRegister ? "150px" : "100px"}}>
             <form id="login" onSubmit={this.onSubmit} style={form}>
               {isRegister && 
