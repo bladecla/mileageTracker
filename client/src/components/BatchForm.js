@@ -7,7 +7,7 @@ import { JSONtoDateObject } from '../helpers';
 import DeleteModal from './DeleteModal';
 import ErrorMsg from './ErrorMsg';
 
-const { form, body } = style;
+const { form } = style;
 
 class BatchForm extends Component {
   constructor(props) {
@@ -49,7 +49,9 @@ class BatchForm extends Component {
     const { errors, updates } = this.state;
     const { date, vehicle, isBusiness } = updates;
 
-    if (!(isBusiness || date || vehicle )) return console.log("All fields blank.");
+    // do not submit if all fields are blank
+    if (!(isBusiness || date || vehicle ) && isBusiness !== false) return console.log("All fields blank.");
+
     if (date && date.getTime() > Date.now()) {
       this.setState({ errors: [
         ...errors,
@@ -83,7 +85,8 @@ class BatchForm extends Component {
     let isVehicleNew;
 
     for (let key in updates){
-      if (!updates[key]) delete updates[key];
+      let value = updates[key];
+      if (!value && value !== false) delete updates[key];
     } 
 
     console.log("sending: ", updates)

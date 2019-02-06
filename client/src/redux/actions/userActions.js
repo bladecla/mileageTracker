@@ -24,7 +24,14 @@ export const login = credentials => dispatch => {
   dispatch(setAuthenticating());
   axios
   .post('/api/users/login', credentials)
-  .then(({data}) => handleAuthResponse(data, dispatch, "login successful"), err => console.error(err))
+  .then(({data}) => handleAuthResponse(data, dispatch, "login successful"), 
+    err => {
+      console.error(err)
+      dispatch({
+        type: LOGOUT,
+        payload: true
+      })
+    })
 }
 
 export const logout = () => dispatch => {
@@ -40,7 +47,14 @@ export const register = credentials => dispatch => {
   dispatch(setAuthenticating());
   axios
     .post('/api/users/register', credentials)
-    .then(({data}) => handleAuthResponse(data, dispatch, "registration successful"), err => console.error(err))
+    .then(({data}) => handleAuthResponse(data, dispatch, "registration successful"), 
+      err => {
+        console.error(err)
+        dispatch({
+          type: LOGOUT,
+          payload: true
+        })
+      })
 }
 
 export const changePassword = credentials => dispatch => {
@@ -99,6 +113,10 @@ const handleAuthResponse = ({status, user}, dispatch, successLog) => {
     if (successLog) console.log(successLog);
     dispatchLoginActions(user, dispatch)
   }
+  else dispatch({
+    type: LOGOUT,
+    payload: true
+  })
   cacheUserData(user);
 }
 

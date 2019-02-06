@@ -97,7 +97,7 @@ export const deleteTrip = tripId => dispatch => {
 export const batchUpdateTrips = (tripIds, updates, isVehicleNew) => dispatch => {
     const body = { tripIds, updates }
     if (isVehicleNew) body.isVehicleNew = isVehicleNew;
-    console.log(isVehicleNew, updates.vehicle)
+    // console.log(isVehicleNew, updates.vehicle)
     axios
     .put('/api/trips/batch', body)
     .then(({data}) => {

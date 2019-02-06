@@ -67,3 +67,7 @@ export const stringifyDate = date => {
   // caching functions
   export const getCachedUserData = () => JSON.parse(sessionStorage.getItem("userData"));
   export const cacheUserData = userData => sessionStorage.setItem("userData", JSON.stringify(userData));
+
+  //email validation
+  export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  export const validateEmail = email => emailRegex.test(email);
