@@ -92,7 +92,7 @@ class Dashboard extends Component {
         to={{
           pathname: "/login", 
           state: { redirect: true } 
-        }} from="/"/> 
+        }} from="/dashboard"/> 
       : 
       <div className="dash">
         {authenticating ? <h1>Loading...</h1> :

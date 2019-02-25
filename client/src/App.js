@@ -7,6 +7,7 @@ import Settings from './components/Settings';
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
+import LandingPage from './components/LandingPage';
 import './App.css';
 
 class App extends Component {
@@ -19,7 +20,10 @@ class App extends Component {
           <Header/>
           <Navbar loggedIn={loggedIn} name={name} logout={logout}/>
           <Switch>
-            <Route path='/' component={Dashboard} exact/>
+            <Route path="/" exact>
+              <LandingPage loggedIn={loggedIn}/>
+            </Route>
+            <Route path='/dashboard' component={Dashboard} />
             <Route path='/login'>
               <LoginForm isRegister={false}/>
             </Route>

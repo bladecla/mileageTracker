@@ -72,7 +72,7 @@ class LoginForm extends Component {
     const { invalidInput, submitAttempted } = this.state;
 
     return (
-      loggedIn ? <LoggedRedirect to="/"/> :
+      loggedIn ? <LoggedRedirect to="/dashboard"/> :
       <div style={{...modal.overlay, backgroundColor: "transparent"}}>
         <FormWrapper formName="login" title={isRegister ? "Sign Up" : "Log In"} label={isRegister ? "Register" : "Log in"} close={close}>
           {
