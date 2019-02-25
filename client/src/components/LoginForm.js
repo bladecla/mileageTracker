@@ -30,10 +30,6 @@ class LoginForm extends Component {
     close: PropTypes.func
   }
 
-  componentDidUpdate(){
-
-  }
-
   onSubmit = e => {
     e.preventDefault();
     if (!this.validate() || this.props.user.authenticating) {
