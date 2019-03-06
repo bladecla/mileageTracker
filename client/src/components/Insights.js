@@ -18,17 +18,17 @@ export default class Insights extends Component {
         personalTrips = totalTrips - businessTrips;
         
     return (
-      <div className="pane" style={{alignItems: "center", paddingBottom:"0px", paddingTop: "50px", borderTopLeftRadius: "50%", borderTopRightRadius: "50%"}}>
+      <div className="pane" style={{alignItems: "center"}}>
         {totalTrips > 0 
         ?
         <div style={{display: "flex", height: "200px", justifyContent: "space-around"}}>
-          <DonutGraph label={"Miles"} width={800} height={800} data={[businessMiles, personalMiles]} innerRadius={200} outerRadius={400} />
-          <div style={{display: "flex", flexDirection: "column", alignSelf: "center", textAlign: "center"}}>
+        <DonutGraph label={"Miles"} width={800} height={800} data={[businessMiles, personalMiles]} innerRadius={200} outerRadius={400} />
+        <DonutGraph label={"Trips"} width={800} height={800} data={[businessTrips, personalTrips]} innerRadius={200} outerRadius={400} />
+          <div style={{display: "flex", flexDirection: "column", alignSelf: "center"}}>
             <h4 style={{marginTop: "1rem"}}>{totalMileage + " mi | $" + (businessMiles * 0.0545).toFixed(2)}</h4>
             <div>{"Mileage: " + percentBusinessMiles + "% Business (" + businessMiles + " mi) | " + (100 - percentBusinessMiles).toFixed(1) + "% Personal (" + (personalMiles) + " mi)"}</div>
             <div>{"Trips: " + percentBusinessTrips + "% Business (" + businessTrips + ") | " + (100 - percentBusinessTrips).toFixed(1) + "% Personal (" + (personalTrips) + ")"}</div>
           </div>
-          <DonutGraph label={"Trips"} width={800} height={800} data={[businessTrips, personalTrips]} innerRadius={200} outerRadius={400} />
         </div>
         :
         <p>Trip statistics will appear here.</p>}

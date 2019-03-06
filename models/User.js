@@ -127,7 +127,7 @@ module.exports.getTrips = (_id, done) => {
 
 module.exports.addTrip = (_id, trip, done) => {
   if (!trip.end) return done(null, false);
-  if (typeof trip.date === "object") trip.date = trip.date.toJSON();
+  if (typeof trip.date === "object") trip.date.toJSON();
   let dist = trip.end - trip.start;
   let changes = {
     $push: { "data.trips": trip },

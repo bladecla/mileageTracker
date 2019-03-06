@@ -8,28 +8,22 @@ import { stringifyDate, JSONtoDateObject } from './../helpers';
 import AddVehicle from './AddVehicle';
 import ErrorMsg from './ErrorMsg';
 
-const {form, error, body, checkbox, checked, unchecked, label, checkgroup} = style;
+const {form, body, checkbox, checked, unchecked, label, checkgroup} = style;
 
 class TripForm extends Component {
     constructor(props){
         super(props);
-        // TODO: use object spread
+        const { isUpdate, _id, start, end, isBusiness, date, vehicle } = this.props;
         this.state = {
-            trip: this.props.isUpdate ? {
-                _id: this.props._id,
-                start: this.props.start,
-                end: this.props.end,
-                isBusiness: this.props.isBusiness,
-                date: this.props.date,
-                vehicle: this.props.vehicle
-            } : {
-                isBusiness: true
-            },
+            trip: isUpdate 
+                ? { _id, start, end, isBusiness, date, vehicle } 
+                : { isBusiness: true},
             isTripValid: true,
             isDateValid: true,
             showVehicleForm: false
         };
     }
+    
     static propTypes = {
         close: PropTypes.func,
         isUpdate: PropTypes.bool,
@@ -48,7 +42,10 @@ class TripForm extends Component {
             const tripData = { ...this.state.trip };
             const { addTrip, updateTrip, close, isUpdate } = this.props;
             const onSubmit = isUpdate ? updateTrip : addTrip;
-            if (!this.state.trip.date) tripData.date = new Date()
+            if (!this.state.trip.date) {
+                const date = new Date()
+                tripData.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+            }
             onSubmit(tripData);
             if (close) close();
         }
@@ -66,8 +63,8 @@ class TripForm extends Component {
         return validTrip && validDate;
     }
 
-    mileageChange = (e) => this.setState({ 
-        trip: { ...this.state.trip, [e.target.name]: parseFloat(e.target.value)} 
+    mileageChange = ({ target }) => this.setState({ 
+        trip: { ...this.state.trip, [target.name]: parseFloat(target.value)} 
     });
 
     checkBoxChange = () => this.setState({ 
@@ -78,9 +75,7 @@ class TripForm extends Component {
     
     vehicleChange = ({ target }) => {
         const { value } = target;
-        if (value) this.setState({
-            trip: {...this.state.trip, vehicle: value }
-        });
+        this.setState({ trip: {...this.state.trip, vehicle: value } });
     }
 
     toggleVehicleForm = () => this.setState({ showVehicleForm: !this.state.showVehicleForm })
@@ -102,11 +97,10 @@ class TripForm extends Component {
                         <input className="input" onChange={this.mileageChange} type="tel" name="start" placeholder="Starting mileage" value={start ? start : ""} required/>
                         <input className="input" onChange={this.mileageChange} type="tel" name="end" placeholder="Ending mileage" value={end ? end : ""} required/>
                         <input className="input" onChange={this.dateChange} type="date" name="date" value={dateString}/>
-                        <select className="input" onChange={this.vehicleChange} name="vehicle" value={vehicle ? vehicle : ""}>
-                            <option value="">Select Vehicle</option>
+                        <input className="input" onChange={this.vehicleChange} name="vehicle" list="vehicleList" placeholder="Vehicle Nickname" maxLength="32" value={vehicle ? vehicle : ""}/>
+                        <datalist className="input" name="vehicleList">
                             {this.props.vehicles.vehicles.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
-                        </select>
-                        <AddVehicle show={showVehicleForm} toggle={this.toggleVehicleForm} addVehicle={addVehicle}/>   
+                        </datalist>  
                         <div style={checkgroup}>
                             <i className={checkCN} onClick={this.checkBoxChange} style={{...checkbox, ...cbStyle}} ></i>
                             <label htmlFor={checkCN} style={label}>{isBusiness ? "Business" : "Personal"}</label>
