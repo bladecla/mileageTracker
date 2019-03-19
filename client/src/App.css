@@ -26,13 +26,48 @@ label {
   left: 0px;
   width: 100%;
   height: 100%;
-  z-index: -10;
+  z-index: -100;
   background-color: hsl(44, 7%, 61%);
-  /* background-image: url(https://i.imgur.com/zn6wgNR.jpg);
+  background-image: url(https://i.imgur.com/zn6wgNR.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(10px) hue-rotate(350deg) contrast(70%) grayscale(10%); */
+  filter: blur(10px) hue-rotate(350deg) contrast(70%) grayscale(10%);
+}
+
+#dash-bg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background-color: hsl(44, 8%, 65%);
+  animation: fadein 200ms linear;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from { 
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slidein {
+  to {
+    left: 0px;
+  }
 }
 
 #header {
@@ -56,7 +91,11 @@ label {
 }
 
 #welcome {
+  position: relative;
+  left: 5vw;
+  opacity: 0;
   margin: 0;
+  animation: fadein 300ms linear 200ms forwards, slidein 300ms ease 200ms forwards, fadeout 750ms linear 3s forwards;
 }
 
 #nav {
@@ -82,10 +121,12 @@ label {
 }
 
 .dash{
+  opacity: 0;
   max-width: 1200px;
   width: 80%;
   display: block;
   margin: 0 auto;
+  animation: fadein 300ms linear 500ms forwards;
 }
 
 .pane {

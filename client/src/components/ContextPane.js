@@ -39,9 +39,9 @@ export default class ContextPane extends Component {
                 : <BatchForm/>}
             </div>
           : <div style={{paddingTop: "10%"}}>
-              <h3>Select trip(s) to edit.</h3>
+              <h3>Select trips to edit.</h3>
               <div >
-                <i class="fa fa-tachometer fa-5x icon" style={{color: "gray"}}></i>
+                <i class="fa fa-tachometer fa-5x" style={{color: "gray"}}></i>
               </div>
             </div>
         }

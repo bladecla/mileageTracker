@@ -94,21 +94,24 @@ class Dashboard extends Component {
           state: { redirect: true } 
         }} from="/dashboard"/> 
       : 
-      <div className="dash">
-        {authenticating ? <h1>Loading...</h1> :
-        <React.Fragment>
-          <Insights {...insightsData}/>
-          <div style={{display: "flex"}}>
-            <TripPane addChild={this.toggleTripModal} selectAll={selectAll} checked={checked}>
-              {this.processTrips()}
-            </TripPane>
-            <ContextPane selected={selected} selectAll={selectAll}/>
-          </div>
-        </React.Fragment>}   
-        {this.state.isTripModalOpen && 
-          <Modal title="New Trip" formName="trip" label="Add Trip" close={this.toggleTripModal}>
-            <TripForm close={this.toggleTripModal}/>
-          </Modal>}
+      <div>
+        <div id="dash-bg"></div>
+        <div className="dash">
+          {authenticating ? <h1>Loading...</h1> :
+          <React.Fragment>
+            <Insights {...insightsData}/>
+            <div style={{display: "flex"}}>
+              <TripPane addChild={this.toggleTripModal} selectAll={selectAll} checked={checked}>
+                {this.processTrips()}
+              </TripPane>
+              <ContextPane selected={selected} selectAll={selectAll}/>
+            </div>
+          </React.Fragment>}   
+          {this.state.isTripModalOpen && 
+            <Modal title="New Trip" formName="trip" label="Add Trip" close={this.toggleTripModal}>
+              <TripForm close={this.toggleTripModal}/>
+            </Modal>}
+        </div>
       </div>
     );
   }
