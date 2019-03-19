@@ -122,8 +122,8 @@ class BatchForm extends Component {
             <option value={false}>Personal</option>
           </select>
           <input className="submit m10" type="submit" value="Update" />
+          <button className="plain submit m10" onClick={this.toggleDeleteModal}>Delete</button>
         </form>
-        <button className="submit m10" onClick={this.toggleDeleteModal}>Delete</button>
         {showDeleteModal &&
         <DeleteModal resourceName={"These Trips"} close={this.toggleDeleteModal} onSubmit={this.delete} />
         }

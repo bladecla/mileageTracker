@@ -26,19 +26,24 @@ export default class ContextPane extends Component {
       <div id="context" className="pane" style={{textAlign: "center"}}>
         {selSize > 0
           ? <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <div style={{width: "100%", display: "flex", justifyContent: "space-around"}}>
-              <h2>{selSize + " trips selected"}</h2>
-              <button className="submit" onClick={this.deselectAll}>Done</button>
-            </div>
+              <div style={{width: "100%", display: "flex", justifyContent: "space-around"}}>
+                <h2>{selSize + " trips selected"}</h2>
+                <button className="plain submit" onClick={this.deselectAll}>Done</button>
+              </div>
               {selSize === 1
-                ? <div className="m10" style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                ? <div className="m10" style={{width: "120%", overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center"}}>
                     <TripForm isUpdate={true} {...selected[0]} />
-                    <input className="submit m10" type="submit" form="trip" value="Update" />
-                    <button className="submit m10">Delete</button>
+                    <input className="long submit m10" type="submit" form="trip" value="Update" />
+                    <button className="long plain submit m10">Delete</button>
                   </div>
                 : <BatchForm/>}
             </div>
-          : "Select trip(s) to edit."
+          : <div style={{paddingTop: "10%"}}>
+              <h3>Select trip(s) to edit.</h3>
+              <div >
+                <i class="fa fa-tachometer fa-5x icon" style={{color: "gray"}}></i>
+              </div>
+            </div>
         }
       </div>
     )

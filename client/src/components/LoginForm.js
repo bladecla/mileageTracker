@@ -84,7 +84,7 @@ class LoginForm extends Component {
             </ErrorMsg>)
           }
           {this.state.errors}
-          <div style={{...body, height: isRegister ? "150px" : "100px"}}>
+          <div style={{...body, width: "75%", height: isRegister ? "150px" : "100px"}}>
             <form id="login" onSubmit={this.onSubmit} style={form}>
               {isRegister && 
               <input className="input" onChange={this.onChange} type="text" name="name" placeholder="Your Name" disabled={authenticating} required/>
