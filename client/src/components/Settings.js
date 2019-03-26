@@ -43,6 +43,7 @@ export default class Settings extends Component {
     ? <LoggedRedirect to="/login" from="/settings" /> 
     : (
       <div className="dash">
+        <div id="dash-bg"/>
         <div id="settings" className="window">
           <nav className="menu">
             <h3>Settings</h3>

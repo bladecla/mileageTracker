@@ -5,7 +5,7 @@ import { logout, checkAuth } from './redux/actions/userActions'
 import Dashboard from './components/Dashboard';
 import Settings from './components/Settings';
 import LoginForm from './components/LoginForm';
-import Header from './components/Header';
+
 import Navbar from './components/Navbar';
 import LandingPage from './components/LandingPage';
 import './App.css';
@@ -17,8 +17,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <React.Fragment>
-          <Header/>
           <Navbar loggedIn={loggedIn} name={name} logout={logout}/>
+          
           <Switch>
             <Route path="/" exact>
               <LandingPage loggedIn={loggedIn}/>

@@ -4,6 +4,7 @@ import Trip from './Trip';
 import Modal from './Modal';
 import TripForm from './TripForm';
 import Insights from './Insights';
+import Header from './Header';
 import { connect } from 'react-redux';
 import { addTrip, getTrips, deleteTrip, updateTrip, selectTrip, selectAll, batchSelectTrip } from './../redux/actions/tripActions'
 import { addVehicle } from './../redux/actions/vehicleActions';
@@ -95,7 +96,8 @@ class Dashboard extends Component {
         }} from="/dashboard"/> 
       : 
       <div>
-        <div id="dash-bg"></div>
+        <div id="dash-bg"/>
+        <Header/>
         <div className="dash">
           {authenticating ? <h1>Loading...</h1> :
           <React.Fragment>
