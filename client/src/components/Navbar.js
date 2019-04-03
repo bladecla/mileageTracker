@@ -8,7 +8,9 @@ const Navbar = props => {
   return (
     <div className="center">
       <div id="navbar">
-        <h1 id="welcome" style={loggedIn ? {color: "whitesmoke"} : {visibility: "hidden"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
+        <div> 
+          <h1 id="welcome" style={loggedIn ? {color: "whitesmoke"} : {display: "none"}}>{"Welcome, " + (loggedIn ? name : "Guest") + "!" }</h1>
+        </div>
         {loggedIn ? <SignedInLinks logout={logout}/> : <SignedOutLinks />}
       </div>
     </div>

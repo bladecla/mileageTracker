@@ -10,6 +10,7 @@ export const setAuthenticating = () => {
 
 export const checkAuth = () => dispatch => {
   console.log("sending check auth request")
+  dispatch(setAuthenticating());
   axios.get('/api/users')
        .then(({data}) => {
           if (success(data.status, dispatch) && data.success){

@@ -4,6 +4,8 @@ import { Route, NavLink } from 'react-router-dom'
 import AccountSettings from './AccountSettings'
 import ManageVehicles from './ManageVehicles'
 import LoggedRedirect from './LoggedRedirect';
+import Header from './Header';
+import Loading from './Loading';
 
 export default class Settings extends Component {
   constructor(props) {
@@ -38,33 +40,36 @@ export default class Settings extends Component {
   }
 
   render() {
-    const { loggedIn, authFailed } = this.props;
-    return authFailed || !loggedIn 
-    ? <LoggedRedirect to="/login" from="/settings" /> 
-    : (
-      <div className="dash">
-        <div id="dash-bg"/>
-        <div id="settings" className="window">
-          <nav className="menu">
-            <h3>Settings</h3>
-            { this.subroutes.map(({pathId, name}) => (
-              <NavLink to={`/settings/${pathId}`} className="navlink" key={pathId}>
-                <li className="menu-item">{name}</li>
-              </NavLink>
-            ))}
-          </nav>
-          <div id="settings-body">
-          { this.props.match.params.pathId 
-            ?
-            <Route path={`/settings/:pathId`} render={
-              ({ match }) => this.subroutes.find(({ pathId }) => pathId === match.params.pathId).component
-            } />
-            :
-            <LoggedRedirect to="/settings/account-settings" />
-          }
+    const { loggedIn, authFailed, authenticating } = this.props;
+
+    return !loggedIn && authenticating ? <Loading/> :
+      authFailed
+      ? <LoggedRedirect to="/login" from="/settings" /> 
+      : (
+        <div className="dash">
+          <Header/>
+          <div id="dash-bg"/>
+          <div id="settings" className="window">
+            <nav className="menu">
+              <h3>Settings</h3>
+              { this.subroutes.map(({pathId, name}) => (
+                <NavLink to={`/settings/${pathId}`} className="navlink" key={pathId}>
+                  <li className="menu-item">{name}</li>
+                </NavLink>
+              ))}
+            </nav>
+            <div id="settings-body">
+            { this.props.match.params.pathId 
+              ?
+              <Route path={`/settings/:pathId`} render={
+                ({ match }) => this.subroutes.find(({ pathId }) => pathId === match.params.pathId).component
+              } />
+              :
+              <LoggedRedirect to="/settings/account-settings" />
+            }
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
   }
 }

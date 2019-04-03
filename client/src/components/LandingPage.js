@@ -1,5 +1,6 @@
 import React from 'react'
 import LoggedRedirect from './LoggedRedirect';
+import { Link } from 'react-router-dom'
 
 const LandingPage = props => {
   return (
@@ -14,7 +15,7 @@ const LandingPage = props => {
       <div>
         <h1 className="tagline">Simple, effective mileage tracking for commercial drivers.</h1>
       </div>
-      <button id="get-started">GET STARTED</button>
+      <Link to="/register"><button id="get-started">SIGN UP</button></Link>
     </div>
   )
 }

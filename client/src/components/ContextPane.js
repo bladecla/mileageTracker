@@ -28,7 +28,7 @@ export default class ContextPane extends Component {
           ? <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
               <div style={{width: "100%", display: "flex", justifyContent: "space-around"}}>
                 <h2>{selSize + " trips selected"}</h2>
-                <button className="plain submit" onClick={this.deselectAll}>Done</button>
+                <button className="plain submit" onClick={this.deselectAll}>Clear</button>
               </div>
               {selSize === 1
                 ? <div className="m10" style={{width: "120%", overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center"}}>
@@ -41,7 +41,7 @@ export default class ContextPane extends Component {
           : <div style={{paddingTop: "10%"}}>
               <h3>Select trips to edit.</h3>
               <div >
-                <i class="fa fa-tachometer fa-5x" style={{color: "gray"}}></i>
+                <i className="fa fa-tachometer fa-5x" style={{color: "gray"}}></i>
               </div>
             </div>
         }

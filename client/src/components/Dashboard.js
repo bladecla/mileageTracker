@@ -13,6 +13,7 @@ import LoggedRedirect from './LoggedRedirect';
 import ContextPane from './ContextPane';
 import { processDate } from '../helpers';
 import Day from './Day';
+import Loading from './Loading';
 
 class Dashboard extends Component {
   constructor(props){
@@ -86,29 +87,27 @@ class Dashboard extends Component {
     const checked = (selected.length > 0 && selected.length === trips.length)
     let name = this.props.user.name;
     if (name) name = name.match(/\w+\s?/)[0].trimEnd();
-
+    
     return (
-      authFailed || !loggedIn 
+      authenticating && !loggedIn ? <Loading/> :
+      authFailed
       ? <LoggedRedirect 
-        to={{
-          pathname: "/login", 
-          state: { redirect: true } 
-        }} from="/dashboard"/> 
+      to={{
+        pathname: "/login", 
+        state: { redirect: true } 
+      }} from="/dashboard"/> 
       : 
       <div>
         <div id="dash-bg"/>
         <Header/>
-        <div className="dash">
-          {authenticating ? <h1>Loading...</h1> :
-          <React.Fragment>
-            <Insights {...insightsData}/>
-            <div style={{display: "flex"}}>
-              <TripPane addChild={this.toggleTripModal} selectAll={selectAll} checked={checked}>
-                {this.processTrips()}
-              </TripPane>
-              <ContextPane selected={selected} selectAll={selectAll}/>
-            </div>
-          </React.Fragment>}   
+        <div className="dash" id="dashboard">
+          <Insights {...insightsData}/>
+          <div style={{display: "flex"}}>
+            <TripPane addChild={this.toggleTripModal} selectAll={selectAll} checked={checked}>
+              {this.processTrips()}
+            </TripPane>
+            <ContextPane selected={selected} selectAll={selectAll}/>
+          </div>
           {this.state.isTripModalOpen && 
             <Modal title="New Trip" formName="trip" label="Add Trip" close={this.toggleTripModal}>
               <TripForm close={this.toggleTripModal}/>

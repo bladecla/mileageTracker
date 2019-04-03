@@ -10,7 +10,7 @@ export const SignedInLinks = props => {
       <NavLink className="navlink" to="/settings/account-settings">
         Settings
       </NavLink>
-      <button className="submit" onClick={props.logout}>Logout</button>
+      <button className="submit" id="logout" onClick={props.logout}>Logout</button>
     </nav>
   )
 }

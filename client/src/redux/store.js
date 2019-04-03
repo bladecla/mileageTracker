@@ -16,7 +16,7 @@ const updateCache = () => {
     const { trips, user, vehicles } = currentState;
     const { name, email } = user;
     const userData = { ...trips, ...vehicles, name, email };
-    cacheUserData(userData)
+    if (!user.authenticating) cacheUserData(userData)
   } 
 }
 
